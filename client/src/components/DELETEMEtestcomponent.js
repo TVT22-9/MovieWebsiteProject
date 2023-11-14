@@ -5,7 +5,7 @@ const TestComponent = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/TEST/users') 
+    axios.get('http://localhost:3001/user') 
       .then(response => setData(response.data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
