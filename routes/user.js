@@ -125,6 +125,18 @@ router.get('/settings', async (req, res) => {
     }
 });
 
+router.get('/private', async (req,res) => {
+    //Authorization: Bearer token
+    const token = req.headers.authorization?.split(' ')[1];
+
+    try {
+        const username = jwt.verify(token, process.env.JWT_SECRET).username;
+        res.status(200).json({private: username});
+    } catch (error) {
+        res.status(403).json({error: 'Access forbidden'});
+    }
+});
+
 //User get path that gets user data based on the parameter it gets 
 //if it get either iduser or username it tries to find the corresponding users data from the database !hox it doesn't work with both at the same time
 //if it gets neither it returns all users
