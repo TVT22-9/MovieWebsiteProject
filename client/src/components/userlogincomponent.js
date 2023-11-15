@@ -37,7 +37,7 @@ function LoginForm(){
   return(
     <div>
       <input value={username} onChange={e => setUname(e.target.value)}/>
-      <input value={password} onChange={e => setPw(e.target.value)}/>
+      <input type= "password" value={password} onChange={e => setPw(e.target.value)}/>
       <button onClick={login}>Login</button>
     </div>
   );
