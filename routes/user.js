@@ -108,7 +108,7 @@ router.put('/updatesettings', async (req,res) => {
         }
       }
 });
-
+//path that gets the user's settings if it is provided with existing username
 router.get('/settings', async (req, res) => {
     const username = req.query.username;
 
