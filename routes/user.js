@@ -4,7 +4,7 @@ const pgPool = require('../database_tools/connection');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
-const {addUser, getAllUsers,getUserByID,getUserByName, checkUser} = require('../database_tools/user');
+const {addUser, getAllUsers,getUserByID,getUserByName, checkUser, updateUserByName,deleteUser,updateUserSettings,getUserSettingByName} = require('../database_tools/user');
 const req = require('express/lib/request');
 
 // Parse application/x-www-form-urlencoded
@@ -30,6 +30,43 @@ router.post('/register' , async (req,res) => {
         res.json({error: error.message}).status(500);
     }
 });
+//put path that updates the users name, password and settings if it's given a existing username
+router.put('/', async (req,res) =>  {
+    const newusername = req.body.newusername;
+    let newpassword = req.body.newpassword;
+    const newsettings = req.body.newsettings ? JSON.parse(req.body.newsettings) : null;
+    const username = req.body.username;
+
+    newpassword = await bcrypt.hash(newpassword, 10);
+
+    try {
+        const result = await updateUserByName(newusername, newpassword, newsettings, username);
+        res.json(result[0]);
+      } catch (error) {
+        if (error.message === 'User not found') {
+          res.status(404).json({ error: 'User not found' });
+        } else {
+          console.log(error);
+          res.status(500).json({ error: error.message });
+        }
+      }
+});
+//delete path that deletes a user if the given username exists
+router.delete('/', async (req,res) =>  {
+     const username = req.body.username;
+     try {
+        const result = await deleteUser(username);
+        res.json(result[0]);
+      } catch (error) {
+        if (error.message === 'User not found') {
+          res.status(404).json({ error: 'User not found' });
+        } else {
+          console.log(error);
+          res.status(500).json({ error: error.message });
+        }
+      }
+
+});
 
 //post path that works as the login, it takes into a body username and unhashed password, it then checks the password using the checkuser function that makes...
 //a database query based on the username and returns the hashed password if the username is found in the database
@@ -53,6 +90,40 @@ router.post('/', async (req,res) => {
         res.status(401).json({error: 'Username not found'});
     }
 });
+//user put path that updates users settings json table with new data if the corresponding username is inputed
+//If the inputed json is wrong it null's it
+router.put('/updatesettings', async (req,res) => {
+    const username = req.body.username;
+    const newsettings = req.body.username ? JSON.parse(req.body.newsettings) : null;
+
+    try {
+        const result = await updateUserSettings(newsettings,username);
+        res.json(result[0]);
+      } catch (error) {
+        if (error.message === 'User not found') {
+          res.status(404).json({ error: 'User not found' });
+        } else {
+          console.log(error);
+          res.status(500).json({ error: error.message });
+        }
+      }
+});
+
+router.get('/settings', async (req, res) => {
+    const username = req.query.username;
+
+    try {
+        const userSettings = await getUserSettingByName(username);
+        if (userSettings.length === 0) {
+            res.status(404).json({ error: 'User not found '});
+        } else {
+            res.json(userSettings); 
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 //User get path that gets user data based on the parameter it gets 
 //if it get either iduser or username it tries to find the corresponding users data from the database !hox it doesn't work with both at the same time
@@ -67,7 +138,7 @@ router.post('/', async (req,res) => {
             if (result.length === 0) {
                 res.status(404).json({ error: 'User not found' });
             } else {
-                res.json(result[0]);
+                res.status(200).json(result[0]);
             }
         } else if (req.query.username) {
             // If 'username' parameter is present in the query, fetch the user by username
@@ -77,12 +148,12 @@ router.post('/', async (req,res) => {
             if (result.length === 0) {
                 res.status(404).json({ error: 'User not found' });
             } else {
-                res.json(result[0]);
+                res.status(200).json(result[0]);
             }
         } else {
             // If neither 'iduser' nor 'username' parameters are present, fetch all users
             const result = await getAllUsers();
-            res.json(result);
+            res.status(200).json(result);
         }
     } catch (error) {
         console.error('Error querying the database', error);
