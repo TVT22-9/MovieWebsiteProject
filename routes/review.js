@@ -1,5 +1,5 @@
-require('dotenv').config();
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const {
     GetAllReviews,
     GetReviewByUserId,
@@ -12,6 +12,11 @@ const {
     DeleteAllReviews,
     UpdateReview
 } = require('../database_tools/reviews_db.js');
+
+// Parse application/x-www-form-urlencoded
+router.use(express.urlencoded({ extended: false }));
+//used to parse the json data that houses the users ownview settings
+router.use(express.json());
 
 /* Route for getting all reviews */
 router.get('/', async (req, res) => {
@@ -77,10 +82,11 @@ router.get('/idreview/:idreview', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const response = await AddReview(req.body.iduser, req.body.idmovie, req.body.reviewcontent, req.body.score);
+        console.log(response);
         if (response) {
-            res.status(200).json('Review added');
-        } else {
             res.status(400).json('Something went wrong');
+        } else {
+            res.status(200).json('Review added');
         }
     } catch (err) {
         console.log(err);

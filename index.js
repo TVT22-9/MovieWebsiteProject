@@ -8,8 +8,6 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use('/TEST', DELETEMERoutes); //route i made so i can test the basic database connection, will delete later -Huhroo
 app.use('/review', reviewRoutes);

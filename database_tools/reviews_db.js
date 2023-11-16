@@ -1,13 +1,13 @@
 const pgPool = require('./connection.js');
 
-
 // All the SQL queries for the reviews table
 const sql = {
     GET_ALL_REVIEWS: 'SELECT * FROM reviews',
     GET_REVIEW_BY_USER_ID: 'SELECT * FROM reviews WHERE iduser = $1',
     GET_REVIEW_BY_MOVIE_ID: 'SELECT * FROM reviews WHERE idmovie = $1',
     GET_REVIEW_BY_REVIEW_ID: 'SELECT * FROM reviews WHERE idreview = $1',
-    ADD_REVIEW: 'INSERT INTO reviews (iduser, idmovie, reviewcontent, score, reviewtimestamp) VALUES ($1, $2, $3, $4, NOW())',
+    //ADD_REVIEW: 'INSERT INTO reviews (iduser, idmovie, reviewcontent, score, reviewtimestamp) VALUES ($1, $2, $3, $4, NOW())',
+    ADD_REVIEW: 'call addreview($1, $2, $3, $4)',
     DELETE_REVIEW_BY_REVIEW_ID: 'DELETE FROM reviews WHERE idreview = $1',
     DELETE_REVIEW_BY_USER_ID: 'DELETE FROM reviews WHERE iduser = $1',
     DELETE_REVIEW_BY_MOVIE_ID: 'DELETE FROM reviews WHERE idmovie = $1',
