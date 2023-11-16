@@ -27,7 +27,7 @@ router.post('/register' , async (req,res) => {
         res.end();
     } catch (error) {
         console.log(error);
-        res.json({error: error.message}).status(500);
+        res.status(500).json({error: error.message});
     }
 });
 //put path that updates the users name, password and settings if it's given a existing username
