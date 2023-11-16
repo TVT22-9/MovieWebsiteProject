@@ -53,7 +53,7 @@ router.put('/', async (req,res) =>  {
 });
 //delete path that deletes a user if the given username exists
 router.delete('/', async (req,res) =>  {
-     const username = req.body.username;
+     const username = req.query.username;
      try {
         const result = await deleteUser(username);
         res.json(result[0]);

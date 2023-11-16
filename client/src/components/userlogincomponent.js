@@ -19,7 +19,8 @@ function Usercontrol() {
     return (
       <div>
         <UserInfo />
-        <button onClick={() => (jwtToken.value = '')}>Logout</button>
+        <button onClick={() => (jwtToken.value = '', userData.value.private = '')}>Logout</button>
+        <DeleteAccount/>
       </div>
     );
   }
@@ -119,5 +120,32 @@ function RegisterForm() {
     </div>
   );
 }
+//delete account component contains a button that activates the accound deletion procces by opening a window that asks if the user is sure about this action
+//if the user presses ok then it tries to delete the account 
+function DeleteAccount()  {
+  const handleDeleteAccount = async () => {
+    const isConfirmed = window.confirm('Are you sure you want to delete your account?');
+    const username = userData.value?.private;
+
+    if (isConfirmed) {
+      try {
+        const response = await axios.delete(`http://localhost:3001/user?username=${username}`);
+        console.log(response.data);
+        console.log('Account deleted!');
+        jwtToken.value = '';
+        userData.value.private = '';
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  return (
+    <button onClick={handleDeleteAccount}>
+      Delete Account
+    </button>
+  );
+};
+
 
 export default Usercontrol;
