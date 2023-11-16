@@ -90,6 +90,8 @@ function RegisterForm() {
       .then(resp => {
         console.log(resp.data);
         setRegistrationStatus('success');
+        setUname("");
+        setPw("");
       })
       .catch(error => {
         console.error(error);
