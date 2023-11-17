@@ -1,10 +1,12 @@
-import TestComponent from "./components/DELETEMEtestcomponent";
+import Usercontrol from "./components/userlogincomponent";
+import MovieListComponent from "./components/MovieListComponent";
 
 function App() {
   return (
     <div >
       <h1> Hello World!</h1>
-      <TestComponent/> {/*TestComponent will be deleted later, it just shows is the database connection working*/}
+      <Usercontrol/>
+      <MovieListComponent/>{/*Movie list component*/}
     </div>
   );
 }
