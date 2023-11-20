@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const SeriesCard = ({ series }) => {
+const SeriesCard = ({ id }) => {
     //The movie card that shows all neccessery data in the series list. Edit this to decide what data the list shows
     const [data, setData] = useState(null);
 
@@ -9,7 +9,7 @@ const SeriesCard = ({ series }) => {
         const fetchData = async () => {
             try {
                 let response;
-                response = await axios.get('http://localhost:3001/api/tvShowId/' + series.id)
+                response = await axios.get('http://localhost:3001/api/tvShowId/' + id)
                 setData(response.data);
                 //console.log(response.data);
             } catch (error) {

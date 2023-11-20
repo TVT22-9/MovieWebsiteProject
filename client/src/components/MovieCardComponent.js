@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ id }) => {
     //The movie card that shows all neccessery data in the series list. Edit this to decide what data the list shows
     const [data, setData] = useState(null);
-
     useEffect(() => { 
         const fetchData = async () => {
             try {
                 let response;
-                response = await axios.get('http://localhost:3001/api/movieId/' + movie.id)
+                response = await axios.get('http://localhost:3001/api/movieId/' + id)
                 setData(response.data);
                 //console.log(response.data);
             } catch (error) {
@@ -30,7 +29,6 @@ const MovieCard = ({ movie }) => {
                     <h2>{data.title}</h2>
                     <p>Describtion: {data.overview}</p>
                     <p>{data.id}</p>
-                    <p>Seasons: {data.number_of_seasons}</p>
                 </pre>
             ) : (
                 <p>Loading data...</p>

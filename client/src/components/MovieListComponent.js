@@ -14,20 +14,21 @@ const MovieListComponent = () => {
     //Basic system to change the page and change between Movies (state 1) and TV Shows (state 2)
     const nextPage = () => {
         setPageNum(prevPageNum => prevPageNum + 1);
-        setData(null)
+        setData(null);
     };
     const previousPage = () => {
         setPageNum(prevPageNum => (prevPageNum > 1 ? prevPageNum - 1 : 1));
-        setData(null)
+        setData(null);
     };
     const setListStateFunc = (state) => {
         setListState(state);
-        setData(null)
+        setPageNum(1);
+        setData(null);
 
     };
     const handleSearch = (query) => {
         setSearchQuery(query);
-        setData(null)
+        setData(null);
 
     }
     
@@ -73,7 +74,7 @@ const MovieListComponent = () => {
             />
 
             <div className="movie-grid">
-                { listState === 1 ? data?.map(movie => <MovieCard key={movie.id} movie={movie} />) : data?.map(series => <SeriesCard key={series.id} series={series} />)} 
+                { listState === 1 ? data?.map(movie => <MovieCard key={movie.id} id={movie.id} />) : data?.map(series => <SeriesCard key={series.id} id={series.id} />)} 
             </div>
             <button onClick={previousPage} disabled={pageNum === 1}>Previous page</button>
             <button onClick={nextPage}>Next Page</button>
