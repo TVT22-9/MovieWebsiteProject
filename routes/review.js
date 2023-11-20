@@ -78,19 +78,18 @@ router.get('/idreview/:idreview', async (req, res) => {
     }
 });
 
-/* Route for adding a review */
 router.post('/', async (req, res) => {
     try {
-        const response = await AddReview(req.body.iduser, req.body.idmovie, req.body.reviewcontent, req.body.score);
+        const response = await AddReview(req.body.iduser, req.body.idmovie, req.body.idseries, req.body.reviewcontent, req.body.score);
         console.log(response);
         if (response) {
-            res.status(400).json('Something went wrong');
+            res.status(400).json(error);
         } else {
             res.status(200).json('Review added');
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
     }
 });
 

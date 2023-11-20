@@ -11,7 +11,7 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 
-app.use('/review', reviewRoutes);
+app.use('/review', reviewRoutes); //reviews route
 app.use('/user', userRoutes); //route i made so i can test the basic database connection, will delete later -Huhroo
 app.use('/api', apiRoutes); //Api route
 
