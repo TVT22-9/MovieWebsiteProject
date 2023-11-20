@@ -1,10 +1,11 @@
-import TestComponent from "./components/DELETEMEtestcomponent";
+import React from 'react';
+import GroupForm from "./components/groupForm";
 
 function App() {
   return (
-    <div >
+    <div>
       <h1> Hello World!</h1>
-      <TestComponent/> {/*TestComponent will be deleted later, it just shows is the database connection working*/}
+      <GroupForm />
     </div>
   );
 }
