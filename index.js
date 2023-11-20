@@ -14,9 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
 
-app.use('/TEST', DELETEMERoutes); //route i made so i can test the basic database connection, will delete later -Huhroo
-app.use('/groups', groupRoutes);
 
+app.use('/groups', groupRoutes);
 app.use('/review', reviewRoutes); //reviews route
 app.use('/user', userRoutes); //route i made so i can test the basic database connection, will delete later -Huhroo
 app.use('/api', apiRoutes); //Api route
