@@ -1,6 +1,6 @@
 import Usercontrol from "./components/userlogincomponent";
 import MovieListComponent from "./components/MovieListComponent";
-
+import SeriesCard from "./components/SeriesCardComponent";
 function App() {
   return (
     <div >
