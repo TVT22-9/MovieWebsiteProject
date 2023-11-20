@@ -1,4 +1,5 @@
 //Oppitunti koodia
+//imports signals from react that make state management eesier
 import { effect, signal } from "@preact/signals-react";
 import axios from "axios";
 

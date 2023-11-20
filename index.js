@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/groups', groupRoutes);
 app.use('/review', reviewRoutes); //reviews route
-app.use('/user', userRoutes); //route i made so i can test the basic database connection, will delete later -Huhroo
+app.use('/user', userRoutes); //User route
 app.use('/api', apiRoutes); //Api route
 
 

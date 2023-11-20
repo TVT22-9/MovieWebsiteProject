@@ -11,9 +11,9 @@ function App() {
     <div>
       <h1> Hello World!</h1>
 
-      <GroupForm />
 
-      <Usercontrol/>
+      <GroupForm />
+      <Usercontrol />{/*login/register component */}
       <MovieListComponent/>{/*Movie list component*/}
       <ReviewsComponent/>
 
