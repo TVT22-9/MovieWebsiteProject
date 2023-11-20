@@ -5,7 +5,7 @@ function App() {
   return (
     <div >
       <h1> Hello World!</h1>
-      <Usercontrol/>
+      <Usercontrol />{/*login/register component */}
       <MovieListComponent/>{/*Movie list component*/}
     </div>
   );
