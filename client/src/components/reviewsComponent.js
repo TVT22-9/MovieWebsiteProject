@@ -84,7 +84,7 @@ function ReviewsList() {
 }
 
 /* A button that opens a popup window to add a review */
-function AddReviewWindow() {
+export function AddReviewWindow(idmovie) {
     return (
         <Popup trigger={<button> Add Review </button>} modal>
             <div>
@@ -92,7 +92,7 @@ function AddReviewWindow() {
                 <label>User ID: </label>
                 <input type="" name="iduser" />
                 <label>Movie ID: </label>
-                <input type="" name="idmovie" />
+                <input type="" name="idmovie" defaultValue={idmovie}/>
                 <label>Series ID: </label>
                 <input type="" name="idseries" />
                 <label>Review: </label>
