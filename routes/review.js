@@ -3,7 +3,9 @@ const router = express.Router();
 const {
     GetAllReviews,
     GetReviewByUserId,
+    GetReviewByUsername,
     GetReviewByMovieId,
+    GetReviewBySeriesId,
     GetReviewByReviewId,
     AddReview,
     DeleteReviewByUserId,
@@ -48,10 +50,40 @@ router.get('/iduser/:iduser', async (req, res) => {
     }
 });
 
+/* Route for getting reviews by username */
+router.get('/username/:username', async (req, res) => {
+    try {
+        const response = await GetReviewByUsername(req.params.username);
+        if (response) {
+            res.status(200).json(response);
+        } else {
+            res.status(400).json('Something went wrong');
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json('Something went wrong');
+    }
+});
+
 /* Route for getting reviews by movie id */
 router.get('/idmovie/:idmovie', async (req, res) => {
     try {
         const response = await GetReviewByMovieId(req.params.idmovie);
+        if (response) {
+            res.status(200).json(response);
+        } else {
+            res.status(400).json('Something went wrong');
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json('Something went wrong');
+    }
+});
+
+/* Route for getting reviews by series id */
+router.get('/idseries/:idseries', async (req, res) => {
+    try {
+        const response = await GetReviewBySeriesId(req.params.idseries);
         if (response) {
             res.status(200).json(response);
         } else {
@@ -80,7 +112,7 @@ router.get('/idreview/:idreview', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const response = await AddReview(req.body.iduser, req.body.idmovie, req.body.idseries, req.body.reviewcontent, req.body.score);
+        const response = await AddReview(req.body.username, req.body.idmovie, req.body.idseries, req.body.reviewcontent, req.body.score);
         console.log(response);
         if (response) {
             res.status(400).json(error);
