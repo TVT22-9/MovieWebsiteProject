@@ -105,7 +105,7 @@ export function ReviewsList() {
 }
 
 /* A button that opens a popup window to add a review */
-export function AddReviewWindow(idmovie, idseries, username) {
+export function AddReviewWindow(idmovie, idseries) {
     return (
         <Popup trigger={<button> Add Review </button>} modal>
             <div>
