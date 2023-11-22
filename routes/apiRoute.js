@@ -36,6 +36,25 @@ router.get('/searchMovie/:query/:page', async (req, res) => { // Search Movies s
         res.status(500).send('Internal Server Error');
     }
 });
+router.get('/advancedMovie/:adult/:page/:genres/:negGenres/:year?', async (req, res) => { // Search Movies shows by everything.
+    //Search using adult, genres, year, without genres. 
+    //Genres work using genre IDs. You can search multiple genres at a time by having , in between like 27, 14
+    //Same thing happens when searching for movies without genres. I have named them negGenres.
+    try {
+        let url = `https://api.themoviedb.org/3/discover/movie?include_adult=${req.params.adult}&language=en-US&page=${req.params.page}&sort_by=popularity.desc&with_genres=${req.params.genres}&without_genres=${req.params.negGenres}`;
+
+        if (req.params.year) {
+            url += `&year=${req.params.year}`;
+        }
+        
+        const response = await fetch(url, apiOptions);
+        const result = await response.json();
+        res.json(result);
+    } catch (error) {
+        console.error('Error connecting to API', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 // TV shows below this
@@ -74,4 +93,22 @@ router.get('/tvShowId/:id', async (req, res) => { // Gets tv show using the id
         res.status(500).send('Internal Server Error');
     }
 });
+router.get('/advancedSeries/:adult/:page/:genres/:negGenres/:year?', async (req, res) => { // Search Series shows by everything.
+    //Search using adult, genres, year, without genres
+    try {
+        let url = `https://api.themoviedb.org/3/discover/tv?include_adult=${req.params.adult}&include_null_first_air_dates=false&language=en-US&page=${req.params.page}&sort_by=popularity.desc&with_genres=${req.params.genres}&without_genres=${req.params.negGenres}`;
+
+        if (req.params.year) {
+            url += `&year=${req.params.year}`;
+        }
+        
+        const response = await fetch(url, apiOptions);
+        const result = await response.json();
+        res.json(result);
+    } catch (error) {
+        console.error('Error connecting to API', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 module.exports = router;
