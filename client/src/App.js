@@ -7,6 +7,7 @@ import ReviewsComponent from "./components/reviewsComponent";
 import MyPage from './components/mypagecomponent';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { jwtToken, userData } from "./components/Signals";
+import Testi from './components/testi';
 
 
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/movie-list" element={<MovieListComponent/>} />
           <Route path="/reviews" element={<ReviewsComponent/>} />
           <Route path="/mypage/:username" element={<MyPage />} />
+          <Route path="/testi/:id" element={<Testi />} /> {/*Testi esimerkki poistan myöhemmin -roope */}
         </Routes>
       </div>
     </Router>

@@ -7,6 +7,8 @@ function MyPage() {
   const { username } = useParams();
   const [siteStatus, setSiteStatus] = useState('pending');
   const [userSettings, setUserSettings] = useState(null);
+  const [showReviews, setShowReviews] = useState(false);
+  const [showMovies, setShowMovies] = useState(false);
 
   useEffect(() => {
     const fetchUserSettings = async () => {
@@ -15,11 +17,16 @@ function MyPage() {
         setUserSettings(response.data);
 
         if (username === userData.value?.private) {
-            setSiteStatus('owner');
-          } else {
-        // If the user exists, update the site status to 'success'
-            setSiteStatus('success');
-          }
+          setSiteStatus('owner');
+          // Extract individual settings and update state
+          setShowReviews(response.data[0]?.ownviewsettings.showreviews || false);
+          setShowMovies(response.data[0]?.ownviewsettings.showmovies || false);
+        } else {
+          // If the user exists, update the site status to 'success'
+          setSiteStatus('success');
+          setShowReviews(response.data[0]?.ownviewsettings.showreviews || false);
+          setShowMovies(response.data[0]?.ownviewsettings.showmovies || false);
+        }
       } catch (error) {
         // If the user is not found, update the site status to 'failure'
         if (error.response && error.response.status === 404) {
@@ -34,7 +41,7 @@ function MyPage() {
 
     // Call the fetchUserSettings function when the component mounts
     fetchUserSettings();
-  }, [username]); // Include username as a dependency to re-run the effect when it changes
+  }, [username]);
 
   return (
     <div>
@@ -42,22 +49,44 @@ function MyPage() {
       {siteStatus === 'success' && (
         <div>
           <h1>{`${username}'s MyPage`}</h1>
-          {/* Display user settings or perform other actions as needed */}
-          {/* Example: Display user settings */}
           {userSettings && (
             <div>
               <p>User Settings:</p>
-              {/* Display user settings here */}
-              {/* Example: */}
               <pre>{JSON.stringify(userSettings, null, 2)}</pre>
             </div>
           )}
+          {showReviews && <PlaceholderReviews />}
+          {showMovies && <PlaceholderMovie />}
         </div>
       )}
-      {siteStatus === 'owner' && <p>{`This is your page ${username}`}</p>}
+      {siteStatus === 'owner' && (
+        <div>
+          <p>{`This is your page ${username}`}</p>
+          {showReviews && <PlaceholderReviews />}
+          {showMovies && <PlaceholderMovie />}
+        </div>
+      )}
       {siteStatus === 'failure' && <p>{`User ${username} not found.`}</p>}
       {siteStatus === 'error' && <p>Error occurred while fetching user data.</p>}
     </div>
+  );
+}
+
+function PlaceholderReviews(){
+
+  return(
+      <div>
+        <h1> This user wants to see their reviews here</h1>
+      </div>
+  );
+}
+
+function PlaceholderMovie(){
+
+  return(
+      <div>
+        <h1> This user wants to see their favourite movie here</h1>
+      </div>
   );
 }
 

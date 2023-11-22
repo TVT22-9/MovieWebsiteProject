@@ -75,7 +75,7 @@ function SignInForm(){
 function RegisterForm() {
   const [username, setUname] = useState('');
   const [password, setPw] = useState('');
-  const userSettings = { settingsdata: 1 };
+  const userSettings = { showreviews:true,showmovies:true };
   const [registrationStatus, setRegistrationStatus] = useState(null);
 
  
