@@ -69,7 +69,7 @@ export function ReviewsList() {
                                             <h2>Update Review</h2>
                                             <label>Review: </label>
                                             <input type="text" name="reviewcontentupdate" defaultValue={review.reviewcontent} />
-                                            <select name="score" defaultValue={review.score}>
+                                            <select name="scoreupdate" defaultValue={review.score}>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -78,7 +78,7 @@ export function ReviewsList() {
                                             </select>
                                             <button onClick={async () => {
                                                 let response = await axios.put('http://localhost:3001/review', {
-                                                    idreview: document.getElementsByName("idreviewupdate")[0].value,
+                                                    idreview: review.idreview,
                                                     reviewcontent: document.getElementsByName("reviewcontentupdate")[0].value,
                                                     score: document.getElementsByName("scoreupdate")[0].value
                                                 })
