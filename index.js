@@ -23,8 +23,9 @@ app.use('/api', apiRoutes); //Api route
 
 app.get('/', (req, res) => {
     res.send('Hello World');
-  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+//module.exports = app.listen(port);
