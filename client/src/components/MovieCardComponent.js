@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { AddReviewWindow } from './reviewsComponent';
+import { jwtToken } from './Signals';
 
 const MovieCard = ({ id }) => {
     //The movie card that shows all neccessery data in the series list. Edit this to decide what data the list shows
@@ -29,6 +31,11 @@ const MovieCard = ({ id }) => {
                     <h2>{data.title}</h2>
                     <p>Describtion: {data.overview}</p>
                     <p>{data.id}</p>
+                    {jwtToken.value ? (
+                        AddReviewWindow(data.id, null)
+                    ) : (
+                        <p>Login to add a review</p>
+                    )}
                 </pre>
             ) : (
                 <p>Loading data...</p>
