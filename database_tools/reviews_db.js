@@ -3,8 +3,8 @@ const pgPool = require('./connection.js');
 /* All the SQL queries for the reviews table */
 const sql = {
     GET_ALL_REVIEWS: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser ORDER BY reviews.reviewtimestamp DESC',
-    GET_REVIEW_BY_USER_ID: 'SELECT review.idreview, review.iduser, review.idmovie, review.idseries, review.reviewcontent, review.score, TO_CHAR(review.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE reviews.iduser = $1 ORDER BY reviews.reviewtimestamp DESC',
-    GET_REVIEW_BY_USERNAME: 'SELECT review.idreview, review.iduser, review.idmovie, review.idseries, review.reviewcontent, review.score, TO_CHAR(review.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE webusers.username = $1 ORDER BY reviews.reviewtimestamp DESC',
+    GET_REVIEW_BY_USER_ID: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE reviews.iduser = $1 ORDER BY reviews.reviewtimestamp DESC',
+    GET_REVIEW_BY_USERNAME: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE webusers.username = $1 ORDER BY reviews.reviewtimestamp DESC',
     GET_REVIEW_BY_MOVIE_ID: 'SELECT * FROM reviews WHERE idmovie = $1',
     GET_REVIEW_BY_SERIES_ID: 'SELECT * FROM reviews WHERE idseries = $1',
     GET_REVIEW_BY_REVIEW_ID: 'SELECT * FROM reviews WHERE idreview = $1',
@@ -31,7 +31,7 @@ async function GetReviewByUserId(iduser) {
 
 /* Get all reviews by a specific user using username */
 async function GetReviewByUsername(username) {
-    let result = await pgPool.query(sql.GET_REVIEW_BY_USER_ID, [username]);
+    let result = await pgPool.query(sql.GET_REVIEW_BY_USERNAME, [username]);
     return result.rowCount > 0 ? result.rows : null;
 }
 
