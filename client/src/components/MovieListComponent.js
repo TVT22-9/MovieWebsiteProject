@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import _debounce from 'lodash.debounce';
 import MovieCard from './MovieCardComponent';
 import SeriesCard from './SeriesCardComponent';
 import Popup from 'reactjs-popup';
@@ -15,7 +14,8 @@ const MovieListComponent = () => {
 
     const [adultSearch, setAdultSearch] = useState(false);
     const [year, setYear] = useState('');
-    
+    const [sortBy, setSortBy] = useState('popularity.desc');
+
     //I decided to have a simple s as the default value making them usable in url without value and the s itself does not affect the api call.
     const [includedGenres, setIncludedGenres] = useState(["s"]);
     const [excludedGenres, setExcludedGenres] = useState(["s"]);
@@ -119,6 +119,7 @@ const MovieListComponent = () => {
     const handleAdvancedSearch = () => {
         setAdvancedSearch(advancedSearch + 1);
         setAdultSearch(document.getElementsByName('adultBool')[0].value === 'true');
+        setSortBy(document.getElementsByName('sortBySelect')[0].value);
         setYear(document.getElementsByName('year')[0].value);
         setData(null);
         setSearchQuery('');
@@ -137,9 +138,9 @@ const MovieListComponent = () => {
                     console.log(excludedGenreIds);
                     let apiUrl = ""
                     if (listState === 1) {
-                         apiUrl = `http://localhost:3001/api/advancedMovie/${adultSearch}/${pageNum}/${includedGenres}/${excludedGenreIds}`;
+                         apiUrl = `http://localhost:3001/api/advancedMovie/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
                     } else {
-                        apiUrl = `http://localhost:3001/api/advancedSeries/${adultSearch}/${pageNum}/${includedGenres}/${excludedGenreIds}`;
+                        apiUrl = `http://localhost:3001/api/advancedSeries/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
                     }
                     if (year) {
                         apiUrl += `/${year}`;
@@ -193,6 +194,11 @@ const MovieListComponent = () => {
                     <select name="adultBool" defaultValue={adultSearch}>
                         <option value='true'>Yes</option>
                         <option value='false'>No</option>
+                    </select>
+                    <select name="sortBySelect" defaultValue={sortBy}>
+                        <option value='popularity.desc'>Popular</option>
+                        <option value='vote_count.desc'>Rating count</option>
+                        <option value='primary_release_date.desc'>Newest</option>
                     </select>
 
                     <label>Year: </label>

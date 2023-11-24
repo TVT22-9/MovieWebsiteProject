@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import {  userData } from "./Signals";
+import Popup from 'reactjs-popup';
 
 function MyPage() {
   const { username } = useParams();
@@ -9,38 +10,34 @@ function MyPage() {
   const [userSettings, setUserSettings] = useState(null);
   const [showReviews, setShowReviews] = useState(false);
   const [showMovies, setShowMovies] = useState(false);
+  const handleSettingsChange = (newSettings) => {
+    setUserSettings([{ ownviewsettings: newSettings }]);
+  };
+
+
+  const fetchUserSettings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/user/settings?username=${username}`);
+      setUserSettings(response.data);
+
+      if (username === userData.value?.private) {
+        setSiteStatus('owner');
+        setShowReviews(response.data[0]?.ownviewsettings.showreviews || false);
+        setShowMovies(response.data[0]?.ownviewsettings.showmovies || false);
+      } else {
+        setSiteStatus('success');
+        setShowReviews(response.data[0]?.ownviewsettings.showreviews || false);
+        setShowMovies(response.data[0]?.ownviewsettings.showmovies || false);
+      }
+    } catch (error) {
+      // Handle errors as needed
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserSettings = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/user/settings?username=${username}`);
-        setUserSettings(response.data);
-
-        if (username === userData.value?.private) {
-          setSiteStatus('owner');
-          // Extract individual settings and update state
-          setShowReviews(response.data[0]?.ownviewsettings.showreviews || false);
-          setShowMovies(response.data[0]?.ownviewsettings.showmovies || false);
-        } else {
-          // If the user exists, update the site status to 'success'
-          setSiteStatus('success');
-          setShowReviews(response.data[0]?.ownviewsettings.showreviews || false);
-          setShowMovies(response.data[0]?.ownviewsettings.showmovies || false);
-        }
-      } catch (error) {
-        // If the user is not found, update the site status to 'failure'
-        if (error.response && error.response.status === 404) {
-          setSiteStatus('failure');
-        } else {
-          // Handle other errors
-          console.error(error);
-          setSiteStatus('error');
-        }
-      }
-    };
-
-    // Call the fetchUserSettings function when the component mounts
     fetchUserSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   return (
@@ -62,6 +59,18 @@ function MyPage() {
       {siteStatus === 'owner' && (
         <div>
           <p>{`This is your page ${username}`}</p>
+          <div>
+              <p>User Settings:</p>
+              <pre>{JSON.stringify(userSettings, null, 2)}</pre>
+            </div>
+          {userSettings && (
+        <SettingsButton
+          initialSettings={userSettings[0]?.ownviewsettings}
+          onSettingsChange={(newSettings) => {
+            handleSettingsChange(newSettings);
+            fetchUserSettings(); // Trigger a refetch after updating settings
+          }} />
+          )}
           {showReviews && <PlaceholderReviews />}
           {showMovies && <PlaceholderMovie />}
         </div>
@@ -87,6 +96,70 @@ function PlaceholderMovie(){
       <div>
         <h1> This user wants to see their favourite movie here</h1>
       </div>
+  );
+}
+
+function SettingsButton({ initialSettings, onSettingsChange }) {
+  const [settings, setSettings] = useState(initialSettings);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSwitchChange = (setting) => {
+    setSettings((prevSettings) => ({
+      ...prevSettings,
+      [setting]: !prevSettings[setting],
+    }));
+  };
+
+  const saveSettings = async () => {
+    try {
+      const username = userData.value?.private; 
+      const response = await axios.put('http://localhost:3001/user/updatesettings', {
+        username,
+        newsettings: JSON.stringify(settings),
+      });
+
+      // Assuming the response contains the updated user settings
+      const updatedUserSettings = response.data;
+
+      // Update the state with the new settings
+      onSettingsChange(updatedUserSettings);
+      setIsOpen(false);
+    } catch (error) {
+      console.error('Error updating settings:', error);
+      // Handle errors as needed
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={() => setIsOpen(true)}>Open Settings</button>
+      <Popup open={isOpen} closeOnDocumentClick onClose={() => setIsOpen(false)}>
+        <div>
+          <h3>Settings</h3>
+          <div>
+            <label>
+              Show Reviews:
+              <input
+                type="checkbox"
+                checked={settings.showreviews}
+                onChange={() => handleSwitchChange('showreviews')}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Show Movies:
+              <input
+                type="checkbox"
+                checked={settings.showmovies}
+                onChange={() => handleSwitchChange('showmovies')}
+              />
+            </label>
+          </div>
+          <button onClick={saveSettings}>Save</button>
+        </div>
+      </Popup>
+    </div>
   );
 }
 
