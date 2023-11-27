@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
-import { jwtToken, userData } from './Signals';
+import { userData } from './Signals';
 
 const ReviewsComponent = () => {
 
@@ -13,7 +13,7 @@ const ReviewsComponent = () => {
     )
 }
 
-/* Prints all reviews made by a user if username is given, otherwise prints all reviews
+/* Prints reviews based on if username, idmovie or idseries is given
  * The logged in user can edit and delete their own reviews
  * Call in a component like this: {ReviewsList(uname, idm ids)} Set the values you are not using to null like so {ReviesList(userData.value?.private, null, null)} */
 export function ReviewsList(uname, idm, ids) {
