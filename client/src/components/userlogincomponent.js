@@ -19,7 +19,11 @@ function Usercontrol() {
     return (
       <div>
         <UserInfo />
-        <button onClick={() => (jwtToken.value = '', userData.value.private = '',userData.value.userid)}>Logout</button>
+        <button onClick={() => {
+            jwtToken.value = '';
+            userData.value.private = '';
+            userData.value.userid = '';
+            }}>Logout</button>
         <DeleteAccount/>
       </div>
     );
