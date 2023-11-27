@@ -131,7 +131,11 @@ router.get('/private', async (req,res) => {
 
     try {
         const username = jwt.verify(token, process.env.JWT_SECRET).username;
-        res.status(200).json({private: username});
+        const userRows = await getUserByName(username);
+        const userId = userRows[0].iduser; // Assuming the user ID is in the 'id' column
+
+        // Include the user ID in the response JSON
+        res.status(200).json({ private: username, userid: userId });
     } catch (error) {
         res.status(403).json({error: 'Access forbidden'});
     }

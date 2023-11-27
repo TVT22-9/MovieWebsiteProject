@@ -19,7 +19,11 @@ function Usercontrol() {
     return (
       <div>
         <UserInfo />
-        <button onClick={() => (jwtToken.value = '', userData.value.private = '')}>Logout</button>
+        <button onClick={() => {
+            jwtToken.value = '';
+            userData.value.private = '';
+            userData.value.userid = '';
+            }}>Logout</button>
         <DeleteAccount/>
       </div>
     );
@@ -31,7 +35,7 @@ function UserInfo(){
 
   return(
     <div>
-      {jwtToken.value ? <h1>{"Welcome " + userData.value?.private}</h1> : <h2>You are currently guest </h2> }
+      {jwtToken.value ? <h1>{"Welcome " + userData.value?.private + " Your id is " + userData.value?.userid}</h1> : <h2>You are currently guest </h2> }
     </div>
   )
 }
@@ -134,6 +138,7 @@ function DeleteAccount()  {
         console.log('Account deleted!');
         jwtToken.value = '';
         userData.value.private = '';
+        userData.value.userid = '';
       } catch (error) {
         console.log(error.response.data);
       }
