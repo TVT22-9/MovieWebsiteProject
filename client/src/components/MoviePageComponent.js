@@ -1,38 +1,46 @@
+import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AddReviewWindow } from './reviewsComponent';
 import { jwtToken } from './Signals';
-import { Link } from 'react-router-dom';
 
-const MovieCard = ({ id }) => {
-    //The movie card that shows all neccessery data in the series list. Edit this to decide what data the list shows
+const MoviePageComponent = () => {
+    const { id } = useParams();
     const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+
     useEffect(() => { 
         const fetchData = async () => {
             try {
                 let response;
                 response = await axios.get('http://localhost:3001/api/movieId/' + id)
                 setData(response.data);
-                //console.log(response.data);
+                console.log(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setError(error.response?.status === 404 ? 'Movie not found' : 'Internal Server Error');
 
             }
         };
         fetchData();
-        console.log("Call this once");
-        
     }, []);
-        
+    
     return (
-        <div className="movie-card">
-            {data ? (
+        <div>
+            {error ? (
+                <p>{error}</p>
+            ) : data ? (
                 <pre>
-                    <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.title} />            
+                    <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.title} />
                     <h2>{data.title}</h2>
-                    <p>Describtion: {data.overview}</p>
+                    <p>Description: {data.overview}</p>
                     <p>{data.id}</p>
-                    <Link to={'/movie/' + data.id} ><button>Go to movie page</button></Link>
+                    <p>Adult: {`${data.adult}`}</p>
+                    <p>Runtime:{data.runtime}</p>
+                    <p>Genres: {data.genres.map(genre => <span key={genre.id}>{genre.name}, </span>)}</p>
+
+                    <p>Vote average: {data.vote_average}</p>
+                    <p>Vote count: {data.vote_count}</p>
 
                     {jwtToken.value ? (
                         AddReviewWindow(data.id, null)
@@ -44,6 +52,7 @@ const MovieCard = ({ id }) => {
                 <p>Loading data...</p>
             )}
         </div>
-    );
-};
-export default MovieCard;
+      );
+  
+}
+export default MoviePageComponent;
