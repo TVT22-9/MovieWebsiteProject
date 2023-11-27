@@ -47,7 +47,7 @@ const SeriesPageComponent = () => {
                     <p>Vote count: {data.vote_count}</p>
 
                     {jwtToken.value ? (
-                        AddReviewWindow(data.id, null)
+                        AddReviewWindow(null, data.id)
                     ) : (
                         <p>Login to add a review</p>
                     )}
