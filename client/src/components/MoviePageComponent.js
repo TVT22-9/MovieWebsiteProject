@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { AddReviewWindow } from './reviewsComponent';
+import { AddReviewWindow, ReviewsList } from './reviewsComponent';
 import { jwtToken } from './Signals';
 
 const MoviePageComponent = () => {
@@ -51,6 +51,8 @@ const MoviePageComponent = () => {
             ) : (
                 <p>Loading data...</p>
             )}
+            <h2>Reviews</h2>
+            {ReviewsList(null, id, null)}
         </div>
       );
   
