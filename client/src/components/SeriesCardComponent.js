@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AddReviewWindow } from './reviewsComponent';
 import { jwtToken } from './Signals';
+import { Link } from 'react-router-dom';
 
 const SeriesCard = ({ id }) => {
     //The movie card that shows all neccessery data in the series list. Edit this to decide what data the list shows
@@ -33,6 +34,8 @@ const SeriesCard = ({ id }) => {
                     <p>Describtion: {data.overview}</p>
                     <p>{data.id}</p>
                     <p>Seasons: {data.number_of_seasons}</p>
+                    <Link to={'/series/' + data.id} ><button>Go to series page</button></Link>
+
                     {jwtToken.value ? (
                         AddReviewWindow(null, data.id)
                     ) : (
