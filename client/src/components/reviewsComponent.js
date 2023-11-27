@@ -8,15 +8,15 @@ const ReviewsComponent = () => {
     return (
         <div>
             <h2>Reviews</h2>
-            {ReviewsList()}
+            {ReviewsList(null, null, null)}
         </div>
     )
 }
 
 /* Prints all reviews made by a user if username is given, otherwise prints all reviews
  * The logged in user can edit and delete their own reviews
- * Call in a component like this: {ReviewsList()} or {ReviewsList(userData.value?.private)} */
-export function ReviewsList(username) {
+ * Call in a component like this: {ReviewsList(uname, idm ids)} Set the values you are not using to null like so {ReviesList(userData.value?.private, null, null)} */
+export function ReviewsList(uname, idm, ids) {
     const [reviews, setReviews] = useState(null);
     const [titles, setTitles] = useState({});
     const [sortBy, setSortBy] = useState('newest'); // Sorts by newest by default
@@ -25,9 +25,13 @@ export function ReviewsList(username) {
     useEffect(() => {
         if (UpdateList) {
             let url;
-            if (username) { /* Check if username is given */
-                url = 'http://localhost:3001/review/username/' + username;
-            } else {
+            if (uname) { /* Check if username is given */
+                url = 'http://localhost:3001/review/username/' + uname;
+            } else if (idm) { /* Check if idmovie is given */
+                url = 'http://localhost:3001/review/idmovie/' + idm;
+            } else if (ids) { /* Check if idseries is given */
+                url = 'http://localhost:3001/review/idseries/' + ids;
+            } else { /* If no username, idmovie or idseries is given, get all reviews */
                 url = 'http://localhost:3001/review';
             }
             axios.get(url)
@@ -37,7 +41,7 @@ export function ReviewsList(username) {
                 })
                 .catch(error => console.error('Error fetching reviews:', error));
         }
-    }, [UpdateList, username]);
+    }, [UpdateList, uname, idm, ids]);
 
 
     /* Get movie title */
@@ -94,9 +98,9 @@ export function ReviewsList(username) {
                         <option value="title">Title</option>
                     </select>
                 </div>
-                {sortedReviews.map((review) => {
+                {sortedReviews.map((review) => { /* Loop through all reviews */
                     const id = review.idmovie || review.idseries;
-                    if (!titles[id]) {
+                    if (!titles[id]) { {/* Check if title is already fetched */}
                         (review.idmovie ? getMovieTitle(review.idmovie) : getSeriesTitle(review.idseries))
                             .then(title => setTitles(prevTitles => ({ ...prevTitles, [id]: title })));
                     }
@@ -107,7 +111,7 @@ export function ReviewsList(username) {
                                 <h3>{printStars(review.score)}</h3>
                                 <p>{review.reviewcontent}</p>
                                 <p>{review.username} {review.reviewtimestamp}</p>
-                                {review.username === userData.value?.private && (
+                                {review.username === userData.value?.private && ( /* Check if logged in user is the same as the user who made the review */
                                     <>
                                         <div className="reviews-actions">
                                             <button onClick={async () => {
@@ -120,7 +124,8 @@ export function ReviewsList(username) {
                                                     alert("Something went wrong deleting the review");
                                                 }
                                             }} className="reviews-button">Delete Review</button>
-                                            <Popup trigger={<button> Update Review </button>} modal>
+
+                                            <Popup trigger={<button> Update Review </button>} modal> {/* Popup window for updating a review */}
                                                 {close => (
                                                     <div className="reviews-update-popup">
                                                         <h2>Update Review</h2>
@@ -133,6 +138,7 @@ export function ReviewsList(username) {
                                                             <option value="4">4</option>
                                                             <option value="5">5</option>
                                                         </select>
+
                                                         <button onClick={async () => {
                                                             let response = await axios.put('http://localhost:3001/review', {
                                                                 idreview: review.idreview,
@@ -175,7 +181,7 @@ export function ReviewsList(username) {
 /* A button that opens a popup window to add a review */
 export function AddReviewWindow(idmovie, idseries) {
     return (
-        <Popup trigger={<button> Add Review </button>} modal>
+        <Popup trigger={<button> Add Review </button>} modal> {/* Popup window for adding a review */}
             {close => (
                 <div className="reviews-add-popup">
                     <h2>Add Review</h2>
