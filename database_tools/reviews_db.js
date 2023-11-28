@@ -54,7 +54,7 @@ async function GetReviewByReviewId(idreview) {
 }
 
 /* Adds a review to the database. Needs the following parameters:
-    iduser: the id of the user who wrote the review
+    username: the username of the user making the review
     idmovie: the id of the movie being reviewed
     idseries: the id of the series being reviewed
     reviewcontent: the review itself
