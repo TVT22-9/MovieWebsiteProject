@@ -35,15 +35,27 @@ export function ReviewsList(uname, idm, ids) {
                 url = 'http://localhost:3001/review';
             }
             axios.get(url)
-                .then(response => {
+                .then(async response => {
                     if (response.status === 200) {
+                        const reviews = response.data;
+                        const titles = await Promise.all(reviews.map(review => {
+                            const id = review.idmovie || review.idseries;
+                            return (review.idmovie ? getMovieTitle(review.idmovie) : getSeriesTitle(review.idseries))
+                                .then(title => ({ id, title }));
+                        }));
                         setReviews(response.data);
+                        setTitles(titles.reduce((acc, { id, title }) => ({ ...acc, [id]: title }), {}));
                         setUpdateList(false);
                     } else {
                         alert("Something went wrong fetching the reviews");
                     }
                 })
-                .catch(error => console.error('Error fetching reviews:', error));
+                .catch(error => {
+                    console.error('Error fetching reviews:', error);
+                })
+                .finally(() => {
+                    setUpdateList(false);
+                });
         }
     }, [UpdateList, uname, idm, ids]);
 
@@ -110,10 +122,6 @@ export function ReviewsList(uname, idm, ids) {
                 </div>
                 {sortedReviews.map((review) => { /* Loop through all reviews */
                     const id = review.idmovie || review.idseries;
-                    if (!titles[id]) { /* Check if title is already fetched */
-                        (review.idmovie ? getMovieTitle(review.idmovie) : getSeriesTitle(review.idseries))
-                            .then(title => setTitles(prevTitles => ({ ...prevTitles, [id]: title })));
-                    }
                     return (
                         <div key={review.idreview} className="reviews-item">
                             <ul>
