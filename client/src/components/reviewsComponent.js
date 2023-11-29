@@ -35,11 +35,27 @@ export function ReviewsList(uname, idm, ids) {
                 url = 'http://localhost:3001/review';
             }
             axios.get(url)
-                .then(response => {
-                    setReviews(response.data);
-                    setUpdateList(false);
+                .then(async response => {
+                    if (response.status === 200) {
+                        const reviews = response.data;
+                        const titles = await Promise.all(reviews.map(review => {
+                            const id = review.idmovie || review.idseries;
+                            return (review.idmovie ? getMovieTitle(review.idmovie) : getSeriesTitle(review.idseries))
+                                .then(title => ({ id, title }));
+                        }));
+                        setReviews(response.data);
+                        setTitles(titles.reduce((acc, { id, title }) => ({ ...acc, [id]: title }), {}));
+                        setUpdateList(false);
+                    } else {
+                        alert("Something went wrong fetching the reviews");
+                    }
                 })
-                .catch(error => console.error('Error fetching reviews:', error));
+                .catch(error => {
+                    console.error('Error fetching reviews:', error);
+                })
+                .finally(() => {
+                    setUpdateList(false);
+                });
         }
     }, [UpdateList, uname, idm, ids]);
 
@@ -84,7 +100,13 @@ export function ReviewsList(uname, idm, ids) {
         }
     }
 
-    if (reviews) {
+    if (reviews === null) {
+        return (
+            <div>
+                <p>Loading reviews...</p>
+            </div>
+        )
+    } else if (reviews.length > 0) {
         const sortedReviews = sortReviews(reviews);
 
         return (
@@ -100,10 +122,6 @@ export function ReviewsList(uname, idm, ids) {
                 </div>
                 {sortedReviews.map((review) => { /* Loop through all reviews */
                     const id = review.idmovie || review.idseries;
-                    if (!titles[id]) { {/* Check if title is already fetched */}
-                        (review.idmovie ? getMovieTitle(review.idmovie) : getSeriesTitle(review.idseries))
-                            .then(title => setTitles(prevTitles => ({ ...prevTitles, [id]: title })));
-                    }
                     return (
                         <div key={review.idreview} className="reviews-item">
                             <ul>
@@ -125,7 +143,7 @@ export function ReviewsList(uname, idm, ids) {
                                                 }
                                             }} className="reviews-button">Delete Review</button>
 
-                                            <Popup trigger={<button> Update Review </button>} modal> {/* Popup window for updating a review */}
+                                            <Popup trigger={<button> Update Review </button>} modal>
                                                 {close => (
                                                     <div className="reviews-update-popup">
                                                         <h2>Update Review</h2>
@@ -171,8 +189,7 @@ export function ReviewsList(uname, idm, ids) {
     } else {
         return (
             <div>
-                <h2>Reviews</h2>
-                <p>Loading reviews...</p>
+                <p>No reviews found</p>
             </div>
         )
     }
@@ -181,7 +198,7 @@ export function ReviewsList(uname, idm, ids) {
 /* A button that opens a popup window to add a review */
 export function AddReviewWindow(idmovie, idseries) {
     return (
-        <Popup trigger={<button> Add Review </button>} modal> {/* Popup window for adding a review */}
+        <Popup trigger={<button> Add Review </button>} modal>
             {close => (
                 <div className="reviews-add-popup">
                     <h2>Add Review</h2>
@@ -195,19 +212,22 @@ export function AddReviewWindow(idmovie, idseries) {
                         <option value="5">5</option>
                     </select>
                     <button onClick={async () => {
-                        let response = await axios.post('http://localhost:3001/review', {
-                            username: userData.value?.private,
-                            idmovie: idmovie,
-                            idseries: idseries,
-                            reviewcontent: document.getElementsByName("reviewcontent")[0].value,
-                            score: document.getElementsByName("score")[0].value
-                        })
-                            .catch(error => console.error('Error posting review', error));
-                        console.log(response);
-                        if (response.status === 200) {
-                            close();
-                        } else {
-                            alert("Something went wrong updating the review");
+                        try {
+                            const response = await axios.post('http://localhost:3001/review', {
+                                username: userData.value?.private,
+                                idmovie: idmovie,
+                                idseries: idseries,
+                                reviewcontent: document.getElementsByName("reviewcontent")[0].value,
+                                score: document.getElementsByName("score")[0].value
+                            });
+
+                            if (response.status === 200) {
+                                window.location.reload(); /* Couldn't get the list to update from here, so just reload the page */
+                            }
+                        } catch (error) {
+                            console.error('Error adding review', error);
+                            alert("You have already made a review for this movie/series");
+                        } finally {
                             close();
                         }
                     }} className="reviews-button">Add Review</button>

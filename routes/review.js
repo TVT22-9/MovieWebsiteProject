@@ -10,10 +10,12 @@ const {
     AddReview,
     DeleteReviewByUserId,
     DeleteReviewByMovieId,
+    DeleteReviewBySeriesId,
     DeleteReviewByReviewId,
     DeleteAllReviews,
     UpdateReview
 } = require('../database_tools/reviews_db.js');
+const e = require('express');
 
 // Parse application/x-www-form-urlencoded
 router.use(express.urlencoded({ extended: false }));
@@ -27,11 +29,11 @@ router.get('/', async (req, res) => {
         if (response) {
             res.status(200).json(response);
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(200).json([])
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -42,11 +44,11 @@ router.get('/iduser/:iduser', async (req, res) => {
         if (response) {
             res.status(200).json(response);
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(200).json([])
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -57,11 +59,11 @@ router.get('/username/:username', async (req, res) => {
         if (response) {
             res.status(200).json(response);
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(200).json([])
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -72,11 +74,11 @@ router.get('/idmovie/:idmovie', async (req, res) => {
         if (response) {
             res.status(200).json(response);
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(200).json([])
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -87,11 +89,11 @@ router.get('/idseries/:idseries', async (req, res) => {
         if (response) {
             res.status(200).json(response);
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(200).json([])
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -102,56 +104,71 @@ router.get('/idreview/:idreview', async (req, res) => {
         if (response) {
             res.status(200).json(response);
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(200).json([])
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
+/* Route for adding a review */
 router.post('/', async (req, res) => {
     try {
-        const response = await AddReview(req.body.username, req.body.idmovie, req.body.idseries, req.body.reviewcontent, req.body.score);
-        console.log(response);
+        let response = await AddReview(req.body.username, req.body.idmovie, req.body.idseries, req.body.reviewcontent, req.body.score);
         if (response) {
-            res.status(400).json(error);
+            res.status(400).json('Error adding review', error);
         } else {
             res.status(200).json('Review added');
         }
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error);
+        //console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
-/* Route for deleting a review by iduser */
+/* Route for deleting reviews by iduser */
 router.delete('/iduser/:iduser', async (req, res) => {
     try {
         const response = await DeleteReviewByUserId(req.params.iduser);
         if (response) {
             res.status(200).json('Review(s) deleted');
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(404).json('No reviews found to delete', error);
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
-/* Route for deleting a review by idmovie */
+/* Route for deleting reviews by idmovie */
 router.delete('/idmovie/:idmovie', async (req, res) => {
     try {
         const response = await DeleteReviewByMovieId(req.params.idmovie);
         if (response) {
             res.status(200).json('Review(s) deleted');
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(404).json('No reviews found to delete', error);
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
+    }
+});
+
+/* Route for deleting reviews by idseries */
+router.delete('/idseries/:idseries', async (req, res) => {
+    try {
+        const response = await DeleteReviewBySeriesId(req.params.idseries);
+        if (response) {
+            res.status(200).json('Review(s) deleted');
+        } else {
+            res.status(404).json('No reviews found to delete', error);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -162,11 +179,11 @@ router.delete('/idreview/:idreview', async (req, res) => {
         if (response) {
             res.status(200).json('Review(s) deleted');
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(404).json('No review found to delete', error);
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -177,11 +194,11 @@ router.delete('/', async (req, res) => {
         if (response) {
             res.status(200).json('Reviews deleted');
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(404).json('No reviews found to delete');
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
@@ -192,11 +209,11 @@ router.put('/', async (req, res) => {
         if (response) {
             res.status(200).json('Review updated');
         } else {
-            res.status(400).json('Something went wrong');
+            res.status(404).json('No review found to update', error);
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Something went wrong');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error.message);
     }
 });
 
