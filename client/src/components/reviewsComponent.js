@@ -1,60 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
-import { jwtToken, userData } from './Signals';
+import { userData } from './Signals';
 
 const ReviewsComponent = () => {
 
     return (
         <div>
-            <ReviewsList />
+            <h2>Reviews</h2>
+            {ReviewsList(null, null, null)}
         </div>
     )
 }
 
-/* Gets all the reviews in the database */
-export function GetAllReviews() {
-    const [data, setData] = useState(null);
-
-    useEffect(() => {
-        axios.get('http://localhost:3001/review')
-            .then(response => setData(response.data))
-            .catch(error => console.error('Error fetching reviews:', error));
-    }, []);
-    return data;
-}
-
-/* Gets all the reviews made by a specific user using username */
-export function GetReviewByUsername(username) {
-    const [data, setData] = useState(null);
-
-    useEffect(() => {
-        axios.get('http://localhost:3001/review/username/' + username)
-            .then(response => setData(response.data))
-            .catch(error => console.error('Error fetching reviews:', error));
-    }, []);
-    return data;
-}
-
-/* Prints all the reviews in the database in a list
- * The logged in user can edit and delete their own reviews */
-export function ReviewsList() {
+/* Prints reviews based on if username, idmovie or idseries is given
+ * The logged in user can edit and delete their own reviews
+ * Call in a component like this: {ReviewsList(uname, idm ids)} Set the values you are not using to null like so {ReviesList(userData.value?.private, null, null)} */
+export function ReviewsList(uname, idm, ids) {
     const [reviews, setReviews] = useState(null);
     const [titles, setTitles] = useState({});
     const [sortBy, setSortBy] = useState('newest'); // Sorts by newest by default
-    const [isOpen, setIsOpen] = useState(false);
     const [UpdateList, setUpdateList] = useState(true); // Used to update the list when a review is deleted or updated
 
     useEffect(() => {
         if (UpdateList) {
-            axios.get('http://localhost:3001/review')
+            let url;
+            if (uname) { /* Check if username is given */
+                url = 'http://localhost:3001/review/username/' + uname;
+            } else if (idm) { /* Check if idmovie is given */
+                url = 'http://localhost:3001/review/idmovie/' + idm;
+            } else if (ids) { /* Check if idseries is given */
+                url = 'http://localhost:3001/review/idseries/' + ids;
+            } else { /* If no username, idmovie or idseries is given, get all reviews */
+                url = 'http://localhost:3001/review';
+            }
+            axios.get(url)
                 .then(response => {
                     setReviews(response.data);
                     setUpdateList(false);
                 })
                 .catch(error => console.error('Error fetching reviews:', error));
         }
-    }, [UpdateList]);
+    }, [UpdateList, uname, idm, ids]);
 
 
     /* Get movie title */
@@ -102,7 +89,6 @@ export function ReviewsList() {
 
         return (
             <div className="reviews-list">
-                <h2>Reviews</h2>
                 <div className="reviews-sort">
                     <label>Sort By:</label>
                     <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
@@ -112,9 +98,9 @@ export function ReviewsList() {
                         <option value="title">Title</option>
                     </select>
                 </div>
-                {sortedReviews.map((review) => {
+                {sortedReviews.map((review) => { /* Loop through all reviews */
                     const id = review.idmovie || review.idseries;
-                    if (!titles[id]) {
+                    if (!titles[id]) { {/* Check if title is already fetched */}
                         (review.idmovie ? getMovieTitle(review.idmovie) : getSeriesTitle(review.idseries))
                             .then(title => setTitles(prevTitles => ({ ...prevTitles, [id]: title })));
                     }
@@ -125,40 +111,52 @@ export function ReviewsList() {
                                 <h3>{printStars(review.score)}</h3>
                                 <p>{review.reviewcontent}</p>
                                 <p>{review.username} {review.reviewtimestamp}</p>
-                                {review.username === userData.value?.private && (
+                                {review.username === userData.value?.private && ( /* Check if logged in user is the same as the user who made the review */
                                     <>
                                         <div className="reviews-actions">
                                             <button onClick={async () => {
                                                 let response = await axios.delete('http://localhost:3001/review/idreview/' + review.idreview)
                                                     .catch(error => console.error('Error deleting review', error));
                                                 console.log(response);
-                                                setUpdateList(true);
+                                                if (response.status === 200) {
+                                                    setUpdateList(true);
+                                                } else {
+                                                    alert("Something went wrong deleting the review");
+                                                }
                                             }} className="reviews-button">Delete Review</button>
-                                            {/* Popup does not close when review is updated, will fix later */}
-                                            <Popup open={isOpen} onClose={() => setIsOpen(false)} trigger={<button onClick={() => setIsOpen(true)}> Update Review </button>} modal>
-                                                <div className="reviews-update-popup">
-                                                    <h2>Update Review</h2>
-                                                    <label>Review: </label>
-                                                    <input name="reviewcontentupdate" defaultValue={review.reviewcontent} />
-                                                    <select name="scoreupdate" defaultValue={review.score}>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select>
-                                                    <button onClick={async () => {
-                                                        let response = await axios.put('http://localhost:3001/review', {
-                                                            idreview: review.idreview,
-                                                            reviewcontent: document.getElementsByName("reviewcontentupdate")[0].value,
-                                                            score: document.getElementsByName("scoreupdate")[0].value
-                                                        })
-                                                            .catch(error => console.error('Error updating review', error));
-                                                        console.log(response);
-                                                        setIsOpen(false);
-                                                        setUpdateList(true);
-                                                    }} className="reviews-button">Update Review</button>
-                                                </div>
+
+                                            <Popup trigger={<button> Update Review </button>} modal> {/* Popup window for updating a review */}
+                                                {close => (
+                                                    <div className="reviews-update-popup">
+                                                        <h2>Update Review</h2>
+                                                        <label>Review: </label>
+                                                        <input name="reviewcontentupdate" defaultValue={review.reviewcontent} />
+                                                        <select name="scoreupdate" defaultValue={review.score}>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+
+                                                        <button onClick={async () => {
+                                                            let response = await axios.put('http://localhost:3001/review', {
+                                                                idreview: review.idreview,
+                                                                reviewcontent: document.getElementsByName("reviewcontentupdate")[0].value,
+                                                                score: document.getElementsByName("scoreupdate")[0].value
+                                                            })
+                                                                .catch(error => console.error('Error updating review', error));
+                                                            console.log(response);
+                                                            if (response.status === 200) {
+                                                                setUpdateList(true);
+                                                                close();
+                                                            } else {
+                                                                alert("Something went wrong updating the review");
+                                                                close();
+                                                            }
+                                                        }} className="reviews-button">Update Review</button>
+                                                    </div>
+                                                )}
                                             </Popup>
                                         </div>
                                     </>
@@ -183,30 +181,38 @@ export function ReviewsList() {
 /* A button that opens a popup window to add a review */
 export function AddReviewWindow(idmovie, idseries) {
     return (
-        <Popup trigger={<button> Add Review </button>} modal>
-            <div className="reviews-add-popup">
-                <h2>Add Review</h2>
-                <label>Review: </label>
-                <input name="reviewcontent" placeholder="Write your review here" />
-                <select name="score">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <button onClick={async () => {
-                    let response = await axios.post('http://localhost:3001/review', {
-                        username: userData.value?.private,
-                        idmovie: idmovie,
-                        idseries: idseries,
-                        reviewcontent: document.getElementsByName("reviewcontent")[0].value,
-                        score: document.getElementsByName("score")[0].value
-                    })
-                        .catch(error => console.error('Error posting review', error));
-                    console.log(response);
-                }} className="reviews-button">Add Review</button>
-            </div>
+        <Popup trigger={<button> Add Review </button>} modal> {/* Popup window for adding a review */}
+            {close => (
+                <div className="reviews-add-popup">
+                    <h2>Add Review</h2>
+                    <label>Review: </label>
+                    <input name="reviewcontent" placeholder="Write your review here" />
+                    <select name="score">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <button onClick={async () => {
+                        let response = await axios.post('http://localhost:3001/review', {
+                            username: userData.value?.private,
+                            idmovie: idmovie,
+                            idseries: idseries,
+                            reviewcontent: document.getElementsByName("reviewcontent")[0].value,
+                            score: document.getElementsByName("score")[0].value
+                        })
+                            .catch(error => console.error('Error posting review', error));
+                        console.log(response);
+                        if (response.status === 200) {
+                            close();
+                        } else {
+                            alert("Something went wrong updating the review");
+                            close();
+                        }
+                    }} className="reviews-button">Add Review</button>
+                </div>
+            )}
         </Popup>
     )
 }
