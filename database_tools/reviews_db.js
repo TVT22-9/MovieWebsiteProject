@@ -54,14 +54,14 @@ async function GetReviewByReviewId(idreview) {
 }
 
 /* Adds a review to the database. Needs the following parameters:
-    iduser: the id of the user who wrote the review
+    username: the username of the user making the review
     idmovie: the id of the movie being reviewed
     idseries: the id of the series being reviewed
     reviewcontent: the review itself
     score: a score between 1 and 5
 */
 async function AddReview(username, idmovie, idseries, reviewcontent, score) {
-    console.log(username, idmovie, idseries, reviewcontent, score);
+    //console.log(username, idmovie, idseries, reviewcontent, score);
     let result = await pgPool.query(sql.ADD_REVIEW, [username, idmovie, idseries, reviewcontent, score]);
     return result.rowCount > 0 ? result.rows : null;
 }
@@ -98,9 +98,8 @@ async function DeleteAllReviews() {
 
 /* Used to edit the content and score of a review */
 async function UpdateReview(reviewcontent, score, idreview) {
-    console.log(reviewcontent, score, idreview);
+    //console.log(reviewcontent, score, idreview);
     let result = await pgPool.query(sql.UPDATE_REVIEW_BY_REVIEW_ID, [reviewcontent, score, idreview]);
-    console.log(result);
     return result.rowCount > 0 ? result.rows : null;
 }
 
