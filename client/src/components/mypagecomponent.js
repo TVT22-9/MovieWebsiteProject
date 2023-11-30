@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import {  userData } from "./Signals";
+import { userData } from "./Signals";
 import Popup from 'reactjs-popup';
+import { ReviewsList } from './reviewsComponent';
 
 function MyPage() {
   const { username } = useParams();
@@ -52,7 +53,7 @@ function MyPage() {
               <pre>{JSON.stringify(userSettings, null, 2)}</pre>
             </div>
           )}
-          {showReviews && <PlaceholderReviews />}
+          {showReviews && <PlaceholderReviews username={username} />}
           {showMovies && <PlaceholderMovie />}
         </div>
       )}
@@ -81,12 +82,14 @@ function MyPage() {
   );
 }
 
-function PlaceholderReviews(){
+function PlaceholderReviews({ username }) {
 
-  return(
-      <div>
-        <h1> This user wants to see their reviews here</h1>
-      </div>
+  return (
+    <div>
+      
+      <h1>My review</h1>
+      {ReviewsList(username, null, null)}
+    </div>
   );
 }
 

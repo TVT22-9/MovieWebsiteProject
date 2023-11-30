@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { jwtToken, userData } from "./Signals";
+
 //primary component that renders both login and reqister components if the sessions storage doesn't have a jwttoken yet
 //if the token is found it instead renders just a greetings text containing the username and a logout button that resets the jwttoken back to none
 //jwttoken is a signal so whenever it gets updated it automatically renders the components that utilize it
 function Usercontrol() {
+  
   if (jwtToken.value.length === 0) {
     return (
       <div>
