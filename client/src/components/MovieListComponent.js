@@ -180,7 +180,7 @@ const MovieListComponent = () => {
             <h1>Top Rated Movies</h1>
             <button onClick={() => setListStateFunc(1)} disabled={listState === 1}>See movies list</button>
             <button onClick={() => setListStateFunc(2)} disabled={listState === 2}>See tv shows list</button>
-
+            <br />
             <input
                 type="text"
                 placeholder="Search..."

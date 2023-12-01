@@ -25,20 +25,34 @@ const MovieCard = ({ id }) => {
     }, []);
         
     return (
-        <div className="movie-card">
+        <div>
             {data ? (
                 <pre>
-                    <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.title} />            
-                    <h2>{data.title}</h2>
-                    <p>Describtion: {data.overview}</p>
-                    <p>{data.id}</p>
-                    <Link to={'/movie/' + data.id} ><button>Go to movie page</button></Link>
+                    <div className="MovieCard">
 
-                    {jwtToken.value ? (
-                        AddReviewWindow(data.id, null)
-                    ) : (
-                        <p>Login to add a review</p>
-                    )}
+                        <div className='CardImg'>
+                            {data.poster_path ? (
+                                <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.title} />
+                            ) : (
+                                <img src={process.env.PUBLIC_URL + '/missingImg.jpg'} alt={data.title} />
+                            )}
+                        </div>
+                        <div className='CardDesc'>
+                            <h2>{data.title}</h2>
+                            <p>Describtion: {data.overview}</p>
+                            <p>Genres: {data.genres.map(genre => <span key={genre.id}>{genre.name}, </span>)}</p>
+                            <p>Runtime: {data.runtime} min</p>
+                        </div>
+                        <div className='CardButtons'>
+                            <Link to={'/movie/' + data.id} ><button>Go to movie page</button></Link>
+
+                            {jwtToken.value ? (
+                                AddReviewWindow(data.id, null)
+                            ) : (
+                                <p>Login to add a review</p>
+                            )}
+                        </div>
+                    </div>
                 </pre>
             ) : (
                 <p>Loading data...</p>
