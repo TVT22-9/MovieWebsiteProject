@@ -6,7 +6,7 @@ import axios from "axios";
 export const jwtToken = signal(getSessionToken());
 export const userData = signal(null);
 
-function getSessionToken(){
+export function getSessionToken(){
     const t = sessionStorage.getItem('token');
     return t===null || t==='null' ? '' : t;
 }
