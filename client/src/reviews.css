@@ -5,25 +5,38 @@
         text-align: center;
     }
 
+    
     background-color: cyan;/* Change later */
+    padding: 5px;
 }
 
 .reviews-list {
-    display: grid;
-    grid-template-columns: 1fr;/* 2 columns */
-
-
-
+    padding: 10px;
     background-color: yellow;/* Change later */
 }
 
+a:link {
+    text-decoration: none;
+    color: black;/* Change later */
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;/* Change later */
+}
+
+a:hover {
+    text-decoration:underline;
+    color: blue
+}
 .reviews-item {
     border: 1px solid black;
-    width: 40%;
+    border-radius: 5px;
+    width: auto;
+    max-width: 100%;
     height: auto;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     margin: 10px;
-    padding-right: 10px;
     background-color: lime;/* Change later */
 }
 
@@ -105,7 +118,12 @@
     width: 20%;
     margin-right: 10px;
     margin-bottom: 1px;
+    padding: 10px;
+    background-color: lightblue;
+    border: none;
+    border-radius: 5px;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .reviews-button {
