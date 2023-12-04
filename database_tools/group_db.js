@@ -199,6 +199,12 @@ async function deleteMemberById(groupId, memberId) {
   return result.rows.length > 0;
 }
 
+// Function to delete all members of a group
+async function deleteAllMembers(groupId) {
+  const result = await pgPool.query('DELETE FROM members WHERE idgroup = $1 RETURNING *', [groupId]);
+  return result.rows;
+}
+
 
 module.exports = {
   addGroup,
@@ -217,4 +223,5 @@ module.exports = {
   getPendingMembers,
   memberExistsById,
   deleteMemberById,
+  deleteAllMembers
 };

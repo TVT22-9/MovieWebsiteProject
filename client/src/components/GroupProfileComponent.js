@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {  userData } from "./Signals";
-import { handleDeleteGroup } from './groupForm';
 
 
 
@@ -123,15 +122,46 @@ const isUserMember = acceptedMembers.some(member => member.username === userData
     }
   };
 */
-  const handleDeleteMember = async (groupId, memberId) => {
-    try {
+const handleDeleteMember = async (groupId, memberId, setacceptedMembers) => {
+  try {
+    if (memberId) {
+      // Regular delete for a single member
       const response = await axios.delete(`http://localhost:3001/members/${groupId}/members/${memberId}`);
       
       // Update the members state by removing the deleted member
       setacceptedMembers(prevMembers => prevMembers.filter(member => member.iduser !== memberId));
+      
+      console.log('Member deleted successfully:', response.data);
+    } else {
+      // Delete all members of the group
+      const deleteAllMembersResponse = await axios.delete(`http://localhost:3001/members/${groupId}/delete-all-members`);
+      
+      // Assuming the response contains deleted members, update the state accordingly
+      setacceptedMembers([]);
+      
+      console.log('All members deleted successfully:', deleteAllMembersResponse.data);
+    }
+  } catch (error) {
+    console.error('Error deleting members:', error);
+  }
+};
+
+  const handleDeleteGroup = async (groupId, setGroups) => {
+    try {
+      const id = parseInt(groupId, 10);
   
+      // Use the new endpoint to delete all members of the group
+      await handleDeleteMember(groupId, null, setGroups);
+  
+      // Now that members are deleted, delete the group itself
+      const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
+  
+      // Update the groups state by removing the deleted group
+      setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
+      
+      console.log('Group deleted successfully:', response.data);
     } catch (error) {
-      console.error('Error deleting member:', error);
+      console.error('Error deleting group:', error);
     }
   };
   

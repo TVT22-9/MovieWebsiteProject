@@ -169,4 +169,21 @@ router.delete('/:groupId/members/:memberId', /*checkLoggedIn, checkGroupOwnershi
   }
 });
 
+// Endpoint to delete all members of a group
+router.delete('/:groupId/delete-all-members', /* Add any middleware you need */ async (req, res) => {
+  try {
+    const groupId = req.params.groupId;
+
+    // Database logic to delete all members of the group
+    const result = await groupDB.deleteAllMembers(groupId);
+
+    // Send the delete result as a response
+    res.status(200).json({ message: 'All members deleted successfully', result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
 module.exports = router;

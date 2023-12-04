@@ -4,20 +4,10 @@ import axios from 'axios';
 import { jwtToken } from "./Signals";
 import {  userData } from "./Signals";
 
-export const handleDeleteGroup = async (groupId, setGroups) => {
-  try {
-    const id = parseInt(groupId, 10);
-    //const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
-
-    // Update the groups state by removing the deleted group
-    setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
-
-  } catch (error) {
-  }
-};
 
 const GroupForm = () => {
   const [groups, setGroups] = useState([]);
+  const [acceptedMembers, setAcceptedMembers] = useState([]);
   const [groupData, setGroupData] = useState({
     groupName: '',
     description: '',
@@ -104,14 +94,44 @@ const GroupForm = () => {
     }
   };
 
-  const handleDeleteGroup = async (groupId) => {
+  const handleDeleteMember = async (groupId, memberId, setMembers) => {
+    try {
+      if (memberId) {
+        // Regular delete for a single member
+        const response = await axios.delete(`http://localhost:3001/members/${groupId}/members/${memberId}`);
+        
+        // Update the members state by removing the deleted member
+        setMembers(prevMembers => prevMembers.filter(member => member.iduser !== memberId));
+        
+        console.log('Member deleted successfully:', response.data);
+      } else {
+        // Delete all members of the group
+        const deleteAllMembersResponse = await axios.delete(`http://localhost:3001/members/${groupId}/delete-all-members`);
+        
+        // Assuming the response contains deleted members, update the state accordingly
+        setMembers([]);
+        
+        console.log('All members deleted successfully:', deleteAllMembersResponse.data);
+      }
+    } catch (error) {
+      console.error('Error deleting members:', error);
+    }
+  };
+
+  const handleDeleteGroup = async (groupId, setGroups, setMembers) => {
     try {
       const id = parseInt(groupId, 10);
+  
+      // Use the new endpoint to delete all members of the group
+      await handleDeleteMember(groupId, null, setMembers);
+  
+      // Now that members are deleted, delete the group itself
       const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
-
+  
       // Update the groups state by removing the deleted group
       setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
-
+      
+      console.log('Group deleted successfully:', response.data);
     } catch (error) {
       console.error('Error deleting group:', error);
     }
@@ -205,7 +225,7 @@ const GroupForm = () => {
                   <button onClick={() => handleSendJoinRequest(group.idgroup)}>Send Join Request</button>
                 )}
                 {userData.value && userData.value.userid === group.idowner && (
-                  <button onClick={() => handleDeleteGroup(group.idgroup)}>Delete</button>
+                  <button onClick={() => handleDeleteGroup(group.idgroup, setGroups, setAcceptedMembers)}>Delete</button>
                 )}
               </li>
             ))}
