@@ -41,7 +41,41 @@
     border: 2px solid black;
     padding-bottom: 300px;
 }
+/* Below is the code for movie list*/
 
+.MovieList button {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 15px 24px;
+    border: 0;
+    color: #fff;
+    background: #595b68;
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+.MovieList button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.advancedSearch {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    font-size: 1.2rem;
+      margin: 0 auto;
+    padding: 1.5rem 2rem;
+    border-radius: 0.2rem;
+    background-color: rgb(255, 255, 255);
+    border: solid;
+    width: 90%;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
 /*Below is the code for movie and series cards*/
 
 
@@ -79,8 +113,6 @@
     display: flex;
     flex-direction: column;
     padding-left: 10px;
-
-
 }
 
 /* News components*/

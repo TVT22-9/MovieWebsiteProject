@@ -94,7 +94,7 @@ const MovieListComponent = () => {
         );
     };
                 
-    //Basic system to change the page and change between Movies (state 1) and TV Shows (state 2)
+    //Basic system to change the page and change between Movies (state 1) and TV Shows (state 2). I have added resets to certain variables like data and search to page changes and list changes as otherwise it may show old data that shouldnt be there anymore.
     const nextPage = () => {
         setPageNum(prevPageNum => prevPageNum + 1);
         setData(null);
@@ -128,17 +128,14 @@ const MovieListComponent = () => {
         const fetchData = async () => {
             try {
                 let response;
-                console.log("Main component runs");
                 console.log(includedGenres);
-                if(advancedSearch) {
-              
+                if(advancedSearch) { //If the search is made using advanced search it runs the code below.
                     const includedGenreIds = includedGenres.join(',');
                     const excludedGenreIds = excludedGenres.join(',');
-                    console.log(includedGenreIds);
-                    console.log(excludedGenreIds);
+
                     let apiUrl = ""
-                    if (listState === 1) {
-                         apiUrl = `http://localhost:3001/api/advancedMovie/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
+                    if (listState === 1) { // Checks if it should search movies or tv shows.
+                        apiUrl = `http://localhost:3001/api/advancedMovie/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
                     } else {
                         apiUrl = `http://localhost:3001/api/advancedSeries/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
                     }
@@ -148,10 +145,8 @@ const MovieListComponent = () => {
                       
                     console.log(apiUrl)
                     response = await axios.get(apiUrl);
-                    
 
-
-                } else {
+                } else { //Calls the movies/series using a text input from user.
                     if (searchQuery) {
                         response = await (listState === 1
                         ? axios.get(`http://localhost:3001/api/searchMovie/${searchQuery}/${pageNum}`)
@@ -176,17 +171,12 @@ const MovieListComponent = () => {
 
     //Maps all returned data as MovieCard component. Gives all required data which can be assessed using movie.id and movie.title 
     return (
-        <div>
+        <div className='MovieList'>
             <h1>Top Rated Movies</h1>
             <button onClick={() => setListStateFunc(1)} disabled={listState === 1}>See movies list</button>
             <button onClick={() => setListStateFunc(2)} disabled={listState === 2}>See tv shows list</button>
             <br />
-            <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-            />
+
             <Popup trigger={<button> Advanced Search </button>} modal>
                 <div style={{ backgroundColor: 'gray', padding: '20px' }}>
                     <h2>Advanced Search</h2>
@@ -224,6 +214,13 @@ const MovieListComponent = () => {
                     }}>Search</button>
                 </div>
             </Popup>
+            <input
+                className='advancedSearch'
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+            />
             <div className="movie-grid">
                 { listState === 1 ? data?.map(movie => <MovieCard key={movie.id} id={movie.id} />) : data?.map(series => <SeriesCard key={series.id} id={series.id} />)} 
             </div>
