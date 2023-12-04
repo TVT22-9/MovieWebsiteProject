@@ -16,26 +16,7 @@ function getSessionToken(req) {
   const t = req.session.token;
   return t === null || t === 'null' ? '' : t;
 }
-/*
-const checkLoggedIn = async (req, res, next) => {
-  const { username } = req.body;
-  const sessionToken = req.session.token;
 
-  try {
-    if (username && sessionToken) {
-      // If both username and session token are present
-      req.headers.authorization = `Bearer ${sessionToken}`;
-      return next();
-    } else {
-      return res.status(401).json({ message: 'Unauthorized: User not logged in' });
-    }
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal Server Error' });
-  }
-};
-
-*/
 // Middleware to check if the logged-in user is the owner of the group
 const checkGroupOwnership = async (req, res, next) => {
   const groupId = req.params.id;
@@ -64,12 +45,7 @@ router.post('/create', async (req, res) => {
     const groupName = req.body.groupName;
     const ownerId = req.body.idowner;
     const description = req.body.description;
-
     const groupSettingsString = req.body.groupsettings;
-    console.log('groupName:', groupName);
-    console.log('description:', description);
-    console.log('groupSettingsString:', groupSettingsString);
-
     const groupsettings = req.body.groupsettings ? JSON.parse(req.body.groupsettings ) : null;
     const groupId = req.body.groupId;
 
@@ -78,8 +54,6 @@ router.post('/create', async (req, res) => {
     if (groupExists) {
       return res.status(400).json({ message: 'Group with the same name already exists' });
     }
-
-    // Use a transaction to ensure that both group creation and member addition are atomic
     client = await pgPool.connect();
     await client.query('BEGIN');
 
@@ -87,22 +61,9 @@ router.post('/create', async (req, res) => {
     const createdGroup = await groupDB.addGroup(groupName, description, groupsettings, ownerId);
 
     // Add the owner as a member and set them as the owner
-    console.log('Status being passed:', true);
     const addMemberResult = await groupDB.addMember(createdGroup.id, ownerId, true);
-   /* if (addMemberResult.memberExists) {
-      // Handle the case where the user is already a member
-      // You can decide whether to return an error or handle it differently
-      await client.query('ROLLBACK');
-      return res.status(400).json({ message: 'User is already a member of the group' });
-    }*/
-
-    // Commit the transaction
     await client.query('COMMIT');
-
-    // Fetch the updated list of groups
     const updatedGroups = await groupDB.getAllGroups();
-
-    // Send a success response with the created group and the updated list of groups
     res.status(201).json({ message: 'Group created successfully', group: createdGroup[0], groups: updatedGroups });
   } catch (error) {
     if (client) {
@@ -162,7 +123,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Endpoint to update groups.
-router.put('/update/:id', /*checkLoggedIn,*/ checkGroupOwnership, async (req, res) => {
+router.put('/update/:id', checkGroupOwnership, async (req, res) => {
   try {
     const groupId = req.params.id;
     const { groupName, description, settingsJson } = req.body;

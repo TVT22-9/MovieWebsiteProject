@@ -17,44 +17,6 @@ function getSessionToken(req) {
   return t === null || t === 'null' ? '' : t;
 }
 
-// Simple endpoint for testing
-router.get('/test', (req, res) => {
-    res.status(200).json({ message: 'Test endpoint reached successfully' });
-  });
-
-
-/*// Function to add a new member to a group, if the member already exists this rollsback the transaction
-async function addMember(groupId, userId, acceptedPool) {
-    let client;
-    try {
-
-      client = await pgPool.connect();
-      await client.query('BEGIN');
-  
-      const result = await client.query('INSERT INTO members (idgroup, iduser, status) VALUES ($1, $2, $3) RETURNING *', [groupId, userId, acceptedPool]);
-      const memberId = result.rows[0].iduser;
-  
-      const memberExists = await memberExistsById(groupId, memberId);
-  
-      if (memberExists) {
-        await client.query('ROLLBACK');
-        return { memberExists: true };
-      } else {
-        await client.query('COMMIT');
-        return { ...result.rows[0], memberExists: false };
-      }
-    } catch (error) {
-      if (client) {
-        await client.query('ROLLBACK');
-      }
-      console.error('Error in addMember:', error);
-      throw error;
-    } finally {
-      if (client) {
-        client.release();
-      }
-    }
-  }*/
 
 // Endpoint to add a new member to a group
 router.post('/:groupId/add-member', async (req, res) => {
@@ -95,9 +57,8 @@ router.put('/:groupId/update-member/:userId', async (req, res) => {
   try {
     const groupId = req.params.groupId;
     const userId = req.params.userId;
-    const acceptedPool = req.body.acceptedPool || 'TRUE'; // Assuming TRUE is the default
+    const acceptedPool = req.body.acceptedPool || 'TRUE';
 
-    // Update the member's status
     const updateResult = await groupDB.updateMemberStatus(groupId, userId, acceptedPool);
 
     if (updateResult.memberUpdated) {
@@ -153,12 +114,10 @@ router.get('/:groupId/pending-members-with-usernames', async (req, res) => {
 });
 
 // Endpoint to delete a member from a group
-router.delete('/:groupId/members/:memberId', /*checkLoggedIn, checkGroupOwnership,*/ async (req, res) => {
+router.delete('/:groupId/members/:memberId', async (req, res) => {
   try {
     const groupId = req.params.groupId;
     const memberId = req.params.memberId;
-
-    // Database logic
     const result = await groupDB.deleteMemberById(groupId, memberId);
 
     // Send the delete result as a response
@@ -170,11 +129,9 @@ router.delete('/:groupId/members/:memberId', /*checkLoggedIn, checkGroupOwnershi
 });
 
 // Endpoint to delete all members of a group
-router.delete('/:groupId/delete-all-members', /* Add any middleware you need */ async (req, res) => {
+router.delete('/:groupId/delete-all-members', async (req, res) => {
   try {
     const groupId = req.params.groupId;
-
-    // Database logic to delete all members of the group
     const result = await groupDB.deleteAllMembers(groupId);
 
     // Send the delete result as a response

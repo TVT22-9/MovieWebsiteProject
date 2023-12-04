@@ -29,13 +29,7 @@ const GroupForm = () => {
     setGroupData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  
-
-  const handleCreateGroup = async () => {
-    console.log('Group Data:', groupData);
-    console.log('User Data:', userData.value);
-    console.log('User Data:', userData.value.userid);
-  
+  const handleCreateGroup = async () => {  
     try {
       const ownerId = userData.value.userid;
   
@@ -56,13 +50,9 @@ const GroupForm = () => {
   
       // Check if the response contains a group property
       if (response.data.group) {
-        console.log('Group created successfully:', response.data.group);
   
         // Extract the newly created group ID from the server response
         const createdGroupId = response.data.group.idgroup;
-  
-        // Log the createdGroup variable before calling addMember
-        console.log('Created Group:', response.data.group);
   
         // Ensure that createdGroup is an object
         if (typeof response.data.group === 'object') {
@@ -77,8 +67,6 @@ const GroupForm = () => {
               headers: { Authorization: `Bearer ${jwtToken.value}` },
             }
           );
-  
-          console.log('Add Member Result:', addMemberResult);
   
           // Refetch the updated list of groups
           const updatedGroupsResponse = await axios.get('http://localhost:3001/groups/all');
@@ -103,15 +91,13 @@ const GroupForm = () => {
         // Update the members state by removing the deleted member
         setMembers(prevMembers => prevMembers.filter(member => member.iduser !== memberId));
         
-        console.log('Member deleted successfully:', response.data);
       } else {
         // Delete all members of the group
         const deleteAllMembersResponse = await axios.delete(`http://localhost:3001/members/${groupId}/delete-all-members`);
         
         // Assuming the response contains deleted members, update the state accordingly
         setMembers([]);
-        
-        console.log('All members deleted successfully:', deleteAllMembersResponse.data);
+  
       }
     } catch (error) {
       console.error('Error deleting members:', error);
@@ -131,7 +117,6 @@ const GroupForm = () => {
       // Update the groups state by removing the deleted group
       setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
       
-      console.log('Group deleted successfully:', response.data);
     } catch (error) {
       console.error('Error deleting group:', error);
     }
@@ -147,34 +132,7 @@ const GroupForm = () => {
     } catch (error) {
       console.error('Error sending join request:', error.response || error);
     }
-  };
-
- /* const handleAcceptPendingMember = async (userId, groupId) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:3001/members/${groupId}/update-member/${userId}`,
-        {
-          acceptedPool: true,
-        }
-      );
-      console.log('Join request accepted successfully:', response.data);
-
-      // You may want to refetch the group details after accepting the join request
-      // to update the list of members.
-
-      const updatedGroups = groups.map((group) =>
-        group.idgroup === groupId
-          ? { ...group, joinRequests: group.joinRequests.filter((request) => request.userId !== userId) }
-          : group
-      );
-      setGroups(updatedGroups);
-    } catch (error) {
-      console.error('Error accepting join request:', error.response || error);
-    }
-  };*/
-  
-  
-  
+  };  
 
   const handleSubmit = (e) => {    
     e.preventDefault();
