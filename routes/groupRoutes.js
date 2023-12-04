@@ -59,9 +59,6 @@ const checkGroupOwnership = async (req, res, next) => {
 router.post('/create', async (req, res) => {
   let client;
   try {
-    console.log('Token in Server:', req.headers.authorization);
-    console.log('Received POST request to /groups/create');// Console log
-    console.log('Request Body:', req.body);
 
     // Extract data from the request body
     const groupName = req.body.groupName;
@@ -75,9 +72,6 @@ router.post('/create', async (req, res) => {
 
     const groupsettings = req.body.groupsettings ? JSON.parse(req.body.groupsettings ) : null;
     const groupId = req.body.groupId;
-
-    console.log('Parsed groupsettings:', groupsettings);
-
 
     // Check if the group already exists by name
     const groupExists = await groupDB.groupExists(groupName);
@@ -93,22 +87,20 @@ router.post('/create', async (req, res) => {
     const createdGroup = await groupDB.addGroup(groupName, description, groupsettings, ownerId);
 
     // Add the owner as a member and set them as the owner
-    const addMemberResult = await groupDB.addMember(createdGroup[0].id, ownerId, true);
-    if (addMemberResult.memberExists) {
+    console.log('Status being passed:', true);
+    const addMemberResult = await groupDB.addMember(createdGroup.id, ownerId, true);
+   /* if (addMemberResult.memberExists) {
       // Handle the case where the user is already a member
       // You can decide whether to return an error or handle it differently
       await client.query('ROLLBACK');
       return res.status(400).json({ message: 'User is already a member of the group' });
-    }
+    }*/
 
     // Commit the transaction
     await client.query('COMMIT');
 
     // Fetch the updated list of groups
     const updatedGroups = await groupDB.getAllGroups();
-
-    // Console log the created group's information.
-    console.log('Created Group Information:', createdGroup[0]);
 
     // Send a success response with the created group and the updated list of groups
     res.status(201).json({ message: 'Group created successfully', group: createdGroup[0], groups: updatedGroups });
@@ -124,6 +116,8 @@ router.post('/create', async (req, res) => {
     }
   }
 });
+
+
 
 // Endpoint to get all groups.
 router.get('/all/:id?', async (req, res) => {
@@ -198,7 +192,6 @@ router.put('/update/:id', /*checkLoggedIn,*/ checkGroupOwnership, async (req, re
 // Endpoint to delete a group by ID
 router.delete('/delete/:Id', async (req, res) => {
   try {
-    console.log('Received DELETE request to /groups/delete');
     const groupId = req.params.Id;
 
     // Database logic

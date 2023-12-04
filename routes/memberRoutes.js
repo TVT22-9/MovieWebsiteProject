@@ -23,7 +23,7 @@ router.get('/test', (req, res) => {
   });
 
 
-// Function to add a new member to a group, if the member already exists this rollsback the transaction
+/*// Function to add a new member to a group, if the member already exists this rollsback the transaction
 async function addMember(groupId, userId, acceptedPool) {
     let client;
     try {
@@ -37,7 +37,6 @@ async function addMember(groupId, userId, acceptedPool) {
       const memberExists = await memberExistsById(groupId, memberId);
   
       if (memberExists) {
-        console.log(`Member with userId ${userId} already exists in the group.`);
         await client.query('ROLLBACK');
         return { memberExists: true };
       } else {
@@ -55,7 +54,7 @@ async function addMember(groupId, userId, acceptedPool) {
         client.release();
       }
     }
-  }
+  }*/
 
 // Endpoint to add a new member to a group
 router.post('/:groupId/add-member', async (req, res) => {
@@ -65,6 +64,23 @@ router.post('/:groupId/add-member', async (req, res) => {
 
     // Add the new member to the group with acceptedPool set to 'FALSE'
     const addedMember = await groupDB.addMember(groupId, userId, 'FALSE');
+
+    // Send a success response with the added member
+    res.status(201).json({ message: 'Member added successfully', member: addedMember });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// Endpoint to add a new member to a group
+router.post('/:groupId/add-owner-as-member', async (req, res) => {
+  try {
+    const groupId = req.params.groupId;
+    const userId = req.body.userId;
+
+    // Add the new member to the group with acceptedPool set to 'TRUE'
+    const addedMember = await groupDB.addMember(groupId, userId, 'TRUE');
 
     // Send a success response with the added member
     res.status(201).json({ message: 'Member added successfully', member: addedMember });
@@ -139,7 +155,6 @@ router.get('/:groupId/pending-members-with-usernames', async (req, res) => {
 // Endpoint to delete a member from a group
 router.delete('/:groupId/members/:memberId', /*checkLoggedIn, checkGroupOwnership,*/ async (req, res) => {
   try {
-    console.log('Received DELETE request to /groups/:groupId/members/:memberId');
     const groupId = req.params.groupId;
     const memberId = req.params.memberId;
 

@@ -4,6 +4,18 @@ import axios from 'axios';
 import { jwtToken } from "./Signals";
 import {  userData } from "./Signals";
 
+export const handleDeleteGroup = async (groupId, setGroups) => {
+  try {
+    const id = parseInt(groupId, 10);
+    //const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
+
+    // Update the groups state by removing the deleted group
+    setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
+
+  } catch (error) {
+  }
+};
+
 const GroupForm = () => {
   const [groups, setGroups] = useState([]);
   const [groupData, setGroupData] = useState({
@@ -18,24 +30,25 @@ const GroupForm = () => {
     // Fetch all groups when the component first loads
     axios.get('http://localhost:3001/groups/all')
     .then(response => {
-      console.log('Groups received:', response.data.groups);
       setGroups(response.data.groups);
     }).catch(error => console.error('Error fetching groups:', error));
-  }, []);
+    }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setGroupData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  
+
   const handleCreateGroup = async () => {
     console.log('Group Data:', groupData);
     console.log('User Data:', userData.value);
     console.log('User Data:', userData.value.userid);
-    console.log('Current Token:', jwtToken.value);
+  
     try {
       const ownerId = userData.value.userid;
-      
+  
       // Send a POST request to create a new group
       const response = await axios.post(
         'http://localhost:3001/groups/create',
@@ -44,6 +57,7 @@ const GroupForm = () => {
           description: groupData.description,
           groupsettings: JSON.stringify(groupData.groupsettings),
           idowner: ownerId,
+          groupid: groupData.groupId
         },
         {
           headers: { Authorization: `Bearer ${jwtToken.value}` },
@@ -53,29 +67,37 @@ const GroupForm = () => {
       // Check if the response contains a group property
       if (response.data.group) {
         console.log('Group created successfully:', response.data.group);
-        
-        // Add the owner as a member of the newly created group
-        const addMemberResponse = await axios.post(
-          `http://localhost:3001/groups/${response.data.group.idgroup}/add`,
-          {
-            userId: ownerId,
-            acceptedPool: true,
-          },
-          {
-            headers: { Authorization: `Bearer ${jwtToken.value}` },
-          }
-        );
   
-        if (addMemberResponse.data.memberExists) {
-          console.log('Owner is already a member of the group.');
+        // Extract the newly created group ID from the server response
+        const createdGroupId = response.data.group.idgroup;
+  
+        // Log the createdGroup variable before calling addMember
+        console.log('Created Group:', response.data.group);
+  
+        // Ensure that createdGroup is an object
+        if (typeof response.data.group === 'object') {
+          // Add the owner as a member of the newly created group
+          const addMemberResult = await axios.post(
+            `http://localhost:3001/members/${createdGroupId}/add-owner-as-member`,
+            {
+              userId: ownerId,
+              status: true,
+            },
+            {
+              headers: { Authorization: `Bearer ${jwtToken.value}` },
+            }
+          );
+  
+          console.log('Add Member Result:', addMemberResult);
+  
+          // Refetch the updated list of groups
+          const updatedGroupsResponse = await axios.get('http://localhost:3001/groups/all');
+          setGroups(updatedGroupsResponse.data.groups);
         } else {
-          console.log('Owner added as a member of the group:', addMemberResponse.data.member);
+          console.error('Error: createdGroup is not an object.');
         }
-  
-        // Update the groups state with the newly created group
-        setGroups(response.data.groups);
       } else {
-        console.log('Group created successfully, but no group data received in response.');
+        // Handle the case when group creation is not successful
       }
     } catch (error) {
       console.error('Error creating group:', error.response || error);
@@ -90,20 +112,18 @@ const GroupForm = () => {
       // Update the groups state by removing the deleted group
       setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
 
-      console.log('Group deleted successfully:', response.data.result);
     } catch (error) {
       console.error('Error deleting group:', error);
     }
   };
 
+
   const handleSendJoinRequest = async (groupId) => {
     try {
-      console.log('Sending join request for groupId:', groupId); // Add this line for debugging
       const response = await axios.post(`http://localhost:3001/groups/${groupId}/add-member`, {
         userId: userData.value.userid,
         acceptedPool: false,
       });
-      console.log('Join request sent successfully:', response.data);
     } catch (error) {
       console.error('Error sending join request:', error.response || error);
     }

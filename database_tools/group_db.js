@@ -26,11 +26,11 @@ const sql = {
 
 // Function to add a new group to the database
 async function addGroup(groupname, groupdescription, groupsettings, idowner) {
-    console.log('Adding group with the following details:');
-    console.log('groupname:', groupname);
-    console.log('groupdescription:', groupdescription);
-    console.log('groupsettings:', groupsettings);
-    console.log('idowner:', idowner);
+   // console.log('Adding group with the following details:');
+    //console.log('groupname:', groupname);
+    //console.log('groupdescription:', groupdescription);
+    //console.log('groupsettings:', groupsettings);
+    //console.log('idowner:', idowner);
     
        try {
           const result = await pgPool.query(sql.INSERT_GROUP, [groupname, groupdescription, groupsettings, idowner]);
@@ -87,6 +87,7 @@ async function groupExistsById(idgroup) {
 
 
 async function addMember(idgroup, iduser, status){
+  console.log('Adding member:', idgroup, iduser, status);
   await pgPool.query(sql.INSERT_INTO, [idgroup, iduser, status]);
 }
 
@@ -96,16 +97,13 @@ async function sendJoinRequest(groupId, userId, acceptedPool) {
     const joinRequestExists = await checkJoinRequestExists(groupId, userId);
 
     if (joinRequestExists) {
-      console.log(`User with ID ${userId} has already sent a join request to group ${groupId}.`);
       return { joinRequestExists: true };
     }
 
     // Add the user as a member with acceptedPool set to false
-    console.log(`Adding user with ID ${userId} to group ${groupId} with acceptedPool set to false.`);
     const addMemberResult = await addMember(groupId, userId, acceptedPool);
 
     if (addMemberResult.memberExists) {
-      console.log(`User with ID ${userId} is already a member of the group.`);
     }
 
     // Notify the other component about the join request
@@ -117,6 +115,7 @@ async function sendJoinRequest(groupId, userId, acceptedPool) {
     throw error;
   }
 }
+
 
 
 // Function to check if a join request exists for a user and group
@@ -182,7 +181,6 @@ async function getMembers(groupId) {
     const values = [groupId, true];
 
     const { rows } = await pgPool.query(query, values);
-    console.log('Retrieved Members from DB:', rows); // Add this line for debugging
     return rows;
   } catch (error) {
     throw error;
@@ -212,6 +210,7 @@ module.exports = {
   groupExists,
   groupExistsById,
   sendJoinRequest,
+  addMember,
   memberExists,
   updateMemberStatus,
   getMembers,
