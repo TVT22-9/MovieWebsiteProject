@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NewsComponent from './NewsComponent';
 import { extractNewsTitles } from './NewsComponent';
+import MovieCard from './MovieCardComponent';
 
 function OtherComponent() {
     const [newsData, setNewsData] = useState(null);
@@ -24,7 +25,7 @@ function OtherComponent() {
             {newsData ? (
                 <pre>
                     <NewsComponent filterTitle= {newsData} />
-
+                    <MovieCard key={1} id={111} />
                 </pre>
             ) : (
                 <p>Loading data...</p>
