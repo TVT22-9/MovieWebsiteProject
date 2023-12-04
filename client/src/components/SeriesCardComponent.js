@@ -26,22 +26,36 @@ const SeriesCard = ({ id }) => {
     }, []);
 
     return (
-        <div className="series-card">
+        <div>
             {data ? (
                 <pre>
-                    <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.name} />            
-                    <h2>{data.name}</h2>
-                    <p>Describtion: {data.overview}</p>
-                    <p>{data.id}</p>
-                    <p>Seasons: {data.number_of_seasons}</p>
-                    <Link to={'/series/' + data.id} ><button>Go to series page</button></Link>
-
-                    {jwtToken.value ? (
-                        AddReviewWindow(null, data.id)
-                    ) : (
-                        <p>Login to add a review</p>
-                    )}
+                    <div className="MovieCard">
                     
+                        <div className='CardImg'>
+                            {data.poster_path ? (
+                                <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.name} />
+                            ) : (
+                                <img src={process.env.PUBLIC_URL + '/missingImg.jpg'} alt={data.name} />
+                            )}
+                        </div>
+                        <div className='CardDesc'>
+                            <h2>{data.name}</h2>
+                            <p>Describtion: {data.overview}</p>
+                            <p>Genres: {data.genres.map(genre => <span key={genre.id}>{genre.name}, </span>)}</p>
+                            <p>Status: {data.status}</p>
+                            <p>Episodes: {data.number_of_episodes}</p>
+                            <p>Seasons: {data.number_of_seasons}</p>
+                        </div>
+                        <div className='CardButtons'>
+                            <Link to={'/series/' + data.id} ><button>Go to series page</button></Link>
+
+                            {jwtToken.value ? (
+                                AddReviewWindow(null, data.id)
+                            ) : (
+                                <p>Login to add a review</p>
+                            )}
+                        </div>
+                    </div>
                 </pre>
             ) : (
                 <p>Loading data...</p>
