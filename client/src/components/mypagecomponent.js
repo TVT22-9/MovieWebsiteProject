@@ -72,7 +72,7 @@ function MyPage() {
             fetchUserSettings(); // Trigger a refetch after updating settings
           }} />
           )}
-          {showReviews && <PlaceholderReviews />}
+          {showReviews && <PlaceholderReviews username={username} />}
           {showMovies && <PlaceholderMovie />}
         </div>
       )}
@@ -87,7 +87,7 @@ function PlaceholderReviews({ username }) {
   return (
     <div>
       
-      <h1>My review</h1>
+      <h1>My reviews</h1>
       {ReviewsList(username, null, null)}
     </div>
   );
