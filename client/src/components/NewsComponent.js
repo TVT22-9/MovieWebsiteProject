@@ -34,6 +34,8 @@ function NewsComponent({ filterTitle }) {
                     } else {
                         const newsArticles = result.News.NewsArticle;
                         setNewsData(newsArticles);
+                        console.log(newsArticles);
+
                     }
                 });
             } catch (error) {
@@ -55,7 +57,9 @@ function NewsComponent({ filterTitle }) {
         <div>
             {firstArticle ? (
                 <pre>
-                    <div key={0}>
+
+                    <div className='NewsArticle' key={0}>
+
                         <h2>{filteredNewsData[0].Title[0]}</h2>
                         <p>{filteredNewsData[0].HTMLLead[0]}</p>
                         <a href={filteredNewsData[0].ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>

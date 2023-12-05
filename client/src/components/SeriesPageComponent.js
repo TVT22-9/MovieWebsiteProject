@@ -24,39 +24,66 @@ const SeriesPageComponent = () => {
         };
         fetchData();
     }, []);
-    
+    function PlaceholderReviews({ id }) {
+        return (
+            <div>
+                {ReviewsList(null, id, null)}
+            </div>
+        );
+    }
+
     return (
         <div>
-            {error ? (
+                        {error ? (
                 <p>{error}</p>
             ) : data ? (
                 <pre>
-                    <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.name} />
-                    <h2>{data.name}</h2>
-                    <p>Description: {data.overview}</p>
-                    <p>{data.id}</p>
-                    <p>Adult: {`${data.adult}`}</p>
-                    <p>Episode lenght: {data.episode_run_time} Minutes</p>
-                    <p>Episodes: {data.number_of_episodes}</p>
-                    <p>Seasons: {data.number_of_seasons}</p>
-                    <p>Status: {data.status}</p>
+                    <div className='Container'>
+                        <div className='Img'>
+                            {data.poster_path ? (
+                                <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.name} />
+                            ) : (
+                                <img src={process.env.PUBLIC_URL + '/missingImg.jpg'} alt={data.name} />
+                            )}
+                        </div>
+                        <div className='Desc'>
+                            <h1>{data.name}</h1>
+                            <h2>Description:</h2>
+                            <p>{data.overview}</p>
+                        </div>
+                        <div className='Data'>
+                            <p>Adult: {`${data.adult}`}</p>
+                            {data.episode_run_time ? (
+                                <p>Episode lenght: {data.episode_run_time} min</p>
+                            ) : (
+                                <p>Episode lenght unavailable</p>
+                            )}
+                            <p>Episodes: {data.number_of_episodes}</p>
+                            <p>Seasons: {data.number_of_seasons}</p>
+                            <p>Status: {data.status}</p>
 
-                    <p>Genres: {data.genres.map(genre => <span key={genre.id}>{genre.name}, </span>)}</p>
+                            <p>Genres: {data.genres.map(genre => <span key={genre.id}>{genre.name}, </span>)}</p>
 
-                    <p>Vote average: {data.vote_average}</p>
-                    <p>Vote count: {data.vote_count}</p>
+                            <p>Vote average: {data.vote_average}</p>
+                            <p>Vote count: {data.vote_count}</p>
+                        </div>
+                        <div className='Reviews'>
+                            <h2>Reviews</h2>
+                            
+                            {jwtToken.value ? (
+                                AddReviewWindow(data.id, null)
+                            ) : (
+                                <p>Login to add a review</p>
+                            )}
+                            <PlaceholderReviews id= {data.id} />
 
-                    {jwtToken.value ? (
-                        AddReviewWindow(null, data.id)
-                    ) : (
-                        <p>Login to add a review</p>
-                    )}
+                        </div>
+                    </div>
                 </pre>
             ) : (
                 <p>Loading data...</p>
             )}
-            <h2>Reviews</h2>
-            {ReviewsList(null, null, id)}
+
         </div>
       );
   
