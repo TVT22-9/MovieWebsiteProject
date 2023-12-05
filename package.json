@@ -4,7 +4,7 @@
   "description": "Huhroo = Huhta Roope<br>\r JanTPau = Janne Pauna<br>\r JuusoKorpinen = Juuso Korpinen<br>\r hunterpete2002 = Petri Kilpeläinen",
   "main": "index.js",
   "scripts": {
-    "test": "mocha backendtests/movieListTest.js"
+    "test": "mocha backendtests/movieListTest.js backendtests/reviewsTest.js"
   },
   "keywords": [],
   "author": "",

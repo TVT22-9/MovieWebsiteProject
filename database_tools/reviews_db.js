@@ -3,11 +3,11 @@ const pgPool = require('./connection.js');
 /* All the SQL queries for the reviews table */
 const sql = {
     GET_ALL_REVIEWS: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser ORDER BY reviews.reviewtimestamp DESC',
-    GET_REVIEW_BY_USER_ID: 'SELECT review.idreview, review.iduser, review.idmovie, review.idseries, review.reviewcontent, review.score, TO_CHAR(review.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE reviews.iduser = $1 ORDER BY reviews.reviewtimestamp DESC',
-    GET_REVIEW_BY_USERNAME: 'SELECT review.idreview, review.iduser, review.idmovie, review.idseries, review.reviewcontent, review.score, TO_CHAR(review.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE webusers.username = $1 ORDER BY reviews.reviewtimestamp DESC',
-    GET_REVIEW_BY_MOVIE_ID: 'SELECT * FROM reviews WHERE idmovie = $1',
-    GET_REVIEW_BY_SERIES_ID: 'SELECT * FROM reviews WHERE idseries = $1',
-    GET_REVIEW_BY_REVIEW_ID: 'SELECT * FROM reviews WHERE idreview = $1',
+    GET_REVIEW_BY_USER_ID: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE reviews.iduser = $1 ORDER BY reviews.reviewtimestamp DESC',
+    GET_REVIEW_BY_USERNAME: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE webusers.username = $1 ORDER BY reviews.reviewtimestamp DESC',
+    GET_REVIEW_BY_MOVIE_ID: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE reviews.idmovie = $1 ORDER BY reviews.reviewtimestamp DESC',
+    GET_REVIEW_BY_SERIES_ID: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE reviews.idseries = $1 ORDER BY reviews.reviewtimestamp DESC',
+    GET_REVIEW_BY_REVIEW_ID: 'SELECT reviews.idreview, reviews.iduser, reviews.idmovie, reviews.idseries, reviews.reviewcontent, reviews.score, TO_CHAR(reviews.reviewtimestamp, \'DD.MM.YYYY HH24.MI\') AS reviewtimestamp, webusers.username FROM reviews INNER JOIN webusers ON reviews.iduser = webusers.iduser WHERE reviews.idreview = $1 ORDER BY reviews.reviewtimestamp DESC',
     ADD_REVIEW: 'call addreview($1, $2, $3, $4, $5)',
     DELETE_REVIEW_BY_REVIEW_ID: 'DELETE FROM reviews WHERE idreview = $1',
     DELETE_REVIEW_BY_USER_ID: 'DELETE FROM reviews WHERE iduser = $1',
@@ -31,7 +31,7 @@ async function GetReviewByUserId(iduser) {
 
 /* Get all reviews by a specific user using username */
 async function GetReviewByUsername(username) {
-    let result = await pgPool.query(sql.GET_REVIEW_BY_USER_ID, [username]);
+    let result = await pgPool.query(sql.GET_REVIEW_BY_USERNAME, [username]);
     return result.rowCount > 0 ? result.rows : null;
 }
 
@@ -54,14 +54,14 @@ async function GetReviewByReviewId(idreview) {
 }
 
 /* Adds a review to the database. Needs the following parameters:
-    iduser: the id of the user who wrote the review
+    username: the username of the user making the review
     idmovie: the id of the movie being reviewed
     idseries: the id of the series being reviewed
     reviewcontent: the review itself
     score: a score between 1 and 5
 */
 async function AddReview(username, idmovie, idseries, reviewcontent, score) {
-    console.log(username, idmovie, idseries, reviewcontent, score);
+    //console.log(username, idmovie, idseries, reviewcontent, score);
     let result = await pgPool.query(sql.ADD_REVIEW, [username, idmovie, idseries, reviewcontent, score]);
     return result.rowCount > 0 ? result.rows : null;
 }
@@ -98,9 +98,8 @@ async function DeleteAllReviews() {
 
 /* Used to edit the content and score of a review */
 async function UpdateReview(reviewcontent, score, idreview) {
-    console.log(reviewcontent, score, idreview);
+    //console.log(reviewcontent, score, idreview);
     let result = await pgPool.query(sql.UPDATE_REVIEW_BY_REVIEW_ID, [reviewcontent, score, idreview]);
-    console.log(result);
     return result.rowCount > 0 ? result.rows : null;
 }
 

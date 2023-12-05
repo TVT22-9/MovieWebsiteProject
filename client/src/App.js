@@ -10,7 +10,7 @@ import { jwtToken, userData } from "./components/Signals";
 import Testi from './components/testi';
 import MoviePageComponent from './components/MoviePageComponent';
 import SeriesPageComponent from './components/SeriesPageComponent';
-import NewsComponent from './components/NewsComponent';
+import TestNewsComponent from './components/TestNewsComponent'
 
 
 
@@ -57,7 +57,7 @@ function App() {
           <Route path="/testi/:id" element={<Testi />} /> {/*Testi esimerkki poistan myöhemmin -roope */}
           <Route path="/movie/:id" element={<MoviePageComponent />} /> 
           <Route path="/series/:id" element={<SeriesPageComponent />} /> 
-          <Route path="/news" element={<NewsComponent />} /> 
+          <Route path="/news" element={<TestNewsComponent />} /> 
 
         </Routes>
       </div>

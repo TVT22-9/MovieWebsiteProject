@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { AddReviewWindow } from './reviewsComponent';
+import { AddReviewWindow, ReviewsList } from './reviewsComponent';
 import { jwtToken } from './Signals';
+import '../moviePageCss.css';
 
 const MoviePageComponent = () => {
     const { id } = useParams();
@@ -24,33 +25,59 @@ const MoviePageComponent = () => {
         };
         fetchData();
     }, []);
-    
+    function PlaceholderReviews({ id }) {
+        return (
+            <div>
+                {ReviewsList(null, id, null)}
+            </div>
+        );
+    }
+      
+    // {ReviewsList(null, id, null)} Antaa erroreita.
+
     return (
         <div>
             {error ? (
                 <p>{error}</p>
             ) : data ? (
                 <pre>
-                    <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.title} />
-                    <h2>{data.title}</h2>
-                    <p>Description: {data.overview}</p>
-                    <p>{data.id}</p>
-                    <p>Adult: {`${data.adult}`}</p>
-                    <p>Runtime:{data.runtime}</p>
-                    <p>Genres: {data.genres.map(genre => <span key={genre.id}>{genre.name}, </span>)}</p>
+                    <div className='Container'>
+                        <div className='Img'>
+                            {data.poster_path ? (
+                                <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.title} />
+                            ) : (
+                                <img src={process.env.PUBLIC_URL + '/missingImg.jpg'} alt={data.title} />
+                            )}
+                        </div>
+                        <div className='Desc'>
+                            <h1>{data.title}</h1>
+                            <h2>Description:</h2>
+                            <p>{data.overview}</p>
+                        </div>
+                        <div className='Data'>
+                            <p>Adult: {`${data.adult}`}</p>
+                            <p>Runtime: {data.runtime} min</p>
+                            <p>Genres: {data.genres.map(genre => <span key={genre.id}>{genre.name}, </span>)}</p>
 
-                    <p>Vote average: {data.vote_average}</p>
-                    <p>Vote count: {data.vote_count}</p>
-
-                    {jwtToken.value ? (
-                        AddReviewWindow(data.id, null)
-                    ) : (
-                        <p>Login to add a review</p>
-                    )}
+                            <p>Vote average: {data.vote_average}</p>
+                            <p>Vote count: {data.vote_count}</p>
+                        </div>
+                        <div className='Reviews'>
+                            <h2>Reviews</h2>
+                            
+                            {jwtToken.value ? (
+                                AddReviewWindow(data.id, null)
+                            ) : (
+                                <p>Login to add a review</p>
+                            )}
+                            <PlaceholderReviews id= {data.id} />
+                        </div>
+                    </div>
                 </pre>
             ) : (
                 <p>Loading data...</p>
             )}
+
         </div>
       );
   
