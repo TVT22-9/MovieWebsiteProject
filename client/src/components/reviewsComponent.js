@@ -98,6 +98,8 @@ export function ReviewsList(uname, idm, ids) {
                 return reviewsCopy.sort((a, b) => b.score - a.score);
             case 'title':
                 return reviewsCopy.sort((a, b) => titles[a.idmovie || a.idseries].localeCompare(titles[b.idmovie || b.idseries]));
+            default:
+                return reviewsCopy;
         }
     }
 
@@ -111,7 +113,7 @@ export function ReviewsList(uname, idm, ids) {
         const sortedReviews = sortReviews(reviews);
 
         return (
-            <div className='reviews-component'>
+            <div className='reviews-container'>
                 <div className="reviews-sort">
                     <label>Sort By:</label>
                     <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className='select'>
@@ -143,7 +145,7 @@ export function ReviewsList(uname, idm, ids) {
                                                     } else {
                                                         alert("Something went wrong deleting the review");
                                                     }
-                                                }} className="reviews-button-delete">Delete Review</button>
+                                                }} className="reviews-button">Delete Review</button>
 
                                                 <Popup trigger={<button className="reviews-button"> Update Review </button>} modal>
                                                     {close => (

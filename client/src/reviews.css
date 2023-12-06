@@ -1,99 +1,43 @@
-.reviews-sort {
-    label {
-        display: inline-block;
-        width: 100px;
-        text-align: center;
-    }
-
-    
-    background-color: cyan;/* Change later */
-    padding: 5px;
-}
-
-.reviews-list {
-    padding: 10px;
-    background-color: yellow;/* Change later */
-}
-
-a:link {
-    text-decoration: none;
-    color: black;/* Change later */
-}
-
-a:visited {
-    text-decoration: none;
-    color: black;/* Change later */
-}
-
-a:hover {
-    text-decoration:underline;
-    color: blue
-}
+/* CSS for reviews */
 .reviews-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     border: 1px solid black;
     border-radius: 5px;
-    width: auto;
-    max-width: 100%;
     height: auto;
-    overflow-wrap: break-word;
-    margin: 10px;
-    background-color: lime;/* Change later */
+    word-break: break-word;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: #656775;
 }
 
-.reviews-actions {
-    button {
-        margin-right: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
-        background-color: lightblue;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .reviews-button-delete:hover {
-        background-color: red;/* Change later */
-    }
-
-    .reviews-button:hover {
-        background-color: cyan;/* Change later */
-    }
-}
-
-@keyframes popup {/* Animation for popup */
-
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -60%);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
+.reviews-item ul { /* Removes default padding from ul */
+    padding-left: 0;
 }
 
 .reviews-popup {
-    animation: popup 0.5s ease-out forwards;
-    position: fixed;
-    width: 50%;
-    height: 30%;
-    transform: translate(-50%, -50%);/* Centers the popup */
-    background-color: cyan;/* Change later */
-    border-radius: 10px;
-    z-index: 1000;
     display: grid;
     grid-template-columns: 1fr 1fr;/* 2 columns */
     grid-template-rows: 1fr 1fr 1fr;/* 3 rows */
-    grid-auto-rows: 100px;
+    border: 2px solid black;
+    position: fixed;
+    width: 50%;
+    height: 30%;
+    transform: translate(-50%, -50%); /* Centers popup */
+    animation: popup 0.5s ease-out forwards;
+    border-radius: 10px;
+    z-index: 1000; /* Makes sure popup is on top of everything else */
     padding: 10px;
+    background-color: #5A5C69;
+}
 
-    h2 {
-        grid-area: 1 / 1 / 2 / 3;
-        text-align: center;
-        justify-self: center;
-    }
-
+.reviews-popup h2 {
+    grid-area: 1 / 1 / 2 / 3;
+    text-align: center;
+    justify-self: center;
+    color: white;
 }
 
 .reviewcontent {
@@ -102,43 +46,117 @@ a:hover {
     resize: none;
     width: 175%;
     height: auto;
+    word-wrap: break-word;
     padding-left: 10px;
     margin-right: 10px;
-    word-wrap: break-word;
 }
 
 .reviewcontent:focus {
     outline: none;
 }
 
-.select {
+.reviews-popup .select {
     grid-area: 2 / 2 / 3 / 3;
     text-align: center;
     justify-self: right;
     width: 20%;
     margin-right: 10px;
     margin-bottom: 1px;
-    padding: 10px;
-    background-color: lightblue;
-    border: none;
-    border-radius: 5px;
-    transition: 0.3s;
-    cursor: pointer;
 }
 
-.reviews-button {
+.reviews-popup .reviews-button {
     grid-area: 3 / 1 / 4 / 3;
-    grid-column-start: span 2;
     text-align: center;
     padding: 10px;
     margin-right: 10px;
-    background-color: lightblue;
-    border: none;
+    font-size: large;
+}
+
+.reviews-button {
+    margin-right: 10px;
+    padding: 10px;
     border-radius: 5px;
+    border: none;
     transition: 0.3s;
     cursor: pointer;
+    color: #CACEEB;
+    background-color: #888B9E;
+}
+
+.select {
+    text-align: center;
+    width: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: #CACEEB;
+    background-color: #888B9E;
+}
+
+.reviews-sort {
+    margin-top: 10px;
+    padding: 10px;
+    color: #CACEEB;
+    background-color: #282923;
+}
+
+.reviews-sort label {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.reviews-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;/* 3 columns */
+    grid-gap: 10px;
+    padding: 10px;
+    background-color: #282923;
+}
+
+
+a:link, a:visited {
+    text-decoration: none;
+    color: azure;
+}
+
+a:hover {
+    text-decoration:underline;
+    color: azure;
 }
 
 .reviews-button:hover {
-    background-color: green;/* Change later */
+    background-color: #A1A5BB;
+}
+
+
+/* Responsive layout */
+@media screen and (max-width: 1000px) { /* For tablets */
+    .reviews-list {
+        grid-template-columns: 1fr 1fr;/* 2 columns */
+    }
+    .reviews-popup {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 600px) { /* For phones */
+    .reviews-list {
+        grid-template-columns: 1fr;/* 1 column */
+    }
+    .reviews-popup {
+        width: 90%;
+    }
+}
+
+/* Animations */
+@keyframes popup {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }

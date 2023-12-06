@@ -1,43 +1,39 @@
 /*some basics*/
 body{
     background-color: #282923;
-    color:azure;
+    color: azure;
     min-height: 95vh; 
 }
 
-.app nav {
+.nav {
     background-color: #333;
     min-height: 33px; 
     font-size: 22px;
   }
   
-.app ul {
+.nav ul {
     list-style-type: none; 
     padding: 1; 
-    display: flex; 
+    display: flex;
   }
   
-.app  li {
+.nav li {
     margin-right: 10px; 
   }
   
-
-.app  a {
+.nav a {
     text-decoration:underline; 
     color: white; 
   }
   
-  
-.app  a:hover {
+.nav a:hover {
     font-weight: bold; 
   }
 
   @media screen and (max-width: 600px) {
-    .app ul {
+    .nav ul {
       list-style-type: none; 
       padding: 1; 
       display: block;
     }
-
-
 }
