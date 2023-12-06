@@ -176,51 +176,53 @@ const MovieListComponent = () => {
             <button onClick={() => setListStateFunc(1)} disabled={listState === 1}>See movies list</button>
             <button onClick={() => setListStateFunc(2)} disabled={listState === 2}>See tv shows list</button>
             <br />
+            <div className='searchDiv'>
+                <input
+                    className='advancedSearch'
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                />
+                                <Popup trigger={<button className='advancedSearchButton'> Advanced Search </button>} modal>
+                    <div style={{ backgroundColor: 'gray', padding: '20px' }}>
+                        <h2>Advanced Search</h2>
+                        <label>Search adult movies? </label>
+                        <select name="adultBool" defaultValue={adultSearch}>
+                            <option value='true'>Yes</option>
+                            <option value='false'>No</option>
+                        </select>
+                        <select name="sortBySelect" defaultValue={sortBy}>
+                            <option value='popularity.desc'>Popular</option>
+                            <option value='vote_count.desc'>Rating count</option>
+                            <option value='primary_release_date.desc'>Newest</option>
+                        </select>
 
-            <Popup trigger={<button> Advanced Search </button>} modal>
-                <div style={{ backgroundColor: 'gray', padding: '20px' }}>
-                    <h2>Advanced Search</h2>
-                    <label>Search adult movies? </label>
-                    <select name="adultBool" defaultValue={adultSearch}>
-                        <option value='true'>Yes</option>
-                        <option value='false'>No</option>
-                    </select>
-                    <select name="sortBySelect" defaultValue={sortBy}>
-                        <option value='popularity.desc'>Popular</option>
-                        <option value='vote_count.desc'>Rating count</option>
-                        <option value='primary_release_date.desc'>Newest</option>
-                    </select>
+                        <label>Year: </label>
+                        <input type="" name="year" defaultValue={year}/>
+                        <br></br>
+                        <label>Included Genres: </label>
+                        <SelectableList
+                            items={listState === 1 ? genres : tvGenres}
+                            selectedItems={includedGenres}
+                            onSelect={(selectedItems) => setIncludedGenres(selectedItems)}
+                        />
 
-                    <label>Year: </label>
-                    <input type="" name="year" defaultValue={year}/>
-                    <br></br>
-                    <label>Included Genres: </label>
-                    <SelectableList
-                        items={listState === 1 ? genres : tvGenres}
-                        selectedItems={includedGenres}
-                        onSelect={(selectedItems) => setIncludedGenres(selectedItems)}
-                    />
+                        <label>Excluded Genres: </label>
+                        <SelectableList
+                            items={listState === 1 ? genres : tvGenres}
+                            selectedItems={excludedGenres}
+                            onSelect={(selectedItems) => setExcludedGenres(selectedItems)}
+                        />
 
-                    <label>Excluded Genres: </label>
-                    <SelectableList
-                        items={listState === 1 ? genres : tvGenres}
-                        selectedItems={excludedGenres}
-                        onSelect={(selectedItems) => setExcludedGenres(selectedItems)}
-                    />
+                        <button onClick={async () => {
+                            handleAdvancedSearch();
+        
+                        }}>Search</button>
+                    </div>
+                </Popup>
 
-                    <button onClick={async () => {
-                        handleAdvancedSearch();
-    
-                    }}>Search</button>
-                </div>
-            </Popup>
-            <input
-                className='advancedSearch'
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-            />
+            </div>
             <div className="movie-grid">
                 { listState === 1 ? data?.map(movie => <MovieCard key={movie.id} id={movie.id} />) : data?.map(series => <SeriesCard key={series.id} id={series.id} />)} 
             </div>
