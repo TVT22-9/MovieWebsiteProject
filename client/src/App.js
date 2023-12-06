@@ -9,8 +9,9 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { jwtToken, userData } from "./components/Signals";
 import MoviePageComponent from './components/MoviePageComponent';
 import SeriesPageComponent from './components/SeriesPageComponent';
-import TestNewsComponent from './components/TestNewsComponent';
+import NewsSearchComponent from './components/NewsSearchComponent'
 import  "./rhcss.css";
+import './moviePageCss.css';
 
 
 
@@ -46,6 +47,9 @@ function App() {
             <li>
               <Link to="/group-form">Groups</Link>
             </li>
+            <li>
+              <Link to="/news">News</Link>
+            </li>
             {jwtToken.value ? (
             <li>
                 <Link to={`/mypage/${userData.value?.private}`}>{`${userData.value?.private}'s MyPage`}</Link>
@@ -64,7 +68,7 @@ function App() {
           <Route path="/mypage/:username" element={<MyPage />} />
           <Route path="/movie/:id" element={<MoviePageComponent />} /> 
           <Route path="/series/:id" element={<SeriesPageComponent />} /> 
-          <Route path="/news" element={<TestNewsComponent />} /> 
+          <Route path="/news" element={<NewsSearchComponent />} /> 
 
         </Routes>
         <footer>

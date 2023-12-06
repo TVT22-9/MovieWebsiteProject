@@ -1,35 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import NewsComponent from './NewsComponent';
-import { extractNewsTitles } from './NewsComponent';
-import MovieCard from './MovieCardComponent';
+import { extractNewsTitles, GetAllNews } from './NewsComponent';
 
 function OtherComponent() {
-    const [newsData, setNewsData] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
     useEffect(() => {
         const fetchNewsTitles = async () => {
             try {
                 const newsTitles = await extractNewsTitles();
                 console.log('News Titles:', newsTitles);
                 // Do something with the news titles
-                setNewsData("Leffauutiset: Nälkäpeli-ohjaaja katuu Matkijanärhen jakamista kahteen osaan");
             } catch (error) {
                 console.error('Error fetching news titles:', error);
             }
         };
 
         fetchNewsTitles();
-    }, []);
+    }, [searchQuery]);
+
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+    }
+
 
     return (
         <div>
-            {newsData ? (
-                <pre>
-                    <NewsComponent filterTitle= {newsData} />
-                    <MovieCard key={1} id={111} />
-                </pre>
-            ) : (
-                <p>Loading data...</p>
-            )}
+            <input
+                className='advancedSearch'
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+            />
+
+            <NewsComponent filterTitle= {searchQuery} returnMany= {true} />
+
         </div>
     );
 }

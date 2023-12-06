@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AddReviewWindow, ReviewsList } from './reviewsComponent';
 import { jwtToken } from './Signals';
-import '../moviePageCss.css';
 
 const MoviePageComponent = () => {
     const { id } = useParams();
@@ -25,6 +24,8 @@ const MoviePageComponent = () => {
         };
         fetchData();
     }, []);
+    
+    //This is neccessery for some reason when claling ReviewsList.
     function PlaceholderReviews({ id }) {
         return (
             <div>
@@ -33,8 +34,6 @@ const MoviePageComponent = () => {
         );
     }
       
-    // {ReviewsList(null, id, null)} Antaa erroreita.
-
     return (
         <div>
             {error ? (
@@ -79,7 +78,6 @@ const MoviePageComponent = () => {
             )}
 
         </div>
-      );
-  
+    );
 }
 export default MoviePageComponent;
