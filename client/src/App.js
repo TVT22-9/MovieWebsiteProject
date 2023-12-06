@@ -1,6 +1,6 @@
-
 import React from 'react';
 import GroupForm from "./components/groupForm";
+import GroupProfileComponent from './components/GroupProfileComponent';
 import Usercontrol from "./components/userlogincomponent";
 import MovieListComponent from "./components/MovieListComponent";
 import ReviewsComponent from "./components/reviewsComponent";
@@ -58,6 +58,7 @@ function App() {
           <Route path="/" exact element={<Home/>} />
           <Route path="/user-control" element={<Usercontrol/>} />
           <Route path="/group-form" element={<GroupForm/>} />
+          <Route path="/group/:groupId" element={<GroupProfileComponent />} />
           <Route path="/movie-list" element={<MovieListComponent/>} />
           <Route path="/reviews" element={<ReviewsComponent/>} />
           <Route path="/mypage/:username" element={<MyPage />} />
