@@ -9,6 +9,7 @@ function Usercontrol() {
   
   if (jwtToken.value.length === 0) {
     return (
+      <body>
       <div>
         <UserInfo />
         <h2> Sign in</h2>
@@ -16,9 +17,11 @@ function Usercontrol() {
         <h2>Don't have an account? Create one Below!</h2>
         <RegisterForm/>
       </div>
+      </body>
     );
   } else {
     return (
+      <body>
       <div>
         <UserInfo />
         <button onClick={() => {
@@ -28,6 +31,7 @@ function Usercontrol() {
             }}>Logout</button>
         <DeleteAccount/>
       </div>
+      </body>
     );
   }
 }

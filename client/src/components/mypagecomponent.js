@@ -48,6 +48,7 @@ function MyPage() {
   }, [username]);
 
   return (
+    <body>
     <div>
       {siteStatus === 'pending' && <p>Loading...</p>} {/*simple loading message is rendered when site status is pending*/}
       {siteStatus === 'success' && (                  //if the site status is an success it displays the parts that the owner wants people to see based on the owners settings
@@ -76,6 +77,7 @@ function MyPage() {
       {siteStatus === 'failure' && <p>{`User ${username} not found.`}</p>}
       {siteStatus === 'error' && <p>Error occurred while fetching user data.</p>}
     </div>
+    </body>
   );
 }
 
