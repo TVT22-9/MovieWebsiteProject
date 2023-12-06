@@ -24,6 +24,8 @@ const SeriesPageComponent = () => {
         };
         fetchData();
     }, []);
+
+    //This is neccessery for some reason when claling ReviewsList.
     function PlaceholderReviews({ id }) {
         return (
             <div>

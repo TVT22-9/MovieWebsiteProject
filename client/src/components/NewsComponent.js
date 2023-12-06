@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { parseString } from 'xml2js';
+
+//A function that can be used to get a list of the news titles which can then be used to call the main NewsComponent to get all data of certain article.
 export function extractNewsTitles() {
     return new Promise(async (resolve, reject) => {
         try {
@@ -20,7 +22,7 @@ export function extractNewsTitles() {
     });
 }
 
-// Gets news with the title/query. If nothing is given gives all news.
+// Gets news with the title/query. If returnMany is true it searches for all articles with that text while if false will only return the only one.
 function NewsComponent({ filterTitle, returnMany }) {
     const [newsData, setNewsData] = useState(null);
     useEffect(() => { 

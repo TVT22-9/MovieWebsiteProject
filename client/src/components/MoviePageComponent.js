@@ -25,6 +25,8 @@ const MoviePageComponent = () => {
         };
         fetchData();
     }, []);
+    
+    //This is neccessery for some reason when claling ReviewsList.
     function PlaceholderReviews({ id }) {
         return (
             <div>
@@ -33,8 +35,6 @@ const MoviePageComponent = () => {
         );
     }
       
-    // {ReviewsList(null, id, null)} Antaa erroreita.
-
     return (
         <div>
             {error ? (
@@ -79,7 +79,6 @@ const MoviePageComponent = () => {
             )}
 
         </div>
-      );
-  
+    );
 }
 export default MoviePageComponent;
