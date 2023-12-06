@@ -4,7 +4,17 @@ const pgPool = require('../database_tools/connection');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
-const {addUser, getAllUsers,getUserByID,getUserByName, checkUser, updateUserByName,deleteUser,updateUserSettings,getUserSettingByName} = require('../database_tools/user');
+const {
+    addUser,
+    getAllUsers,
+    getUserByID,
+    getUserByName,
+    checkUser,
+    updateUserByName,
+    deleteUser,
+    updateUserSettings,
+    getUserSettingByName
+} = require('../database_tools/user');
 const req = require('express/lib/request');
 
 // Parse application/x-www-form-urlencoded
@@ -20,6 +30,12 @@ router.post('/register' , async (req,res) => {
     const username = req.body.username;
     let password = req.body.password;
 
+    if (!password) {
+        return res.status(400).json({ error: 'Password is required' });
+    }
+    if (!username) {
+        return res.status(400).json({ error: 'Username is required' });
+    }
     password = await bcrypt.hash(password, 10);
 
     try {
@@ -132,9 +148,8 @@ router.get('/private', async (req,res) => {
     try {
         const username = jwt.verify(token, process.env.JWT_SECRET).username;
         const userRows = await getUserByName(username);
-        const userId = userRows[0].iduser; // Assuming the user ID is in the 'id' column
+        const userId = userRows[0].iduser; 
 
-        // Include the user ID in the response JSON
         res.status(200).json({ private: username, userid: userId });
     } catch (error) {
         res.status(403).json({error: 'Access forbidden'});

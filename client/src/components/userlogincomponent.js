@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { jwtToken, userData } from "./Signals";
+
 //primary component that renders both login and reqister components if the sessions storage doesn't have a jwttoken yet
 //if the token is found it instead renders just a greetings text containing the username and a logout button that resets the jwttoken back to none
 //jwttoken is a signal so whenever it gets updated it automatically renders the components that utilize it
 function Usercontrol() {
+  
   if (jwtToken.value.length === 0) {
     return (
+      <body>
       <div>
         <UserInfo />
         <h2> Sign in</h2>
@@ -14,9 +17,11 @@ function Usercontrol() {
         <h2>Don't have an account? Create one Below!</h2>
         <RegisterForm/>
       </div>
+      </body>
     );
   } else {
     return (
+      <body>
       <div>
         <UserInfo />
         <button onClick={() => {
@@ -26,6 +31,7 @@ function Usercontrol() {
             }}>Logout</button>
         <DeleteAccount/>
       </div>
+      </body>
     );
   }
 }
