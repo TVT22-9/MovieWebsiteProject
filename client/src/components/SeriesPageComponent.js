@@ -34,7 +34,7 @@ const SeriesPageComponent = () => {
 
     return (
         <div>
-                        {error ? (
+            {error ? (
                 <p>{error}</p>
             ) : data ? (
                 <pre>

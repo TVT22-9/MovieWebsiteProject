@@ -21,7 +21,7 @@ export function extractNewsTitles() {
 }
 
 // Gets news with the title/query. If nothing is given gives all news.
-function NewsComponent({ filterTitle }) {
+function NewsComponent({ filterTitle, returnMany }) {
     const [newsData, setNewsData] = useState(null);
     useEffect(() => { 
         const fetchData = async () => {
@@ -55,19 +55,40 @@ function NewsComponent({ filterTitle }) {
 
     return (
         <div>
-            {firstArticle ? (
+            {returnMany ? (
                 <pre>
-
-                    <div className='NewsArticle' key={0}>
-
-                        <h2>{filteredNewsData[0].Title[0]}</h2>
-                        <p>{filteredNewsData[0].HTMLLead[0]}</p>
-                        <a href={filteredNewsData[0].ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>
-                        <hr />
-                    </div>
+                    {filteredNewsData ? (
+                        <pre>
+                            {filteredNewsData.map((article, index) => (
+                                <div className='NewsArticle' key={index}>
+                                    <h2>{article.Title[0]}</h2>
+                                    <p>{article.HTMLLead[0]}</p>
+                                    <a href={article.ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>
+                                <hr />
+                            </div>
+                            ))}
+                        </pre>
+                    ) : (
+                        <p>Loading data...</p>
+                    )}
                 </pre>
             ) : (
-                <p>Loading data...</p>
+                <pre>
+                    {firstArticle ? (
+                        <pre>
+
+                            <div className='NewsArticle' key={0}>
+
+                                <h2>{filteredNewsData[0].Title[0]}</h2>
+                                <p>{filteredNewsData[0].HTMLLead[0]}</p>
+                                <a href={filteredNewsData[0].ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>
+                                <hr />
+                            </div>
+                        </pre>
+                    ) : (
+                        <p>Loading data...</p>
+                    )}
+                </pre>
             )}
         </div>
     );

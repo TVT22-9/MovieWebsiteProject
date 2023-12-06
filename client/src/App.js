@@ -10,7 +10,7 @@ import { jwtToken, userData } from "./components/Signals";
 import Testi from './components/testi';
 import MoviePageComponent from './components/MoviePageComponent';
 import SeriesPageComponent from './components/SeriesPageComponent';
-import TestNewsComponent from './components/TestNewsComponent'
+import NewsSearchComponent from './components/NewsSearchComponent'
 
 
 
@@ -39,6 +39,9 @@ function App() {
             <li>
               <Link to="/group-form">Groups</Link>
             </li>
+            <li>
+              <Link to="/news">News</Link>
+            </li>
             {jwtToken.value ? (
             <li>
                 <Link to={`/mypage/${userData.value?.private}`}>{`${userData.value?.private}'s MyPage`}</Link>
@@ -56,7 +59,7 @@ function App() {
           <Route path="/testi/:id" element={<Testi />} /> {/*Testi esimerkki poistan myöhemmin -roope */}
           <Route path="/movie/:id" element={<MoviePageComponent />} /> 
           <Route path="/series/:id" element={<SeriesPageComponent />} /> 
-          <Route path="/news" element={<TestNewsComponent />} /> 
+          <Route path="/news" element={<NewsSearchComponent />} /> 
 
         </Routes>
       </div>
