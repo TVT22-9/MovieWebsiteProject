@@ -9,7 +9,6 @@
       "Img Desc Desc"
       "Data Desc Desc"
       "Data Reviews Reviews"; 
-    background-color: lightslategray;
     font-size: large;
 }
 .Desc { 
@@ -80,6 +79,7 @@ button[disabled]{
     border: solid;
     width: 90%;
     display: block;
+    margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
 }

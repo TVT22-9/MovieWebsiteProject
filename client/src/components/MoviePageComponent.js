@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AddReviewWindow, ReviewsList } from './reviewsComponent';
 import { jwtToken } from './Signals';
-import '../moviePageCss.css';
 
 const MoviePageComponent = () => {
     const { id } = useParams();
