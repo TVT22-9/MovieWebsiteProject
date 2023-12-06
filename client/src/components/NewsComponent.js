@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { parseString } from 'xml2js';
+
+//A function that can be used to get a list of the news titles which can then be used to call the main NewsComponent to get all data of certain article.
 export function extractNewsTitles() {
     return new Promise(async (resolve, reject) => {
         try {
@@ -20,8 +22,8 @@ export function extractNewsTitles() {
     });
 }
 
-// Gets news with the title/query. If nothing is given gives all news.
-function NewsComponent({ filterTitle }) {
+// Gets news with the title/query. If returnMany is true it searches for all articles with that text while if false will only return the only one.
+function NewsComponent({ filterTitle, returnMany }) {
     const [newsData, setNewsData] = useState(null);
     useEffect(() => { 
         const fetchData = async () => {
@@ -55,19 +57,40 @@ function NewsComponent({ filterTitle }) {
 
     return (
         <div>
-            {firstArticle ? (
+            {returnMany ? (
                 <pre>
-
-                    <div className='NewsArticle' key={0}>
-
-                        <h2>{filteredNewsData[0].Title[0]}</h2>
-                        <p>{filteredNewsData[0].HTMLLead[0]}</p>
-                        <a href={filteredNewsData[0].ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>
-                        <hr />
-                    </div>
+                    {filteredNewsData ? (
+                        <pre>
+                            {filteredNewsData.map((article, index) => (
+                                <div className='NewsArticle' key={index}>
+                                    <h2>{article.Title[0]}</h2>
+                                    <p>{article.HTMLLead[0]}</p>
+                                    <a href={article.ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>
+                                <hr />
+                            </div>
+                            ))}
+                        </pre>
+                    ) : (
+                        <p>Loading data...</p>
+                    )}
                 </pre>
             ) : (
-                <p>Loading data...</p>
+                <pre>
+                    {firstArticle ? (
+                        <pre>
+
+                            <div className='NewsArticle' key={0}>
+
+                                <h2>{filteredNewsData[0].Title[0]}</h2>
+                                <p>{filteredNewsData[0].HTMLLead[0]}</p>
+                                <a href={filteredNewsData[0].ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>
+                                <hr />
+                            </div>
+                        </pre>
+                    ) : (
+                        <p>Loading data...</p>
+                    )}
+                </pre>
             )}
         </div>
     );
