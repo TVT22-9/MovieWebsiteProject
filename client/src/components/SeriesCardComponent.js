@@ -52,7 +52,7 @@ const SeriesCard = ({ id }) => {
                             {jwtToken.value ? (
                                 AddReviewWindow(null, data.id)
                             ) : (
-                                <p>Login to add a review</p>
+                                <button className="reviews-button"><Link to="/user-control">Log in to add a review</Link></button>
                             )}
                         </div>
                     </div>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AddReviewWindow, ReviewsList } from './reviewsComponent';
 import { jwtToken } from './Signals';
+import { Link } from 'react-router-dom';
 
 const SeriesPageComponent = () => {
     const { id } = useParams();
@@ -29,7 +30,7 @@ const SeriesPageComponent = () => {
     function PlaceholderReviews({ id }) {
         return (
             <div>
-                {ReviewsList(null, id, null)}
+                {ReviewsList(null, null, id)}
             </div>
         );
     }
@@ -73,9 +74,9 @@ const SeriesPageComponent = () => {
                             <h2>Reviews</h2>
                             
                             {jwtToken.value ? (
-                                AddReviewWindow(data.id, null)
+                                AddReviewWindow(null, data.id)
                             ) : (
-                                <p>Login to add a review</p>
+                                <button className="reviews-button"><Link to="/user-control">Log in to add a review</Link></button>
                             )}
                             <PlaceholderReviews id= {data.id} />
 

@@ -8,7 +8,7 @@ import '../reviews.css'
 const ReviewsComponent = () => {
 
     return (
-        <div>
+        <div className='Reviews'>
             <h2>Reviews</h2>
             {ReviewsList(null, null, null)}
         </div>
@@ -116,7 +116,7 @@ export function ReviewsList(uname, idm, ids) {
             <div className='reviews-container'>
                 <div className="reviews-sort">
                     <label>Sort By:</label>
-                    <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className='select'>
+                    <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className='reviews-select'>
                         <option value="newest">Most recent</option>
                         <option value="oldest">Oldest</option>
                         <option value="score">Score</option>
@@ -152,7 +152,7 @@ export function ReviewsList(uname, idm, ids) {
                                                         <div className="reviews-popup">
                                                             <h2>Update Review</h2>
                                                             <textarea maxLength={500} spellCheck="false" name="reviewcontentupdate" defaultValue={review.reviewcontent} className="reviewcontent" />
-                                                            <select name="scoreupdate" defaultValue={review.score} className="select">
+                                                            <select name="scoreupdate" defaultValue={review.score} className="reviews-select">
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
@@ -207,7 +207,7 @@ export function AddReviewWindow(idmovie, idseries) {
                 <div className="reviews-popup">
                     <h2>Add Review</h2>
                     <textarea maxLength={500} spellCheck="false" name="reviewcontent" placeholder="Write your review here..." className="reviewcontent" />
-                    <select name="score" className="select">
+                    <select name="score" className="reviews-select">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>

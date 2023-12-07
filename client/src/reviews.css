@@ -3,14 +3,13 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 5px;
     height: auto;
     word-break: break-word;
     padding-left: 10px;
     padding-right: 10px;
-    color: white;
-    background-color: #656775;
+    background-color: #333;
 }
 
 .reviews-item ul { /* Removes default padding from ul */
@@ -21,7 +20,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;/* 2 columns */
     grid-template-rows: 1fr 1fr 1fr;/* 3 rows */
-    border: 2px solid black;
+    border: 2px solid white;
     position: fixed;
     width: 50%;
     height: 30%;
@@ -30,14 +29,13 @@
     border-radius: 10px;
     z-index: 1000; /* Makes sure popup is on top of everything else */
     padding: 10px;
-    background-color: #5A5C69;
+    background-color: #656775;
 }
 
 .reviews-popup h2 {
     grid-area: 1 / 1 / 2 / 3;
     text-align: center;
     justify-self: center;
-    color: white;
 }
 
 .reviewcontent {
@@ -48,61 +46,70 @@
     height: auto;
     word-wrap: break-word;
     padding-left: 10px;
-    margin-right: 10px;
+    padding-right: 10px;
 }
 
 .reviewcontent:focus {
     outline: none;
 }
 
-.reviews-popup .select {
+.reviews-popup .reviews-select {
     grid-area: 2 / 2 / 3 / 3;
-    text-align: center;
     justify-self: right;
     width: 20%;
-    margin-right: 10px;
     margin-bottom: 1px;
+    background-color: #A1A5BB;
 }
 
 .reviews-popup .reviews-button {
     grid-area: 3 / 1 / 4 / 3;
-    text-align: center;
-    padding: 10px;
-    margin-right: 10px;
+    margin-right: 0;
     font-size: large;
+    background-color: #A1A5BB;
+}
+
+.Reviews {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .reviews-button {
+    text-align: center;
     margin-right: 10px;
     padding: 10px;
     border-radius: 5px;
     border: none;
     transition: 0.3s;
     cursor: pointer;
-    color: #CACEEB;
-    background-color: #888B9E;
+    color: white;
+    background-color: #595b68;
 }
 
-.select {
+.reviews-button:hover {
+    background-color: #A1A5BB;
+}
+
+.reviews-select {
     text-align: center;
     width: 100px;
     padding: 10px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    color: #CACEEB;
-    background-color: #888B9E;
+    color: white;
+    background-color: #595b68;
+}
+
+.reviews-select:hover {
+    background-color: #A1A5BB;
 }
 
 .reviews-sort {
     margin-top: 10px;
-    padding: 10px;
-    color: #CACEEB;
-    background-color: #282923;
+    margin-bottom: 10px;
 }
 
 .reviews-sort label {
-    margin-left: 10px;
     margin-right: 10px;
 }
 
@@ -110,25 +117,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;/* 3 columns */
     grid-gap: 10px;
-    padding: 10px;
-    background-color: #282923;
 }
 
-
-a:link, a:visited {
+.Reviews a:link, a:visited {
     text-decoration: none;
-    color: azure;
+    color: white;
 }
 
-a:hover {
+.Reviews a:hover {
     text-decoration:underline;
-    color: azure;
+    color: white;
 }
-
-.reviews-button:hover {
-    background-color: #A1A5BB;
-}
-
 
 /* Responsive layout */
 @media screen and (max-width: 1000px) { /* For tablets */

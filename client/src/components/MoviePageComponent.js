@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AddReviewWindow, ReviewsList } from './reviewsComponent';
 import { jwtToken } from './Signals';
+import { Link } from 'react-router-dom';
 
 const MoviePageComponent = () => {
     const { id } = useParams();
@@ -67,7 +68,7 @@ const MoviePageComponent = () => {
                             {jwtToken.value ? (
                                 AddReviewWindow(data.id, null)
                             ) : (
-                                <p>Login to add a review</p>
+                                <button className="reviews-button"><Link to="/user-control">Log in to add a review</Link></button>
                             )}
                             <PlaceholderReviews id= {data.id} />
                         </div>
