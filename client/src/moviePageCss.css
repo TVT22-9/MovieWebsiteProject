@@ -67,7 +67,7 @@ button[disabled]{
   color: #666666;
 }
 
-.advancedSearch {
+.search {
     flex: 2; 
     font-family: 'Roboto', sans-serif;
     color: #333;
@@ -87,6 +87,11 @@ button[disabled]{
     flex: 1;
 }
 
+.advancedSearch {
+    background-color: gray;
+    padding: 20px;
+    color: black;
+}
 /*Below is the code for movie and series cards*/
 
 

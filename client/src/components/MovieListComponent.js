@@ -80,17 +80,17 @@ const MovieListComponent = () => {
                     key={item.id}
                     onClick={() => handleItemClick(item.id)}
                     style={{
-                    backgroundColor: selectedItems.indexOf(String(item.id)) !== -1 ? 'lightblue' : 'white',
-                    cursor: 'pointer',
-                    padding: '8px',
-                    margin: '4px',
-                    textAlign: 'center',
-                }}
+                        backgroundColor: selectedItems.indexOf(String(item.id)) !== -1 ? 'lightblue' : 'white',
+                        cursor: 'pointer',
+                        padding: '8px',
+                        margin: '4px',
+                        textAlign: 'center',
+                    }}
                 >
                     {item.label}
                 </div>
             ))}
-          </div>
+            </div>
         );
     };
                 
@@ -178,14 +178,14 @@ const MovieListComponent = () => {
             <br />
             <div className='searchDiv'>
                 <input
-                    className='advancedSearch'
+                    className='search'
                     type="text"
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
                 />
-                                <Popup trigger={<button className='advancedSearchButton'> Advanced Search </button>} modal>
-                    <div style={{ backgroundColor: 'gray', padding: '20px' }}>
+                <Popup trigger={<button className='advancedSearchButton'> Advanced Search </button>} modal>
+                    <div className='advancedSearch'>
                         <h2>Advanced Search</h2>
                         <label>Search adult movies? </label>
                         <select name="adultBool" defaultValue={adultSearch}>
