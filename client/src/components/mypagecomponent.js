@@ -142,7 +142,7 @@ function SettingsButton({ initialSettings, onSettingsChange }) {
     <div>
       <button onClick={() => setIsOpen(true)}>Open Settings</button>
       <Popup open={isOpen} closeOnDocumentClick onClose={() => setIsOpen(false)}>
-        <div>
+        <div className='settingspopup'>
           <h3>Settings</h3>
           <div>
             <label>
