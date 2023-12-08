@@ -11,13 +11,12 @@ const reviewRoutes = require('./routes/review');
 const app = express();
 const port = process.env.PORT || 3001;
 
-const corsOptions = {
+/*const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
-};
+};*/
 
-app.use(cors(corsOptions));
-
+app.use(cors());
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 
