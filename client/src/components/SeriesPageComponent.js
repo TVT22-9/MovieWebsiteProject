@@ -78,7 +78,7 @@ const SeriesPageComponent = () => {
                             ) : (
                                 <button className="reviews-button"><Link to="/user-control">Log in to add a review</Link></button>
                             )}
-                            <PlaceholderReviews id= {data.id} />
+                            <ReviewsList ids={data.id} />
 
                         </div>
                     </div>

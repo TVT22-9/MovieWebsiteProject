@@ -87,7 +87,7 @@ function MiniComponentReviews({ username }) { //mini component that renders revi
     <div className='Reviews'>
       
       <h1>My reviews</h1>
-      {ReviewsList(username, null, null)}
+      <ReviewsList uname={username} />
     </div>
   );
 }

@@ -10,15 +10,15 @@ const ReviewsComponent = () => {
     return (
         <div className='Reviews'>
             <h2>Reviews</h2>
-            {ReviewsList(null, null, null)}
+            <ReviewsList />
         </div>
     )
 }
 
-/* Prints reviews based on if username, idmovie or idseries is given
+/* Prints reviews based on if username(s), idmovie or idseries is given
  * The logged in user can edit and delete their own reviews
- * Call in a component like this: {ReviewsList(uname, idm ids)} Set the values you are not using to null like so {ReviesList(userData.value?.private, null, null)} */
-export function ReviewsList(uname, idm, ids) {
+ * Call in a component like this: <ReviewsList/>. If putting in multiple usernames, separate them with a comma like so <ReviewsList uname={username1,username2} */
+export function ReviewsList({uname, idm, ids}) {
     const [reviews, setReviews] = useState(null);
     const [titles, setTitles] = useState({});
     const [sortBy, setSortBy] = useState('newest'); // Sorts by newest by default
@@ -28,7 +28,7 @@ export function ReviewsList(uname, idm, ids) {
         if (UpdateList) {
             let url;
             if (uname) { /* Check if username is given */
-                url = 'http://localhost:3001/review/username/' + uname;
+                url = 'http://localhost:3001/review/username?username=' + uname;
             } else if (idm) { /* Check if idmovie is given */
                 url = 'http://localhost:3001/review/idmovie/' + idm;
             } else if (ids) { /* Check if idseries is given */

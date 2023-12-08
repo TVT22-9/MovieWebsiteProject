@@ -70,7 +70,7 @@ const MoviePageComponent = () => {
                             ) : (
                                 <button className="reviews-button"><Link to="/user-control">Log in to add a review</Link></button>
                             )}
-                            <PlaceholderReviews id= {data.id} />
+                            <ReviewsList idm={data.id} />
                         </div>
                     </div>
                 </pre>
