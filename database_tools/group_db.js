@@ -87,7 +87,7 @@ async function groupExistsById(idgroup) {
 
 
 async function addMember(idgroup, iduser, status){
-  console.log('Adding member:', idgroup, iduser, status);
+  //console.log('Adding member:', idgroup, iduser, status);
   await pgPool.query(sql.INSERT_INTO, [idgroup, iduser, status]);
 }
 
@@ -103,8 +103,8 @@ async function sendJoinRequest(groupId, userId, acceptedPool) {
     // Add the user as a member with acceptedPool set to false
     const addMemberResult = await addMember(groupId, userId, acceptedPool);
 
-    if (addMemberResult.memberExists) {
-    }
+    //if (addMemberResult.memberExists) {
+    //}
 
     // Notify the other component about the join request
     // You can use an event emitter or another mechanism to notify the other component
