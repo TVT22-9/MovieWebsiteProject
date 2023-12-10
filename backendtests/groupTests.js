@@ -156,36 +156,47 @@ describe('Group tests', function() {
       }
   });
       
-    //Deletes the previously added member  
-   /* it('Deletes the member regardless of acceptance status', async function () {
+    //Deletes the previously added member by id
+    it('Deleting the member', async function () {
       const groupId = createdGroupId;
+      const userId = 49;
       const deleteMemberbyId = {
         groupId: createdGroupId,
         userId: 49
       }
       try {
           const response = await request(app)
-              .del(`/members/${groupId}/members${userId}`)
+              .del(`/members/${groupId}/members/${userId}`)
               .send({ deleteMemberbyId })
               .expect(200);
   
           // Checks that these exist in the returned data.
-         /* expect(response.body).to.have.property('message', 'Member added successfully');
-          expect(response.body).to.have.property('member');
-  
-          const member = response.body.member;
-  
-          expect(member).to.have.property('groupId', groupId);
-          expect(member).to.have.property('userId', userId);
-          expect(member).to.have.property('acceptedPool', false);
+          expect(response.body).to.have.property('message', 'Member deleted successfully');
   
       } catch (error) {
           console.error(error);
           throw error;
       }
-    }); 
-    //Deletes the group created in the previous test
-    it('Deleting a group by id', async function() {
+    });
+    //Deletes all the members of a group by id
+    it('Deleting all members of the group', async function () {
+      const groupId = createdGroupId;
+      try {
+          const response = await request(app)
+              .del(`/members/${groupId}/delete-all-members`)
+              //.send({ deleteMemberbyId })
+              .expect(200);
+  
+          // Checks that these exist in the returned data.
+          expect(response.body).to.have.property('message', 'All members deleted successfully');
+  
+      } catch (error) {
+          console.error(error);
+          throw error;
+      }
+    });
+    //Deletes a group by id
+    it('Deleting the group', async function() {
         try {
             const groupIdToDelete  = createdGroupId;
             const res = await request(app)
@@ -202,6 +213,6 @@ describe('Group tests', function() {
             console.error(error);
             throw error; 
         }
-    });*/
+    });
 
 });

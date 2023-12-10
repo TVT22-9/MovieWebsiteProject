@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {  userData } from "./Signals";
+import '../group.css';
 
 
 
@@ -152,18 +153,20 @@ const handleDeleteMember = async (groupId, memberId, setacceptedMembers) => {
   <div>
     {group && isUserMember && (
       <div>
-        <h2>Group Profile</h2>
-        <p>
+        <h2 className="group-header">Group Profile</h2>
+        <p  className="group-container">
           Group Name: <strong>{group.length > 0 && group[0].groupname}</strong>
           {userData.value && userData.value.userid === group[0].idowner && (
             <button onClick={() => handleDeleteGroup(group[0].idgroup, setGroups)}>Delete Group</button>
           )}
         </p>
-        <p>Description: {group.length > 0 && group[0].groupdescription}</p>
-        <p>Here would be news etc added by users:</p>
+        <p  className="group-container">
+          Description: <strong>{group.length > 0 && group[0].groupdescription}</strong></p>
+        <p  className="group-container">
+          Here would be news etc added by users:</p>
 
         {pendingMembers.length > 0 && (
-          <div>
+          <div className="group-container">
             <h3>Pending Members:</h3>
             <ul>
               {pendingMembers.map(member => (
@@ -186,28 +189,28 @@ const handleDeleteMember = async (groupId, memberId, setacceptedMembers) => {
         )}
 
         {acceptedMembers.length > 0 && (
-          <div>
-            <h3>Group Members:</h3>
-            <ul>
-              {acceptedMembers.map(member => (
-                <li key={member.iduser}>
-                  {member.username}
-                  {userData.value && userData.value.userid === group[0].idowner && (
-                    <button onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
-                      Delete Member
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    )}
-    {!isUserMember && <p>You need to be a member to access a group's page.</p>}
-    {!group && <p>Loading...</p>}
-  </div>
-);
+            <div className="group-container">
+              <h3>Group Members:</h3>
+              <ul>
+                {acceptedMembers.map(member => (
+                  <li key={member.iduser}>
+                    {member.username}
+                    {userData.value?.userid === group[0].idowner && userData.value?.userid !== member.iduser && (
+                      <button onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
+                        Delete Member
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+      {!isUserMember && <p>You need to be a member to access a group's page.</p>}
+      {!group && <p>Loading...</p>}
+    </div>
+  );
 };
 
 

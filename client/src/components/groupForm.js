@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { jwtToken } from "./Signals";
 import {  userData } from "./Signals";
+import '../group.css';
 
 
 const GroupForm = () => {
@@ -157,41 +158,42 @@ const GroupForm = () => {
         </div>
       )}
       {jwtToken.value.length > 0 && (
-        <div>
+        <div class="form-container">
           <form onSubmit={handleSubmit}>
-            <label>
-              Group Name:
+            <p className="group-container">
+            <span>Group name:</span>
               <input type="text" name="groupName" value={groupData.groupName} onChange={handleChange} />
-            </label>
+            </p>
+            <p className="group-container">
+            <span>Description:</span>
+              <input name="description" value={groupData.description} onChange={handleChange} />
+            </p>
             <br />
-            <label>
-              Description:
-              <textarea name="description" value={groupData.description} onChange={handleChange} />
-            </label>
-            <br />
-            <button type="submit">Create Group</button>
+            <button className="create-group-button" type="submit">Click here to create the group!</button>
           </form>
-          <h2>All Groups:</h2>
-          <ul>
-            {groups && groups.map((group) => (
-              <li key={group.idgroup}>
-                <strong>{group.groupname}</strong> - {group.groupdescription || 'No description available'}
-                <Link to={`/group/${group.idgroup}`}>
-                  <button>Click here to see group page</button>
-                </Link>
-                {userData.value && userData.value.userid !== group.idowner && (
-                  <button onClick={() => handleSendJoinRequest(group.idgroup)}>Send Join Request</button>
-                )}
-                {userData.value && userData.value.userid === group.idowner && (
-                  <button onClick={() => handleDeleteGroup(group.idgroup, setGroups, setAcceptedMembers)}>Delete</button>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+          </div>
       )}
-    </div>
-  );
+      <div className="group-container">
+        <h2>All Groups:</h2>
+        <ul>
+          {groups && groups.map((group) => (
+            <li key={group.idgroup}>
+              <strong>{group.groupname}</strong> - {group.groupdescription || 'No description available'}
+              <Link to={`/group/${group.idgroup}`}>
+                <button>Click here to see group page</button>
+              </Link>
+              {userData.value && userData.value.userid !== group.idowner && (
+                <button onClick={() => handleSendJoinRequest(group.idgroup)}>Send Join Request</button>
+              )}
+              {userData.value && userData.value.userid === group.idowner && (
+                <button onClick={() => handleDeleteGroup(group.idgroup, setGroups, setAcceptedMembers)}>Delete</button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+      </div>
+      );
 };
 
 export default GroupForm;
