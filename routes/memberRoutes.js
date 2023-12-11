@@ -35,7 +35,7 @@ router.post('/:groupId/add-member', async (req, res) => {
   }
 });
 
-// Endpoint to add a new member to a group
+// Endpoint to add the owner as a member to a group
 router.post('/:groupId/add-owner-as-member', async (req, res) => {
   try {
     const groupId = req.params.groupId;
