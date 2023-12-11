@@ -45,3 +45,35 @@ body{
     background-color: #333;
   
 }
+
+button {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 15px 24px;
+  border: 0;
+  color: #fff;
+  background: #595b68;
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+.usercontrol input{
+  display: inline-block;
+  border-radius: 3px;
+  padding: 15px 24px;
+  border: 0;
+  color: #fff;
+  background: #595b68;
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+ 
+}
+
+.footerclass img{
+
+    max-height: 75px;
+  
+}
