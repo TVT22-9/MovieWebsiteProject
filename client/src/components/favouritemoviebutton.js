@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { userData } from "./Signals";
 
+
 function FavouriteMovieButton({ movieId }) {
     const username = userData.value?.private;
     const [userSettings, setUserSettings] = useState(null);
+    const [buttonText, setButtonText] = useState('Set as Favorite');
 
     useEffect(() => {
         // Fetch user settings when the component mounts
@@ -35,15 +37,16 @@ function FavouriteMovieButton({ movieId }) {
 
             // Update local state to reflect the change
             setUserSettings([{ ownviewsettings: newSettings }]);
+            setButtonText('Success');
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
-        <button onClick={handleButtonClick}>
-            Set as Favorite
-        </button>
+        <button onClick={handleButtonClick} disabled={buttonText === 'Success'}>
+        {buttonText}
+      </button>
     );
 }
 

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AddReviewWindow, ReviewsList } from './reviewsComponent';
 import { jwtToken } from './Signals';
+import FavouriteMovieButton from './favouriteMovieButton';
 
 const MoviePageComponent = () => {
     const { id } = useParams();
@@ -70,6 +71,11 @@ const MoviePageComponent = () => {
                                 <p>Login to add a review</p>
                             )}
                             <PlaceholderReviews id= {data.id} />
+                            {jwtToken.value ? (
+                                <FavouriteMovie movieId={data.id} />
+                            ) : (
+                                <p></p>
+                            )}
                         </div>
                     </div>
                 </pre>
@@ -80,4 +86,11 @@ const MoviePageComponent = () => {
         </div>
     );
 }
+const FavouriteMovie = ({ movieId }) => {
+    return (
+        <div>
+            <FavouriteMovieButton movieId={movieId} />
+        </div>
+    );
+};
 export default MoviePageComponent;
