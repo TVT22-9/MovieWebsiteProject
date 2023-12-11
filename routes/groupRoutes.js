@@ -183,4 +183,52 @@ router.post('/:groupId/add-member', async (req, res) => {
   }
 });
 
+// Get groups names and settings by user id
+router.get('/groupByUser/:userId', async (req, res) => {
+  try {
+    const data = await groupDB.getGroubsByUser(req.params.userId);
+    const result = data.rows;
+    console.log(result);
+    res.status(200).json({ message: 'Groups retrieved successfully', result});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// Updates group settings by group name
+router.put('/groupSettingsUpdate/', async (req, res) => {
+  try {
+    console.log("Reached this far");
+    const groupName = req.body.groupName;
+    const settings = req.body.settings;
+    console.log(settings);
+    // Update the group
+    const updatedGroup = await groupDB.updateGroupSettingsByName(settings, groupName);
+
+    // Check if the update was successful
+    if (updatedGroup.length > 0) {
+      // Send a success response
+      res.status(200).json({ message: 'Group updated successfully', group: updatedGroup[0] });
+    } else {
+      res.status(500).json({ message: 'Failed to update group' });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+//Get group by name.
+
+router.get('/groupByName/:groupName', async (req, res) => {
+  try {
+    const data = await groupDB.getGroupByName(req.params.groupName);
+    console.log(data);
+    res.status(200).json({ message: 'Group retrieved successfully', data});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 module.exports = router;
