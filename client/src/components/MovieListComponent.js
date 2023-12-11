@@ -19,7 +19,7 @@ const MovieListComponent = () => {
     //I decided to have a simple s as the default value making them usable in url without value and the s itself does not affect the api call.
     const [includedGenres, setIncludedGenres] = useState(["s"]);
     const [excludedGenres, setExcludedGenres] = useState(["s"]);
-  
+
     //Modal state if shown or not. Needed to be able to close the modal on mobile.
     const [isOpen, setIsOpen] = useState(false);
 
@@ -62,11 +62,11 @@ const MovieListComponent = () => {
         { id: 10768, label: 'War & Politics' },
         { id: 37, label: 'Western' },
     ];
-    
+
     const SelectableList = ({ items, selectedItems, onSelect }) => {
         const handleItemClick = (itemId) => {
             const isSelected = selectedItems.indexOf(String(itemId)) !== -1;
-        
+
             if (isSelected) {
                 // If item is already selected, unselect it
                 onSelect(selectedItems.filter((id) => id !== String(itemId)));
@@ -75,28 +75,28 @@ const MovieListComponent = () => {
                 onSelect([...selectedItems, String(itemId)]);
             }
         };
-      
+
         return (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '8px' }}>
-            {   items.map((item) => (
-                <div
-                    key={item.id}
-                    onClick={() => handleItemClick(item.id)}
-                    style={{
-                        backgroundColor: selectedItems.indexOf(String(item.id)) !== -1 ? 'lightgreen' : 'lightgray',
-                        cursor: 'pointer',
-                        padding: '8px',
-                        margin: '4px',
-                        textAlign: 'center',
-                    }}
-                >
-                    {item.label}
-                </div>
-            ))}
+                {items.map((item) => (
+                    <div
+                        key={item.id}
+                        onClick={() => handleItemClick(item.id)}
+                        style={{
+                            backgroundColor: selectedItems.indexOf(String(item.id)) !== -1 ? 'lightgreen' : 'lightgray',
+                            cursor: 'pointer',
+                            padding: '8px',
+                            margin: '4px',
+                            textAlign: 'center',
+                        }}
+                    >
+                        {item.label}
+                    </div>
+                ))}
             </div>
         );
     };
-                
+
     //Basic system to change the page and change between Movies (state 1) and TV Shows (state 2). I have added resets to certain variables like data and search to page changes and list changes as otherwise it may show old data that shouldnt be there anymore.
     const nextPage = () => {
         setPageNum(prevPageNum => prevPageNum + 1);
@@ -128,14 +128,14 @@ const MovieListComponent = () => {
         setSearchQuery('');
         setIsOpen(false);
 
-    }    
+    }
 
-    useEffect(() => { 
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 let response;
                 console.log(includedGenres);
-                if(advancedSearch) { //If the search is made using advanced search it runs the code below.
+                if (advancedSearch) { //If the search is made using advanced search it runs the code below.
                     const includedGenreIds = includedGenres.join(',');
                     const excludedGenreIds = excludedGenres.join(',');
 
@@ -148,19 +148,19 @@ const MovieListComponent = () => {
                     if (year) {
                         apiUrl += `/${year}`;
                     }
-                      
+
                     console.log(apiUrl)
                     response = await axios.get(apiUrl);
 
                 } else { //Calls the movies/series using a text input from user.
                     if (searchQuery) {
                         response = await (listState === 1
-                        ? axios.get(`http://localhost:3001/api/searchMovie/${searchQuery}/${pageNum}`)
-                        : axios.get(`http://localhost:3001/api/searchShow/${searchQuery}/${pageNum}`));
+                            ? axios.get(`http://localhost:3001/api/searchMovie/${searchQuery}/${pageNum}`)
+                            : axios.get(`http://localhost:3001/api/searchShow/${searchQuery}/${pageNum}`));
                     } else {
                         response = await (listState === 1
-                        ? axios.get(`http://localhost:3001/api/topRatedMovies/${pageNum}`)
-                        : axios.get(`http://localhost:3001/api/topRatedShows/${pageNum}`));  
+                            ? axios.get(`http://localhost:3001/api/topRatedMovies/${pageNum}`)
+                            : axios.get(`http://localhost:3001/api/topRatedShows/${pageNum}`));
                     }
                 }
                 const resultsArray = Array.isArray(response.data.results) ? response.data.results : [];
@@ -172,83 +172,85 @@ const MovieListComponent = () => {
         };
 
         fetchData();
-        
+
     }, [pageNum, listState, searchQuery, advancedSearch]);
 
     //Maps all returned data as MovieCard component. Gives all required data which can be assessed using movie.id and movie.title 
     return (
-        <div className='MovieList'>
-            <h1>Top Rated Movies</h1>
-            <button onClick={() => setListStateFunc(1)} disabled={listState === 1}>See movies list</button>
-            <button onClick={() => setListStateFunc(2)} disabled={listState === 2}>See tv shows list</button>
-            <br />
-            <div className='searchDiv'>
-                <input
-                    className='search'
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
-                <Popup
-                    className='MovieListPopup'
-                    showCloseButton={true}
+        <body>
+            <div className='MovieList'>
+                <h1>Top Rated Movies</h1>
+                <button onClick={() => setListStateFunc(1)} disabled={listState === 1}>See movies list</button>
+                <button onClick={() => setListStateFunc(2)} disabled={listState === 2}>See tv shows list</button>
+                <br />
+                <div className='searchDiv'>
+                    <input
+                        className='search'
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={(e) => handleSearch(e.target.value)}
+                    />
+                    <Popup
+                        className='MovieListPopup'
+                        showCloseButton={true}
 
-                    trigger={<button className='advancedSearchButton'> Advanced Search </button>} 
-                    modal
-                    closeOnDocumentClick={true}
-                    onOpen={() => setIsOpen(true)}
-                    open={isOpen}
-                    onClose={() => setIsOpen(false)}
-                >
-                    <div className='advancedSearch'>
-                        <h2>Advanced Search</h2>
-                        <label>Search adult movies? </label>
-                        <select name="adultBool" defaultValue={adultSearch}>
-                            <option value='true'>Yes</option>
-                            <option value='false'>No</option>
-                        </select>
-                        <br/>
+                        trigger={<button className='advancedSearchButton'> Advanced Search </button>}
+                        modal
+                        closeOnDocumentClick={true}
+                        onOpen={() => setIsOpen(true)}
+                        open={isOpen}
+                        onClose={() => setIsOpen(false)}
+                    >
+                        <div className='advancedSearch'>
+                            <h2>Advanced Search</h2>
+                            <label>Search adult movies? </label>
+                            <select name="adultBool" defaultValue={adultSearch}>
+                                <option value='true'>Yes</option>
+                                <option value='false'>No</option>
+                            </select>
+                            <br />
 
-                        <label> Sort by </label>
-                        <select name="sortBySelect" defaultValue={sortBy}>
-                            <option value='popularity.desc'>Popular</option>
-                            <option value='vote_count.desc'>Rating count</option>
-                            <option value='primary_release_date.desc'>Newest</option>
-                        </select>
-                        <br/>
-                        <label> Year: </label>
-                        <input type="" name="year" defaultValue={year}/>
-                        
-                        <br />
-                        <br />
-                        <label>Included Genres: </label>
-                        <SelectableList
-                            items={listState === 1 ? genres : tvGenres}
-                            selectedItems={includedGenres}
-                            onSelect={(selectedItems) => setIncludedGenres(selectedItems)}
-                        />
+                            <label> Sort by </label>
+                            <select name="sortBySelect" defaultValue={sortBy}>
+                                <option value='popularity.desc'>Popular</option>
+                                <option value='vote_count.desc'>Rating count</option>
+                                <option value='primary_release_date.desc'>Newest</option>
+                            </select>
+                            <br />
+                            <label> Year: </label>
+                            <input type="" name="year" defaultValue={year} />
 
-                        <label>Excluded Genres: </label>
-                        <SelectableList
-                            items={listState === 1 ? genres : tvGenres}
-                            selectedItems={excludedGenres}
-                            onSelect={(selectedItems) => setExcludedGenres(selectedItems)}
-                        />
-                        <br></br>
-                        <button onClick={async () => {
-                            handleAdvancedSearch();
-                        }}>Search</button>
-                    </div>
-                </Popup>
+                            <br />
+                            <br />
+                            <label>Included Genres: </label>
+                            <SelectableList
+                                items={listState === 1 ? genres : tvGenres}
+                                selectedItems={includedGenres}
+                                onSelect={(selectedItems) => setIncludedGenres(selectedItems)}
+                            />
 
+                            <label>Excluded Genres: </label>
+                            <SelectableList
+                                items={listState === 1 ? genres : tvGenres}
+                                selectedItems={excludedGenres}
+                                onSelect={(selectedItems) => setExcludedGenres(selectedItems)}
+                            />
+                            <br></br>
+                            <button onClick={async () => {
+                                handleAdvancedSearch();
+                            }}>Search</button>
+                        </div>
+                    </Popup>
+
+                </div>
+                <div className="movie-grid">
+                    {listState === 1 ? data?.map(movie => <MovieCard key={movie.id} id={movie.id} />) : data?.map(series => <SeriesCard key={series.id} id={series.id} />)}
+                </div>
+                <button onClick={previousPage} disabled={pageNum === 1}>Previous page</button>
+                <button onClick={nextPage}>Next Page</button>
             </div>
-            <div className="movie-grid">
-                { listState === 1 ? data?.map(movie => <MovieCard key={movie.id} id={movie.id} />) : data?.map(series => <SeriesCard key={series.id} id={series.id} />)} 
-            </div>
-            <button onClick={previousPage} disabled={pageNum === 1}>Previous page</button>
-            <button onClick={nextPage}>Next Page</button>
-        </div>
+        </body>
     );
 }
 

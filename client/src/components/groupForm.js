@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { jwtToken } from "./Signals";
-import {  userData } from "./Signals";
+import { userData } from "./Signals";
 import '../group.css';
 
 //Component for creating groups, browsing groups made by others and sending join requests
@@ -24,10 +24,10 @@ const GroupForm = () => {
   useEffect(() => {
     // Fetch all groups when the component first loads
     axios.get('http://localhost:3001/groups/all')
-    .then(response => {
-      setGroups(response.data.groups);
-    }).catch(error => console.error('Error fetching groups:', error));
-    }, []);
+      .then(response => {
+        setGroups(response.data.groups);
+      }).catch(error => console.error('Error fetching groups:', error));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +36,7 @@ const GroupForm = () => {
 
   //Creates a new group, adds the owner as a member in the group,
   //then fetches the updates list of groups
-  const handleCreateGroup = async () => {  
+  const handleCreateGroup = async () => {
     try {
       const ownerId = userData.value.userid;
 
@@ -95,17 +95,17 @@ const GroupForm = () => {
       if (memberId) {
         // Regular delete for a single member
         const response = await axios.delete(`http://localhost:3001/members/${groupId}/members/${memberId}`);
-        
+
         // Update the members state by removing the deleted member
         setMembers(prevMembers => prevMembers.filter(member => member.iduser !== memberId));
-        
+
       } else {
         // Delete all members of the group
         const deleteAllMembersResponse = await axios.delete(`http://localhost:3001/members/${groupId}/delete-all-members`);
-        
+
         // Assuming the response contains deleted members, update the state accordingly
         setMembers([]);
-  
+
       }
     } catch (error) {
       console.error('Error deleting members:', error);
@@ -116,16 +116,16 @@ const GroupForm = () => {
   const handleDeleteGroup = async (groupId, setGroups, setMembers) => {
     try {
       const id = parseInt(groupId, 10);
-  
+
       // Use the new endpoint to delete all members of the group
       await handleDeleteMember(groupId, null, setMembers);
-  
+
       // Now that members are deleted, delete the group itself
       const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
-  
+
       // Update the groups state by removing the deleted group
       setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
-      
+
     } catch (error) {
       console.error('Error deleting group:', error);
     }
@@ -141,9 +141,9 @@ const GroupForm = () => {
     } catch (error) {
       console.error('Error sending join request:', error.response || error);
     }
-  };  
+  };
 
-  const handleSubmit = (e) => {    
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!groupData.groupName.trim()) {
       alert('Group name cannot be empty!');
@@ -152,48 +152,50 @@ const GroupForm = () => {
     handleCreateGroup();
   };
 
-  
+
 
   return (
-    <div>
-      <h1>Create, browse and join groups! Note that you have to be logged in to send join requests.</h1>
-      {jwtToken.value.length > 0 && (
-        <div className="form-container">
-          <form onSubmit={handleSubmit}>
-            <p className="group-container">
-            <span>Group name:</span>
-              <input type="text" name="groupName" value={groupData.groupName} onChange={handleChange} />
-            </p>
-            <p className="group-container">
-            <span>Description:</span>
-              <input name="description" value={groupData.description} onChange={handleChange} />
-            </p>
-            <br />
-            <button className="create-group-button" type="submit">Click here to create the group!</button>
-          </form>
+    <body>
+      <div>
+        <h1>Create, browse and join groups! Note that you have to be logged in to send join requests.</h1>
+        {jwtToken.value.length > 0 && (
+          <div className="form-container">
+            <form onSubmit={handleSubmit}>
+              <p className="group-container">
+                <span>Group name:</span>
+                <input type="text" name="groupName" value={groupData.groupName} onChange={handleChange} />
+              </p>
+              <p className="group-container">
+                <span>Description:</span>
+                <input name="description" value={groupData.description} onChange={handleChange} />
+              </p>
+              <br />
+              <button className="create-group-button" type="submit">Click here to create the group!</button>
+            </form>
           </div>
-      )}
-      <div className="group-container">
-        <h2>All Groups:</h2>
-        <ul>
-          {groups && groups.map((group) => (
-            <li key={group.idgroup}>
-              <strong>{group.groupname}</strong> - {group.groupdescription || 'No description available'}
-              <Link to={`/group/${group.idgroup}`}>
-                <button className="groupRelated-button">Click here to see group page</button>
-              </Link>
-              {userData.value && userData.value.userid !== group.idowner && (
-                <button className="groupRelated-button" onClick={() => handleSendJoinRequest(group.idgroup)}>Send Join Request</button>
-              )}
-              {userData.value && userData.value.userid === group.idowner && (
-                <button className="groupRelated-button" onClick={() => handleDeleteGroup(group.idgroup, setGroups, setAcceptedMembers)}>Delete</button>
-              )}
-            </li>
-          ))}
-        </ul>
+        )}
+        <div className="group-container">
+          <h2>All Groups:</h2>
+          <ul>
+            {groups && groups.map((group) => (
+              <li key={group.idgroup}>
+                <strong>{group.groupname}</strong> - {group.groupdescription || 'No description available'}
+                <Link to={`/group/${group.idgroup}`}>
+                  <button className="groupRelated-button">Click here to see group page</button>
+                </Link>
+                {userData.value && userData.value.userid !== group.idowner && (
+                  <button className="groupRelated-button" onClick={() => handleSendJoinRequest(group.idgroup)}>Send Join Request</button>
+                )}
+                {userData.value && userData.value.userid === group.idowner && (
+                  <button className="groupRelated-button" onClick={() => handleDeleteGroup(group.idgroup, setGroups, setAcceptedMembers)}>Delete</button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-      </div>
-      );
+    </body>
+  );
 };
 
 export default GroupForm;

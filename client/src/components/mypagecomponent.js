@@ -12,7 +12,7 @@ function MyPage() {
   const [userSettings, setUserSettings] = useState(null); //settings some states here
   const [showReviews, setShowReviews] = useState(false);
   const [showMovies, setShowMovies] = useState(false);
-  const [favouriteMovie,setFavouriteMovie] = useState("");
+  const [favouriteMovie, setFavouriteMovie] = useState("");
   const handleSettingsChange = (newSettings) => {      //setting up a function that is used to update usersettings
     setUserSettings([{ ownviewsettings: newSettings }]);
     setFavouriteMovie(newSettings.favouritemovie || "");
@@ -49,34 +49,34 @@ function MyPage() {
 
   return (
     <body>
-    <div>
-      {siteStatus === 'pending' && <p>Loading...</p>} {/*simple loading message is rendered when site status is pending*/}
-      {siteStatus === 'success' && (                  //if the site status is an success it displays the parts that the owner wants people to see based on the owners settings
-        <div>
-          <h1>{`${username}'s MyPage`}</h1> 
-          {showReviews && <MiniComponentReviews username={username} />}
-          {showMovies && <MiniComponentMovie favouriteMovie={favouriteMovie} />}
-        </div>
-      )}
-      {siteStatus === 'owner' && (         //if the site status is an success in addition to parts rendered for normal visitors it also allows the user to change settings of the page
-        <div>
-          <p>{`This is your page ${username}`}</p>
-          
-          {userSettings && (
-        <SettingsButton
-          initialSettings={userSettings[0]?.ownviewsettings}
-          onSettingsChange={(newSettings) => {
-            handleSettingsChange(newSettings);
-            fetchUserSettings(); // Trigger a refetch after updating settings
-          }} />
-          )}
-          {showReviews && <MiniComponentReviews username={username} />}
-          {showMovies && <MiniComponentMovie favouriteMovie={favouriteMovie} />}
-        </div>
-      )}
-      {siteStatus === 'failure' && <p>{`User ${username} not found.`}</p>}
-      {siteStatus === 'error' && <p>Error occurred while fetching user data.</p>}
-    </div>
+      <div>
+        {siteStatus === 'pending' && <p>Loading...</p>} {/*simple loading message is rendered when site status is pending*/}
+        {siteStatus === 'success' && (                  //if the site status is an success it displays the parts that the owner wants people to see based on the owners settings
+          <div>
+            <h1>{`${username}'s MyPage`}</h1>
+            {showReviews && <MiniComponentReviews username={username} />}
+            {showMovies && <MiniComponentMovie favouriteMovie={favouriteMovie} />}
+          </div>
+        )}
+        {siteStatus === 'owner' && (         //if the site status is an success in addition to parts rendered for normal visitors it also allows the user to change settings of the page
+          <div>
+            <p>{`This is your page ${username}`}</p>
+
+            {userSettings && (
+              <SettingsButton
+                initialSettings={userSettings[0]?.ownviewsettings}
+                onSettingsChange={(newSettings) => {
+                  handleSettingsChange(newSettings);
+                  fetchUserSettings(); // Trigger a refetch after updating settings
+                }} />
+            )}
+            {showReviews && <MiniComponentReviews username={username} />}
+            {showMovies && <MiniComponentMovie favouriteMovie={favouriteMovie} />}
+          </div>
+        )}
+        {siteStatus === 'failure' && <p>{`User ${username} not found.`}</p>}
+        {siteStatus === 'error' && <p>Error occurred while fetching user data.</p>}
+      </div>
     </body>
   );
 }
@@ -85,7 +85,7 @@ function MiniComponentReviews({ username }) { //mini component that renders revi
 
   return (
     <div className='Reviews'>
-      
+
       <h1>My reviews</h1>
       <ReviewsList uname={username} />
     </div>
@@ -94,7 +94,7 @@ function MiniComponentReviews({ username }) { //mini component that renders revi
 
 function MiniComponentMovie({ favouriteMovie }) {
   useEffect(() => {
-  }, [favouriteMovie]); 
+  }, [favouriteMovie]);
   return (
     <div>
       <h1>My favorite movie!</h1>
@@ -163,7 +163,7 @@ function SettingsButton({ initialSettings, onSettingsChange }) {
               />
             </label>
           </div>
-          
+
           <button onClick={saveSettings}>Save</button>
         </div>
       </Popup>

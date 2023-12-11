@@ -3,12 +3,12 @@ import axios from 'axios';
 import { AddReviewWindow } from './reviewsComponent';
 import { jwtToken } from './Signals';
 import { Link } from 'react-router-dom';
-import FavouriteMovieButton from './favouriteMovieButton';
+import FavouriteMovieButton from './favoriteMovieButton';
 
 const MovieCard = ({ id }) => {
     //The movie card that shows all neccessery data in the series list. Edit this to decide what data the list shows
     const [data, setData] = useState(null);
-    useEffect(() => { 
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 let response;
@@ -22,9 +22,9 @@ const MovieCard = ({ id }) => {
         };
         fetchData();
         console.log("Call this once");
-        
+
     }, []);
-        
+
     return (
         <div>
             {data ? (
@@ -52,7 +52,7 @@ const MovieCard = ({ id }) => {
                             ) : (
                                 <button className="reviews-button"><Link to="/user-control">Log in to add a review</Link></button>
                             )}
-                       {jwtToken.value ? (
+                            {jwtToken.value ? (
                                 <FavouriteMovie movieId={data.id} />
                             ) : (
                                 <p></p>

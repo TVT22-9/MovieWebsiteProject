@@ -18,7 +18,7 @@ const ReviewsComponent = () => {
 /* Prints reviews based on if username(s), idmovie or idseries is given
  * The logged in user can edit and delete their own reviews
  * Call in a component like this: <ReviewsList/>. If putting in multiple usernames, separate them with a comma like so <ReviewsList uname={username1,username2} */
-export function ReviewsList({uname, idm, ids}) {
+export function ReviewsList({ uname, idm, ids }) {
     const [reviews, setReviews] = useState(null);
     const [titles, setTitles] = useState({});
     const [sortBy, setSortBy] = useState('newest'); // Sorts by newest by default
