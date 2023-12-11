@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const request = require('supertest');
 const app = require('../index.js');
-const groupDB = require('../database_tools/group_db.js'); // Import your groupDB module
+const groupDB = require('../database_tools/group_db.js');
 
 describe('Group tests', function() {
   //Gets all groups
@@ -123,16 +123,12 @@ describe('Group tests', function() {
                 .send( sendJoinRequest )
                 .expect(201);
       
-           /* // Checks that these exist in the returned data.
+            // Checks that these exist in the returned data.
             expect(response.body).to.have.property('message', 'Member added successfully');
             expect(response.body).to.have.property('member');
-      */
+      
             const member = response.body.member;
-      /*
-            expect(member).to.have.property('groupId', groupId);
-            expect(member).to.have.property('userId', userId);
-            expect(member).to.have.property('acceptedPool', false);
-      */
+
         } catch (error) {
             console.error(error);
             throw error;
@@ -153,15 +149,10 @@ describe('Group tests', function() {
               .expect(200);
   
           // Checks that these exist in the returned data.
-          /*expect(response.body).to.have.property('message', 'Member added successfully');
-          expect(response.body).to.have.property('member');
-  */
+          expect(response.body).to.have.property('message', 'Member status updated successfully');
+
           const member = response.body.member;
   
-    /*      expect(member).to.have.property('groupId', groupId);
-          expect(member).to.have.property('userId', userId);
-          expect(member).to.have.property('acceptedPool', false);
-  */
       } catch (error) {
           console.error(error);
           throw error;
