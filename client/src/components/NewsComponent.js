@@ -29,6 +29,7 @@ function NewsComponent({ filterTitle, returnMany }) {
     const [newsData, setNewsData] = useState(null);
     const [userGroups, setUserGroups] = useState(null);
     const [stateRefresh, setStateRefresh] = useState('0');
+    console.log('Filter Title:', filterTitle);
 
     useEffect(() => { 
         const fetchData = async () => {

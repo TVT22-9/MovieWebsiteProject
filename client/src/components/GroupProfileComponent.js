@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {  userData } from "./Signals";
 import '../group.css';
-
+import NewsComponent from './NewsComponent';
 //Component for group profiles where non members are restrictedfrom browsing the page.
 //Here the group owner can accept join requests from other users.
 
@@ -30,6 +30,7 @@ const GroupProfileComponent = () => {
       }
       
         setGroup(response.data.group || null);
+        console.log(response.data.group)
         setLoading(false); // Set loading to false after data is fetched
       })
       .catch(error => console.error('Error fetching group members:', error))
@@ -152,7 +153,16 @@ const handleDeleteGroup = async (groupId, setGroups) => {
     console.error('Error deleting group:', error);
   }
 };
-  
+function GetNewsForGroup() {
+    
+    console.log(group[0].groupsettings.news)
+    return (
+      <div>
+        {group[0].groupsettings.news.flat().map((title, index) => <NewsComponent key={index} filterTitle={title} returnMany={false} />)} 
+
+      </div>
+    )
+  }
 
  return (
   <div>
@@ -169,6 +179,7 @@ const handleDeleteGroup = async (groupId, setGroups) => {
           Description: <strong>{group.length > 0 && group[0].groupdescription}</strong></p>
         <p  className="group-container">
           Here would be news etc added by users:</p>
+          <GetNewsForGroup />
 
         {pendingMembers.length > 0 && (
           <div className="group-container">
@@ -212,6 +223,7 @@ const handleDeleteGroup = async (groupId, setGroups) => {
           )}
         </div>
       )}
+      
       {!isUserMember && <p>You need to be a member to access a group's page.</p>}
       {!group && <p>Loading...</p>}
     </div>
