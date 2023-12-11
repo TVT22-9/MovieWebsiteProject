@@ -72,8 +72,8 @@ function App() {
           <Route path="/news" element={<NewsSearchComponent />} /> 
 
         </Routes>
-        <footer>
-            <h2>This site is powered by</h2>
+        <footer className='footerclass'>
+            <h2>This site wouldn't work without</h2>
             <img src="/Moviedb.svg" alt="Footer Image" />
         </footer>
       </div>
