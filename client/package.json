@@ -45,5 +45,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "assert": "^2.1.0",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1",
+    "supertest": "^6.3.3"
   }
 }
