@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { userData } from "./Signals";
 import '../group.css';
 import NewsComponent from './NewsComponent';
+import { ReviewsList } from './reviewsComponent';
 //Component for group profiles where non members are restrictedfrom browsing the page.
 //Here the group owner can accept join requests from other users.
 
@@ -156,10 +157,10 @@ const GroupProfileComponent = () => {
   function GetNewsForGroup() {
 
     console.log(group[0].groupsettings.news)
-    if(group[0].groupsettings.news) {
+    if (group[0].groupsettings.news) {
       return (
         <div>
-          {group[0].groupsettings.news.flat().map((title, index) => <NewsComponent key={index} filterTitle={title} returnMany={false} />)} 
+          {group[0].groupsettings.news.flat().map((title, index) => <NewsComponent key={index} filterTitle={title} returnMany={false} />)}
 
         </div>
       )
@@ -186,9 +187,12 @@ const GroupProfileComponent = () => {
             </p>
             <p className="group-container">
               Description: <strong>{group.length > 0 && group[0].groupdescription}</strong></p>
-            <p className="group-container">
-              Here would be news etc added by users:</p>
-            <GetNewsForGroup />
+            <div className="group-container">
+              <GetNewsForGroup />
+            </div>
+            <div className="group-container">
+              <ReviewsList uname={acceptedMembers.map(member => member.username).join(',')} />
+            </div>
 
             {pendingMembers.length > 0 && (
               <div className="group-container">
