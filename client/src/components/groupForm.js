@@ -145,6 +145,10 @@ const GroupForm = () => {
 
   const handleSubmit = (e) => {    
     e.preventDefault();
+    if (!groupData.groupName.trim()) {
+      alert('Group name cannot be empty!');
+      return;
+    }
     handleCreateGroup();
   };
 
@@ -154,7 +158,7 @@ const GroupForm = () => {
     <div>
       <h1>Create, browse and join groups! Note that you have to be logged in to send join requests.</h1>
       {jwtToken.value.length > 0 && (
-        <div class="form-container">
+        <div className="form-container">
           <form onSubmit={handleSubmit}>
             <p className="group-container">
             <span>Group name:</span>
