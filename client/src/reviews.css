@@ -22,6 +22,11 @@
     padding-left: 0;
 }
 
+.reviews-item .reviews-button { /* Removes default padding from ul */
+    
+    margin-left: 0;
+}
+
 /* Popup CSS layout start */
 .reviews-popup {
     display: grid;
@@ -72,6 +77,7 @@
     grid-area: 3 / 1 / 4 / 3;
     width: auto;
     margin-right: 0;
+    margin-left: 0;
     margin-bottom: 0;
     padding: 0;
     font-size: large;
@@ -88,7 +94,7 @@
 .reviews-button {
     text-align: center;
     width: fit-content;
-    margin-left: 0;
+    margin-left: 10px;
     margin-right: 10px;
     padding: 10px;
     transition: 0.3s;

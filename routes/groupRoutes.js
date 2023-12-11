@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pgPool = require('../database_tools/connection'); 
+const pgPool = require('../database_tools/connection');
 const groupDB = require('../database_tools/group_db');
 const jwt = require('jsonwebtoken');
 const { getUserByName } = require('../database_tools/user');
@@ -46,7 +46,7 @@ router.post('/create', async (req, res) => {
     const ownerId = req.body.idowner;
     const description = req.body.description;
     const groupSettingsString = req.body.groupsettings;
-    const groupsettings = req.body.groupsettings ? JSON.parse(req.body.groupsettings ) : null;
+    const groupsettings = req.body.groupsettings ? JSON.parse(req.body.groupsettings) : null;
     const groupId = req.body.groupId;
 
     // Check if the group already exists by name
@@ -189,7 +189,7 @@ router.get('/groupByUser/:userId', async (req, res) => {
     const data = await groupDB.getGroubsByUser(req.params.userId);
     const result = data.rows;
     console.log(result);
-    res.status(200).json({ message: 'Groups retrieved successfully', result});
+    res.status(200).json({ message: 'Groups retrieved successfully', result });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -225,7 +225,7 @@ router.get('/groupByName/:groupName', async (req, res) => {
   try {
     const data = await groupDB.getGroupByName(req.params.groupName);
     console.log(data);
-    res.status(200).json({ message: 'Group retrieved successfully', data});
+    res.status(200).json({ message: 'Group retrieved successfully', data });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });

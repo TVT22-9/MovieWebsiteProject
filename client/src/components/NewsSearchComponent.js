@@ -25,18 +25,20 @@ function OtherComponent() {
 
 
     return (
-        <div>
-            <input
-                className='search'
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-            />
+        <body>
+            <div>
+                <input
+                    className='search'
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                />
 
-            <NewsComponent filterTitle= {searchQuery} returnMany= {true} />
+                <NewsComponent filterTitle={searchQuery} returnMany={true} />
 
-        </div>
+            </div>
+        </body>
     );
 }
 

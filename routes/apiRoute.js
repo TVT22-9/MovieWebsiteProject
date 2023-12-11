@@ -1,5 +1,5 @@
 const express = require('express');
-const apiOptions = require('../api_tools/api_options'); 
+const apiOptions = require('../api_tools/api_options');
 const router = express.Router();
 
 // Movies below this
@@ -9,8 +9,8 @@ router.get('/topRatedMovies/:page', async (req, res) => { // Get top rated movie
         if (isNaN(page) || !Number.isInteger(page)) {
             page = 1;
             console.log("Tried to search using invalid page. Defaulting to 1")
-        } 
-        const url = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page='+req.params.page;
+        }
+        const url = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=' + req.params.page;
         const response = await fetch(url, apiOptions);
         const result = await response.json();
         if (result.success === false) {
@@ -18,7 +18,7 @@ router.get('/topRatedMovies/:page', async (req, res) => { // Get top rated movie
         } else {
             res.json(result);
         }
-              
+
     } catch (error) {
         console.error('Error connecting to API', error);
         res.status(404).send('Internal Server Error');
@@ -26,12 +26,12 @@ router.get('/topRatedMovies/:page', async (req, res) => { // Get top rated movie
 });
 router.get('/movieId/:id', async (req, res) => { // Gets movie using the id
     try {
-        const url = 'https://api.themoviedb.org/3/movie/'+ req.params.id +'?language=en-US';
+        const url = 'https://api.themoviedb.org/3/movie/' + req.params.id + '?language=en-US';
         const response = await fetch(url, apiOptions);
         const result = await response.json();
         if (result.success === false) {
             res.status(404).json({ success: false, message: 'Movie not found' });
-        } else{
+        } else {
             res.json(result);
         }
 
@@ -46,18 +46,18 @@ router.get('/searchMovie/:query/:page', async (req, res) => { // Search Movies s
         if (isNaN(page) || !Number.isInteger(page)) {
             page = 1;
             console.log("Tried to search using invalid page. Defaulting to 1")
-            
-        } 
-        const url = 'https://api.themoviedb.org/3/search/movie?query='+ req.params.query +'&language=en-US&page='+ page;
+
+        }
+        const url = 'https://api.themoviedb.org/3/search/movie?query=' + req.params.query + '&language=en-US&page=' + page;
         const response = await fetch(url, apiOptions);
         const result = await response.json();
-    
+
         if (result.success === false) {
             res.status(400).json({ success: false, message: 'Request had bad syntax or was impossible to fulfill' });
-        } else{
+        } else {
             res.json(result);
         }
-        
+
     } catch (error) {
         console.error('Error connecting to API', error);
         res.status(500).send('Internal Server Error');
@@ -72,19 +72,19 @@ router.get('/advancedMovie/:adult/:page/:sort/:genres/:negGenres/:year?', async 
         if (isNaN(page) || !Number.isInteger(page)) {
             page = 1;
             console.log("Tried to search using invalid page. Defaulting to 1")
-        } 
+        }
 
         let url = `https://api.themoviedb.org/3/discover/movie?include_adult=${req.params.adult}&language=en-US&page=${page}&sort_by=${req.params.sort}&with_genres=${req.params.genres}&without_genres=${req.params.negGenres}`;
         if (req.params.year) {
             url += `&year=${req.params.year}`;
         }
-        
+
         const response = await fetch(url, apiOptions);
         const result = await response.json();
 
         if (result.success === false) {
             res.status(404).json({ success: false, message: 'The resource you requested could not be found' });
-        } else{
+        } else {
             res.json(result);
         }
     } catch (error) {
@@ -102,9 +102,9 @@ router.get('/topRatedShows/:page', async (req, res) => { // Get top rated tv sho
         if (isNaN(page) || !Number.isInteger(page)) {
             page = 1;
             console.log("Tried to search using invalid page. Defaulting to 1")
-        } 
+        }
 
-        const url = 'https://api.themoviedb.org/3/tv/top_rated?language=en-US&page='+ page;
+        const url = 'https://api.themoviedb.org/3/tv/top_rated?language=en-US&page=' + page;
         const response = await fetch(url, apiOptions);
         const result = await response.json();
         if (result.success === false) {
@@ -123,13 +123,13 @@ router.get('/searchShow/:query/:page', async (req, res) => { // Search TV shows 
         if (isNaN(page) || !Number.isInteger(page)) {
             page = 1;
             console.log("Tried to search tv show using invalid page. Defaulting to 1")
-        } 
-        const url = 'https://api.themoviedb.org/3/search/tv?query='+ req.params.query +'&language=en-US&page='+ page;
+        }
+        const url = 'https://api.themoviedb.org/3/search/tv?query=' + req.params.query + '&language=en-US&page=' + page;
         const response = await fetch(url, apiOptions);
         const result = await response.json();
         if (result.success === false) {
             res.status(404).json({ success: false, message: 'The resource you requested could not be found' });
-        } else{
+        } else {
             res.json(result);
         }
     } catch (error) {
@@ -140,12 +140,12 @@ router.get('/searchShow/:query/:page', async (req, res) => { // Search TV shows 
 
 router.get('/tvShowId/:id', async (req, res) => { // Gets tv show using the id
     try {
-        const url = 'https://api.themoviedb.org/3/tv/'+ req.params.id +'?language=en-US';
+        const url = 'https://api.themoviedb.org/3/tv/' + req.params.id + '?language=en-US';
         const response = await fetch(url, apiOptions);
         const result = await response.json();
         if (result.success === false) {
             res.status(404).json({ success: false, message: 'Series not found' });
-        } else{
+        } else {
             res.json(result);
         }
     } catch (error) {
@@ -160,18 +160,18 @@ router.get('/advancedSeries/:adult/:page/:genres/:negGenres/:year?', async (req,
         if (isNaN(page) || !Number.isInteger(page)) {
             page = 1;
             console.log("Tried to search using invalid page. Defaulting to 1")
-        } 
+        }
         let url = `https://api.themoviedb.org/3/discover/tv?include_adult=${req.params.adult}&include_null_first_air_dates=false&language=en-US&page=${page}&sort_by=${req.params.sort}&with_genres=${req.params.genres}&without_genres=${req.params.negGenres}`;
 
         if (req.params.year) {
             url += `&year=${req.params.year}`;
         }
-        
+
         const response = await fetch(url, apiOptions);
         const result = await response.json();
         if (result.success === false) {
             res.status(404).json({ success: false, message: 'The resource you requested could not be found' });
-        } else{
+        } else {
             res.json(result);
         }
     } catch (error) {

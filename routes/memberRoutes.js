@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pgPool = require('../database_tools/connection'); 
+const pgPool = require('../database_tools/connection');
 const groupDB = require('../database_tools/group_db');
 const userDB = require('../database_tools/user.js');
 const { getUserByID } = userDB;

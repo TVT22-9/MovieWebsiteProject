@@ -10,7 +10,7 @@ const SeriesPageComponent = () => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
 
-    useEffect(() => { 
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 let response;
@@ -72,7 +72,7 @@ const SeriesPageComponent = () => {
                         </div>
                         <div className='Reviews'>
                             <h2>Reviews</h2>
-                            
+
                             {jwtToken.value ? (
                                 AddReviewWindow(null, data.id)
                             ) : (
@@ -88,7 +88,7 @@ const SeriesPageComponent = () => {
             )}
 
         </div>
-      );
-  
+    );
+
 }
 export default SeriesPageComponent;

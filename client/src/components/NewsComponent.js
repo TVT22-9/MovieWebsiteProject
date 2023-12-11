@@ -31,7 +31,7 @@ function NewsComponent({ filterTitle, returnMany }) {
     const [stateRefresh, setStateRefresh] = useState('0');
     console.log('Filter Title:', filterTitle);
 
-    useEffect(() => { 
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://www.finnkino.fi/xml/News/');
@@ -51,7 +51,7 @@ function NewsComponent({ filterTitle, returnMany }) {
             }
         };
         fetchData();
-        
+
         const fetchGroups = async () => {
             try {
                 console.log('http://localhost:3001/groups/groupByUser/' + userData.value?.userid);
@@ -71,7 +71,7 @@ function NewsComponent({ filterTitle, returnMany }) {
 
     async function updateGroupSettings(group, article) {
         const title = article;
-        
+
         if (group.groupsettings.news) {
             const newsArray = group.groupsettings.news.map(String); // Convert to strings
 
@@ -87,30 +87,30 @@ function NewsComponent({ filterTitle, returnMany }) {
                 group.groupsettings.news.push(title);
                 console.log(`Added new article with title: ${title}`);
             }
-            } else {
+        } else {
             group.groupsettings.news = [];
             group.groupsettings.news.push(article);
 
             console.log("Initial news array:", group.groupsettings.news);
         }
-            
+
         let name = group.groupname
         let settings = group.groupsettings;
         const response = await axios.put('http://localhost:3001/groups/groupSettingsUpdate/', {
             groupName: name,
-            settings: settings 
+            settings: settings
         });
         console.log(response.data.group.groupsettings);
         setStateRefresh((prevState) =>
-        prevState === 0 ? 1 : 0
+            prevState === 0 ? 1 : 0
         );
-  
+
     }
-    
+
     const filteredNewsData = newsData && filterTitle
         ? newsData.filter(article => article.Title[0].includes(filterTitle))
         : newsData;
-    
+
     const firstArticle = filteredNewsData && filteredNewsData.length > 0
         ? filteredNewsData[0]
         : null;
@@ -132,7 +132,7 @@ function NewsComponent({ filterTitle, returnMany }) {
                                                 {userGroups && userGroups.map((group) => (
                                                     <li key={group.groupname}>
                                                         <strong>{group.groupname}</strong>
-                                                        <button onClick={() => updateGroupSettings(group, article.Title)}>                                        
+                                                        <button onClick={() => updateGroupSettings(group, article.Title)}>
                                                             {group.groupsettings.news && group.groupsettings.news.flat().includes(String(article.Title))
                                                                 ? 'Remove from group'
                                                                 : 'Add to group'
@@ -143,12 +143,12 @@ function NewsComponent({ filterTitle, returnMany }) {
                                                 ))}
                                             </div>
                                         </Popup>
-                                    ):(
+                                    ) : (
                                         <p>Login to add to group</p>
                                     )}
                                     <a href={article.ArticleURL[0]} target="_blank" rel="noopener noreferrer">Read More</a>
-                                <hr />
-                            </div>
+                                    <hr />
+                                </div>
                             ))}
                         </pre>
                     ) : (

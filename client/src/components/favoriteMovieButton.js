@@ -45,8 +45,8 @@ function FavouriteMovieButton({ movieId }) {
 
     return (
         <button onClick={handleButtonClick} disabled={buttonText === 'Success'}>
-        {buttonText}
-      </button>
+            {buttonText}
+        </button>
     );
 }
 

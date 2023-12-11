@@ -8,7 +8,7 @@ const SeriesCard = ({ id }) => {
     //The movie card that shows all neccessery data in the series list. Edit this to decide what data the list shows
     const [data, setData] = useState(null);
 
-    useEffect(() => { 
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 let response;
@@ -22,7 +22,7 @@ const SeriesCard = ({ id }) => {
         };
         fetchData();
         console.log("Call this once");
-        
+
     }, []);
 
     return (
@@ -30,7 +30,7 @@ const SeriesCard = ({ id }) => {
             {data ? (
                 <pre>
                     <div className="MovieCard">
-                    
+
                         <div className='CardImg'>
                             {data.poster_path ? (
                                 <img src={'https://image.tmdb.org/t/p/w200' + data.poster_path} alt={data.name} />
