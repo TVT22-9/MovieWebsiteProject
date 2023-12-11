@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NewsComponent from './NewsComponent';
-import { extractNewsTitles, GetAllNews } from './NewsComponent';
+import { extractNewsTitles } from './NewsComponent';
 
 function OtherComponent() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -27,7 +27,7 @@ function OtherComponent() {
     return (
         <div>
             <input
-                className='advancedSearch'
+                className='search'
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}

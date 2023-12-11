@@ -18,7 +18,10 @@ const sql = {
   SELECT_COUNT_BY_ID: 'SELECT COUNT(*) FROM members WHERE idgroup = $1 AND iduser = $2',
   UPDATE_BY_ID: 'UPDATE members SET role = $1 WHERE idgroup = $2 AND iduser = $3',
   DELETE_BY_ID: 'DELETE FROM members WHERE idgroup = $1 AND iduser = $2',
-  GET_MEMBERS_BY_GROUP: 'SELECT * FROM members WHERE groupId = $1 AND acceptedPool = $2'
+  GET_MEMBERS_BY_GROUP: 'SELECT * FROM members WHERE groupId = $1 AND acceptedPool = $2',
+
+  GET_GROUPS_BY_USER: 'SELECT groups.idgroup, groups.groupname, groups.groupsettings FROM groups INNER JOIN members ON groups.idgroup = members.idgroup WHERE members.iduser = $1 AND members.status = true;',
+  UPDATE_GROUP_SETTINGS_BY_NAME: 'UPDATE groups SET groupsettings=$1 WHERE groupname=$2 RETURNING *'
 };
 
 
@@ -26,12 +29,6 @@ const sql = {
 
 // Function to add a new group to the database
 async function addGroup(groupname, groupdescription, groupsettings, idowner) {
-   // console.log('Adding group with the following details:');
-    //console.log('groupname:', groupname);
-    //console.log('groupdescription:', groupdescription);
-    //console.log('groupsettings:', groupsettings);
-    //console.log('idowner:', idowner);
-    
        try {
           const result = await pgPool.query(sql.INSERT_GROUP, [groupname, groupdescription, groupsettings, idowner]);
           return result.rows; // Return the newly created group
@@ -87,7 +84,7 @@ async function groupExistsById(idgroup) {
 
 
 async function addMember(idgroup, iduser, status){
-  console.log('Adding member:', idgroup, iduser, status);
+  //console.log('Adding member:', idgroup, iduser, status);
   await pgPool.query(sql.INSERT_INTO, [idgroup, iduser, status]);
 }
 
@@ -103,8 +100,8 @@ async function sendJoinRequest(groupId, userId, acceptedPool) {
     // Add the user as a member with acceptedPool set to false
     const addMemberResult = await addMember(groupId, userId, acceptedPool);
 
-    if (addMemberResult.memberExists) {
-    }
+    //if (addMemberResult.memberExists) {
+    //}
 
     // Notify the other component about the join request
     // You can use an event emitter or another mechanism to notify the other component
@@ -205,7 +202,16 @@ async function deleteAllMembers(groupId) {
   return result.rows;
 }
 
+// Function to get groups using user id
+async function getGroubsByUser(iduser) {
+  let result = await pgPool.query(sql.GET_GROUPS_BY_USER, [iduser]);
+  return result;
+}
 
+async function updateGroupSettingsByName (groupsettings, groupname) {
+  let result = await pgPool.query(sql.UPDATE_GROUP_SETTINGS_BY_NAME, [groupsettings,  groupname]);
+  return result.rows;
+}
 module.exports = {
   addGroup,
   getAllGroups,
@@ -223,5 +229,7 @@ module.exports = {
   getPendingMembers,
   memberExistsById,
   deleteMemberById,
-  deleteAllMembers
+  deleteAllMembers,
+  getGroubsByUser,
+  updateGroupSettingsByName
 };
