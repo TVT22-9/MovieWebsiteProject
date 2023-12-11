@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import {  userData } from "./Signals";
 import '../group.css';
 
-
+//Component for group profiles where non members are restrictedfrom browsing the page.
+//Here the group owner can accept join requests from other users.
 
 const GroupProfileComponent = () => {
   const { groupId } = useParams();
@@ -56,59 +57,62 @@ const GroupProfileComponent = () => {
 
   
 
-
+//Uses a signal to check if the user is on the member table for the group they're browsing.
 const isUserMember = acceptedMembers.some(member => member.username === userData.value?.private);
 
-  const getPendingMembers = async (groupId) => {
-    try {
-      const response = await axios.get(`http://localhost:3001/members/${groupId}/pending-members`);
-      return response.data.pendingMembers || [];
+//Gets the list of user that have sent join requests but haven't been accepted.
+const getPendingMembers = async (groupId) => {
+  try {
+    const response = await axios.get(`http://localhost:3001/members/${groupId}/pending-members`);
+    return response.data.pendingMembers || [];
+  } catch (error) {
+    console.error('Error fetching pending group members:', error);
+    throw error;
+  }
+};
+
+//Accepts a user in to the group
+const handleAcceptPendingMember = async (userId) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:3001/members/${groupId}/update-member/${userId}`,
+      {
+        acceptedPool: true,
+      }
+    );
+
+    axios.get(`http://localhost:3001/groups/${groupId}`)
+      .then(response => {
+        setGroup(response.data.group || null);
+      })
+      .catch(error => console.error('Error fetching group details:', error));
+
+    axios.get(`http://localhost:3001/members/${groupId}/get`)
+      .then(response => {
+        setacceptedMembers(response.data.acceptedMembers || []);
+      })
+      .catch(error => console.error('Error fetching group members:', error));
+      setPendingMembers(prevPendingMembers =>
+        prevPendingMembers.filter(member => member.iduser !== userId)
+      );
     } catch (error) {
-      console.error('Error fetching pending group members:', error);
-      throw error;
+      console.error('Error accepting join request:', error.response || error);
     }
   };
 
+//Gets the list of accepted members for a group.
+const fetchAcceptedMembers = async () => {
+  try {
+    const response = await axios.get(`http://localhost:3001/members/${groupId}/get`);
 
-  const handleAcceptPendingMember = async (userId) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:3001/members/${groupId}/update-member/${userId}`,
-        {
-          acceptedPool: true,
-        }
-      );
-
-      axios.get(`http://localhost:3001/groups/${groupId}`)
-        .then(response => {
-          setGroup(response.data.group || null);
-        })
-        .catch(error => console.error('Error fetching group details:', error));
-
-      axios.get(`http://localhost:3001/members/${groupId}/get`)
-        .then(response => {
-          setacceptedMembers(response.data.acceptedMembers || []);
-        })
-        .catch(error => console.error('Error fetching group members:', error));
-        setPendingMembers(prevPendingMembers =>
-          prevPendingMembers.filter(member => member.iduser !== userId)
-        );
-      } catch (error) {
-        console.error('Error accepting join request:', error.response || error);
-      }
-    };
-
-    const fetchAcceptedMembers = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/members/${groupId}/get`);
+    // Use the callback form of setMembers to get the updated state value
+    setacceptedMembers(prevMembers => response.data.acceptedMembers || []);
+  } catch (error) {
+    console.error('Error fetching accepted group members:', error);
+  }
+};
     
-        // Use the callback form of setMembers to get the updated state value
-        setacceptedMembers(prevMembers => response.data.acceptedMembers || []);
-      } catch (error) {
-        console.error('Error fetching accepted group members:', error);
-      }
-    };
-    
+//Deletes a member, used for both pending and accepted members.
 const handleDeleteMember = async (groupId, memberId, setacceptedMembers) => {
   try {
     if (memberId) {
@@ -130,23 +134,24 @@ const handleDeleteMember = async (groupId, memberId, setacceptedMembers) => {
   }
 };
 
-  const handleDeleteGroup = async (groupId, setGroups) => {
-    try {
-      const id = parseInt(groupId, 10);
-  
-      // Delete all members of the group
-      await handleDeleteMember(groupId, null, setGroups);
-  
-      // Now that members are deleted, delete the group itself
-      const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
-  
-      // Update the groups state by removing the deleted group
-      setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
+//Deletes all the members of a group and then the group itself.
+const handleDeleteGroup = async (groupId, setGroups) => {
+  try {
+    const id = parseInt(groupId, 10);
 
-    } catch (error) {
-      console.error('Error deleting group:', error);
-    }
-  };
+    // Delete all members of the group
+    await handleDeleteMember(groupId, null, setGroups);
+
+    // Now that members are deleted, delete the group itself
+    const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
+
+    // Update the groups state by removing the deleted group
+    setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
+
+  } catch (error) {
+    console.error('Error deleting group:', error);
+  }
+};
   
 
  return (

@@ -76,12 +76,24 @@ describe('Group tests', function() {
       
             //Stores the test group id for further use
             createdGroupId = res.body.group.idgroup;
-            //console.log (createdGroupId);
       
         } catch (error) {
             console.error(error);
             throw error;
           }
+    });
+    //Attempts to create a group with a name that already exists. Produces an error
+    it('Create a group with a name that already exists. Returns an error.', async function() {
+        const newGroupData = {
+          groupName: 'NewTestGroup',
+          idowner: 44,
+          description: 'Test group description',
+          groupsettings: JSON.stringify({ "shownews": true })
+        };
+        const res = await request(app)
+            .post('/groups/create')
+            .send(newGroupData)
+            .expect(400);
     });
     //Adds the owner as a member to give viewing access to the group
     it('Adds the owner as a member', async function () {

@@ -26,12 +26,6 @@ const sql = {
 
 // Function to add a new group to the database
 async function addGroup(groupname, groupdescription, groupsettings, idowner) {
-   // console.log('Adding group with the following details:');
-    //console.log('groupname:', groupname);
-    //console.log('groupdescription:', groupdescription);
-    //console.log('groupsettings:', groupsettings);
-    //console.log('idowner:', idowner);
-    
        try {
           const result = await pgPool.query(sql.INSERT_GROUP, [groupname, groupdescription, groupsettings, idowner]);
           return result.rows; // Return the newly created group
