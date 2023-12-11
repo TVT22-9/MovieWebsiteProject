@@ -145,6 +145,10 @@ const GroupForm = () => {
 
   const handleSubmit = (e) => {    
     e.preventDefault();
+    if (!groupData.groupName.trim()) {
+      alert('Group name cannot be empty!');
+      return;
+    }
     handleCreateGroup();
   };
 
