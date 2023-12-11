@@ -94,7 +94,6 @@ function MiniComponentReviews({ username }) { //mini component that renders revi
 
 function MiniComponentMovie({ favouriteMovie }) {
   useEffect(() => {
-    console.log('favouritemovie has changed:', favouriteMovie);
   }, [favouriteMovie]); 
   return (
     <div>
@@ -111,7 +110,6 @@ function MiniComponentMovie({ favouriteMovie }) {
 function SettingsButton({ initialSettings, onSettingsChange }) {
   const [settings, setSettings] = useState(initialSettings);
   const [isOpen, setIsOpen] = useState(false);
-  const [favoriteMovieInput, setFavoriteMovieInput] = useState(''); 
 
   const handleSwitchChange = (setting) => {
     setSettings((prevSettings) => ({
@@ -122,11 +120,12 @@ function SettingsButton({ initialSettings, onSettingsChange }) {
 
   const saveSettings = async () => {
     try {
-      const username = userData.value?.private; 
-      const favouritemovie = isNaN(favoriteMovieInput) ? favoriteMovieInput : Number(favoriteMovieInput);
+      const username = userData.value?.private;
+      const existingFavouriteMovie = initialSettings.favouritemovie || '';
+
       const response = await axios.put('http://localhost:3001/user/updatesettings', {
         username,
-        newsettings: JSON.stringify({ ...settings, favouritemovie }), // Update settings with the input value
+        newsettings: JSON.stringify({ ...settings, favouritemovie: existingFavouriteMovie }),
       });
 
       const updatedUserSettings = response.data;
@@ -146,7 +145,7 @@ function SettingsButton({ initialSettings, onSettingsChange }) {
           <h3>Settings</h3>
           <div>
             <label>
-              Show Reviews:
+              Show My Reviews:
               <input
                 type="checkbox"
                 checked={settings.showreviews}
@@ -156,7 +155,7 @@ function SettingsButton({ initialSettings, onSettingsChange }) {
           </div>
           <div>
             <label>
-              Show Movies:
+              Show My Favourite Movie:
               <input
                 type="checkbox"
                 checked={settings.showmovies}
@@ -164,16 +163,7 @@ function SettingsButton({ initialSettings, onSettingsChange }) {
               />
             </label>
           </div>
-          <div>
-            <label>
-              Favorite Movie:
-              <input
-                type="text"
-                value={favoriteMovieInput}
-                onChange={(e) => setFavoriteMovieInput(e.target.value)}
-              />
-            </label>
-          </div>
+          
           <button onClick={saveSettings}>Save</button>
         </div>
       </Popup>

@@ -1,7 +1,7 @@
 {
   "name": "moviewebsiteproject",
   "version": "1.0.0",
-  "description": "Huhroo = Huhta Roope<br>\r JanTPau = Janne Pauna<br>\r JuusoKorpinen = Juuso Korpinen<br>\r hunterpete2002 = Petri Kilpeläinen",
+  "description": "Moviewebsite project",
   "main": "index.js",
   "scripts": {
     "test": "mocha backendtests/movieListTest.js backendtests/reviewsTest.js backendtests/userTest.js",

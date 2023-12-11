@@ -29,9 +29,14 @@ function App() {
       <div className='app'>
         <nav className='nav'>
           <ul>
+          {jwtToken.value ? (
+            <li>
+                <Link to={`/mypage/${userData.value?.private}`}>{`${userData.value?.private}'s MyPage`}</Link>
+            </li> ) :
             <li>
               <Link to="/">Home</Link>
-            </li>
+            </li>}
+            
             {jwtToken.value ? (
             <li>
                 <Link to="/user-control">Logout</Link>
@@ -50,10 +55,6 @@ function App() {
             <li>
               <Link to="/news">News</Link>
             </li>
-            {jwtToken.value ? (
-            <li>
-                <Link to={`/mypage/${userData.value?.private}`}>{`${userData.value?.private}'s MyPage`}</Link>
-            </li> ) : null}
           </ul>
         </nav>
     
@@ -71,8 +72,8 @@ function App() {
           <Route path="/news" element={<NewsSearchComponent />} /> 
 
         </Routes>
-        <footer>
-            <h2>This site is powered by</h2>
+        <footer className='footerclass'>
+            <h2>This site wouldn't work without</h2>
             <img src="/Moviedb.svg" alt="Footer Image" />
         </footer>
       </div>

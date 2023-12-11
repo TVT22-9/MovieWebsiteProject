@@ -10,7 +10,7 @@ function Usercontrol() {
   if (jwtToken.value.length === 0) {
     return (
       <body>
-      <div>
+      <div className='usercontrol' >
         <UserInfo />
         <h2> Sign in</h2>
         <SignInForm />
@@ -41,7 +41,7 @@ function UserInfo(){
 
   return(
     <div>
-      {jwtToken.value ? <h1>{"Welcome " + userData.value?.private + " Your id is " + userData.value?.userid}</h1> : <h2>You are currently guest </h2> }
+      {jwtToken.value ? <h1>{"Welcome " + userData.value?.private}</h1> : <h2>You are currently guest </h2> }
     </div>
   )
 }
@@ -134,7 +134,7 @@ function RegisterForm() {
 //if the user presses ok then it tries to delete the account 
 function DeleteAccount()  {
   const handleDeleteAccount = async () => {
-    const isConfirmed = window.confirm('Are you sure you want to delete your account?');
+    const isConfirmed = window.confirm('Are you sure you want to delete your account? This will delete all your Data on site');
     const username = userData.value?.private;
 
     if (isConfirmed) {
