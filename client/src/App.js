@@ -12,6 +12,7 @@ import SeriesPageComponent from './components/SeriesPageComponent';
 import NewsSearchComponent from './components/NewsSearchComponent'
 import  "./rhcss.css";
 import './moviePageCss.css';
+import MovieCard from './components/MovieCardComponent'
 
 
 
@@ -19,7 +20,10 @@ import './moviePageCss.css';
 function Home() {
   return( 
   <body>
-  <h1>Hello World!</h1>
+  <h1>Welcome to our movie website project</h1>
+  <p>Here you can browse both movies and series, and if you register and login you can review them!</p>
+  <p>There also is option to browse Finnkino news and set up your ownpage or group page!</p>
+  <MiniComponentMovie/>
   </body>
 )}
 
@@ -78,6 +82,18 @@ function App() {
         </footer>
       </div>
     </Router>
+  );
+}
+
+function MiniComponentMovie() {
+  let greatest = 12;
+  return (
+    <div>
+      <h2>Greatest movie of the millenia</h2>
+      {
+        <MovieCard id={greatest} />
+      }
+    </div>
   );
 }
 

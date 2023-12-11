@@ -53,6 +53,19 @@ router.put('/', async (req,res) =>  {
     const newsettings = req.body.newsettings ? JSON.parse(req.body.newsettings) : null;
     const username = req.body.username;
 
+    if (!newpassword) {
+        return res.status(400).json({ error: 'newpassword is required' });
+    }
+    if (!newusername) {
+        return res.status(400).json({ error: 'newusername is required' });
+    }
+    if (!newsettings) {
+        return res.status(400).json({ error: 'newsettings is required' });
+    }
+    if (!username) {
+        return res.status(400).json({ error: 'username is required' });
+    }
+
     newpassword = await bcrypt.hash(newpassword, 10);
 
     try {
@@ -99,11 +112,11 @@ router.post('/', async (req,res) => {
             const token = jwt.sign({username: username}, process.env.JWT_SECRET);
             res.status(200).json({jwtToken:token});
         }else{
-            //Security wise the errors should not provide this info but they are helpful during develoment
-            res.status(401).json({error: 'Invalid password'});
+           
+            res.status(401).json({error: 'Either username or password was wrong'});
         }
     }else{
-        res.status(401).json({error: 'Username not found'});
+        res.status(401).json({error: 'Either username or password was wrong'});
     }
 });
 //user put path that updates users settings json table with new data if the corresponding username is inputed
@@ -111,6 +124,12 @@ router.post('/', async (req,res) => {
 router.put('/updatesettings', async (req,res) => {
     const username = req.body.username;
     const newsettings = req.body.username ? JSON.parse(req.body.newsettings) : null;
+    
+ 
+    if (!username) {
+        return res.status(400).json({ error: 'username is required' });
+    }
+
 
     try {
         const result = await updateUserSettings(newsettings,username);
