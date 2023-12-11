@@ -20,6 +20,9 @@ const MovieListComponent = () => {
     const [includedGenres, setIncludedGenres] = useState(["s"]);
     const [excludedGenres, setExcludedGenres] = useState(["s"]);
   
+    //Modal state if shown or not. Needed to be able to close the modal on mobile.
+    const [isOpen, setIsOpen] = useState(false);
+
     const genres = [ //Movie genres
         { id: 28, label: 'Action' },
         { id: 12, label: 'Adventure' },
@@ -80,7 +83,7 @@ const MovieListComponent = () => {
                     key={item.id}
                     onClick={() => handleItemClick(item.id)}
                     style={{
-                        backgroundColor: selectedItems.indexOf(String(item.id)) !== -1 ? 'lightblue' : 'white',
+                        backgroundColor: selectedItems.indexOf(String(item.id)) !== -1 ? 'lightgreen' : 'lightgray',
                         cursor: 'pointer',
                         padding: '8px',
                         margin: '4px',
@@ -123,7 +126,10 @@ const MovieListComponent = () => {
         setYear(document.getElementsByName('year')[0].value);
         setData(null);
         setSearchQuery('');
+        setIsOpen(false);
+
     }    
+
     useEffect(() => { 
         const fetchData = async () => {
             try {
@@ -184,7 +190,17 @@ const MovieListComponent = () => {
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
                 />
-                <Popup trigger={<button className='advancedSearchButton'> Advanced Search </button>} modal>
+                <Popup
+                    className='MovieListPopup'
+                    showCloseButton={true}
+
+                    trigger={<button className='advancedSearchButton'> Advanced Search </button>} 
+                    modal
+                    closeOnDocumentClick={true}
+                    onOpen={() => setIsOpen(true)}
+                    open={isOpen}
+                    onClose={() => setIsOpen(false)}
+                >
                     <div className='advancedSearch'>
                         <h2>Advanced Search</h2>
                         <label>Search adult movies? </label>
@@ -192,15 +208,20 @@ const MovieListComponent = () => {
                             <option value='true'>Yes</option>
                             <option value='false'>No</option>
                         </select>
+                        <br/>
+
+                        <label> Sort by </label>
                         <select name="sortBySelect" defaultValue={sortBy}>
                             <option value='popularity.desc'>Popular</option>
                             <option value='vote_count.desc'>Rating count</option>
                             <option value='primary_release_date.desc'>Newest</option>
                         </select>
-
-                        <label>Year: </label>
+                        <br/>
+                        <label> Year: </label>
                         <input type="" name="year" defaultValue={year}/>
-                        <br></br>
+                        
+                        <br />
+                        <br />
                         <label>Included Genres: </label>
                         <SelectableList
                             items={listState === 1 ? genres : tvGenres}
@@ -214,10 +235,9 @@ const MovieListComponent = () => {
                             selectedItems={excludedGenres}
                             onSelect={(selectedItems) => setExcludedGenres(selectedItems)}
                         />
-
+                        <br></br>
                         <button onClick={async () => {
                             handleAdvancedSearch();
-        
                         }}>Search</button>
                     </div>
                 </Popup>

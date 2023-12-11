@@ -90,9 +90,17 @@ button[disabled]{
 }
 
 .advancedSearch {
-    background-color: gray;
+    background-color: #5A5C69;
     padding: 20px;
     color: black;
+    min-width: 40vw;
+    overflow: auto;
+    max-height: 100vh;
+    max-width: 100vh;
+
+}
+.advancedSearch button {
+    background-color: #888B9E;
 }
 /*Below is the code for movie and series cards*/
 
@@ -142,6 +150,11 @@ button[disabled]{
     max-width:100%;
     width: auto;
 }
+
+.NewsArticle a {
+    padding-left: 10px;
+    color: rgb(158, 210, 228);
+}
 @media screen and (max-width: 600px) {
     .Container {
         grid-template-columns: auto auto auto; 
@@ -156,7 +169,9 @@ button[disabled]{
         min-width: 20vw;
     }
     .search {
-        width: 75vw;
-
+        width: 40vw;
+    }
+    .advancedSearch {
+        min-width: 50vh;
     }
 }
