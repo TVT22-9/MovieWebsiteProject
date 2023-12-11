@@ -53,9 +53,10 @@ router.get('/iduser/:iduser', async (req, res) => {
 });
 
 /* Route for getting reviews by username */
-router.get('/username/:username', async (req, res) => {
+router.get('/username', async (req, res) => {
+    const usernames = req.query.username.split(',');
     try {
-        const response = await GetReviewByUsername(req.params.username);
+        const response = await GetReviewByUsername(usernames);
         if (response) {
             res.status(200).json(response);
         } else {

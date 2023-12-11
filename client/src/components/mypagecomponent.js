@@ -84,10 +84,10 @@ function MyPage() {
 function MiniComponentReviews({ username }) { //mini component that renders reviews the given user has made
 
   return (
-    <div>
+    <div className='Reviews'>
       
       <h1>My reviews</h1>
-      {ReviewsList(username, null, null)}
+      <ReviewsList uname={username} />
     </div>
   );
 }
