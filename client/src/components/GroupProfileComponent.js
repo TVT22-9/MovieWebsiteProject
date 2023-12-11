@@ -162,7 +162,7 @@ const handleDeleteGroup = async (groupId, setGroups) => {
         <p  className="group-container">
           Group Name: <strong>{group.length > 0 && group[0].groupname}</strong>
           {userData.value && userData.value.userid === group[0].idowner && (
-            <button onClick={() => handleDeleteGroup(group[0].idgroup, setGroups)}>Delete Group</button>
+            <button className="groupRelated-button" onClick={() => handleDeleteGroup(group[0].idgroup, setGroups)}>Delete Group</button>
           )}
         </p>
         <p  className="group-container">
@@ -178,12 +178,12 @@ const handleDeleteGroup = async (groupId, setGroups) => {
                 <li key={member.iduser}>
                   {member.username || 'N/A'}
                   {userData.value && userData.value.userid === group[0].idowner && (
-                    <button onClick={() => handleAcceptPendingMember(member.iduser)}>
+                    <button className="groupRelated-button" onClick={() => handleAcceptPendingMember(member.iduser)}>
                       Accept
                     </button>
                   )}
                   {userData.value && userData.value.userid === group[0].idowner && (
-                    <button onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
+                    <button className="groupRelated-button" onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
                       Delete Member
                     </button>
                   )}
@@ -201,7 +201,7 @@ const handleDeleteGroup = async (groupId, setGroups) => {
                   <li key={member.iduser}>
                     {member.username}
                     {userData.value?.userid === group[0].idowner && userData.value?.userid !== member.iduser && (
-                      <button onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
+                      <button className="groupRelated-button" onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
                         Delete Member
                       </button>
                     )}

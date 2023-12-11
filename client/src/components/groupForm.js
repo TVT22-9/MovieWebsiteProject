@@ -153,18 +153,6 @@ const GroupForm = () => {
   return (
     <div>
       <h1>Create, browse and join groups! Note that you have to be logged in to send join requests.</h1>
-      {/*jwtToken.value.length === 0 && (
-        <div>
-          <h2>All Groups:</h2>
-          <ul>
-            {groups && groups.map((group) => (
-              <li key={group.idgroup}>
-                <strong>{group.groupname}</strong> - {group.groupdescription || 'No description available'}
-              </li>
-            ))}
-          </ul>
-        </div>
-            )*/}
       {jwtToken.value.length > 0 && (
         <div class="form-container">
           <form onSubmit={handleSubmit}>
