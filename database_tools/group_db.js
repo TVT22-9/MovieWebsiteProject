@@ -26,12 +26,6 @@ const sql = {
 
 // Function to add a new group to the database
 async function addGroup(groupname, groupdescription, groupsettings, idowner) {
-   // console.log('Adding group with the following details:');
-    //console.log('groupname:', groupname);
-    //console.log('groupdescription:', groupdescription);
-    //console.log('groupsettings:', groupsettings);
-    //console.log('idowner:', idowner);
-    
        try {
           const result = await pgPool.query(sql.INSERT_GROUP, [groupname, groupdescription, groupsettings, idowner]);
           return result.rows; // Return the newly created group
@@ -87,7 +81,7 @@ async function groupExistsById(idgroup) {
 
 
 async function addMember(idgroup, iduser, status){
-  console.log('Adding member:', idgroup, iduser, status);
+  //console.log('Adding member:', idgroup, iduser, status);
   await pgPool.query(sql.INSERT_INTO, [idgroup, iduser, status]);
 }
 
@@ -103,8 +97,8 @@ async function sendJoinRequest(groupId, userId, acceptedPool) {
     // Add the user as a member with acceptedPool set to false
     const addMemberResult = await addMember(groupId, userId, acceptedPool);
 
-    if (addMemberResult.memberExists) {
-    }
+    //if (addMemberResult.memberExists) {
+    //}
 
     // Notify the other component about the join request
     // You can use an event emitter or another mechanism to notify the other component

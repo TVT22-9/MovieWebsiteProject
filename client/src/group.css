@@ -1,0 +1,58 @@
+/*css for groups*/
+
+.group-container {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #595b68;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: auto;
+  }
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+.form-container p {
+display: flex;
+align-items: baseline;
+margin-bottom: 10px;
+  }
+
+.form-container p > span {
+width: 150px;
+margin-right: 0px;
+margin-left: px;
+  }
+
+.create-group-button {
+margin-left: 25px;
+  }
+
+.form-container input {
+width: 300px;
+  }
+
+.group-container > input {
+    width: 1000px;
+  }
+
+.group-header {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+
+.groupRelated-button {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 15px 24px;
+  border: 0;
+  color: #0c0b0b;
+  background: #ddd;
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha backendtests/movieListTest.js backendtests/reviewsTest.js backendtests/userTest.js",
-    "test2": "mocha backendtests/userTest.js"
+    "test2": "mocha backendtests/userTest.js",
+    "test3": "mocha backendtests/groupTests.js"
   },
   "keywords": [],
   "author": "",
