@@ -53,7 +53,8 @@ function NewsComponent({ filterTitle, returnMany }) {
         
         const fetchGroups = async () => {
             try {
-                const databaseData = await axios.get('http://localhost:3001/groups/groupByUser/50');
+                console.log('http://localhost:3001/groups/groupByUser/' + userData.value?.userid);
+                const databaseData = await axios.get('http://localhost:3001/groups/groupByUser/' + userData.value?.userid);
                 console.log('Groups:', databaseData.data.result);
                 setUserGroups(databaseData.data.result);
             } catch (error) {
@@ -61,7 +62,7 @@ function NewsComponent({ filterTitle, returnMany }) {
             }
         };
 
-        if (jwtToken) {
+        if (jwtToken.value.length > 0) {
             console.log("Has logged in.")
             fetchGroups();
         };
@@ -126,13 +127,13 @@ function NewsComponent({ filterTitle, returnMany }) {
                                     {jwtToken.value.length > 0 ? (
                                         <Popup trigger={<button className='newsGroupButton'> Add to group </button>} modal>
                                             <div className='advancedSearch'>
-                                                <h2>Group news add.</h2>
+                                                <h2>Add or remove this article from following groups:.</h2>
                                                 {userGroups && userGroups.map((group) => (
                                                     <li key={group.groupname}>
                                                         <strong>{group.groupname}</strong>
                                                         <button onClick={() => updateGroupSettings(group, article.Title)}>                                        
                                                             {group.groupsettings.news && group.groupsettings.news.flat().includes(String(article.Title))
-                                                                ? 'Delete from group'
+                                                                ? 'Remove from group'
                                                                 : 'Add to group'
                                                             }
                                                         </button>
