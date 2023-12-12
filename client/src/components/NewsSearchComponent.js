@@ -9,7 +9,6 @@ function OtherComponent() {
         const fetchNewsTitles = async () => {
             try {
                 const newsTitles = await extractNewsTitles();
-                console.log('News Titles:', newsTitles);
                 // Do something with the news titles
             } catch (error) {
                 console.error('Error fetching news titles:', error);

@@ -134,7 +134,6 @@ const MovieListComponent = () => {
         const fetchData = async () => {
             try {
                 let response;
-                console.log(includedGenres);
                 if (advancedSearch) { //If the search is made using advanced search it runs the code below.
                     const includedGenreIds = includedGenres.join(',');
                     const excludedGenreIds = excludedGenres.join(',');
@@ -149,7 +148,6 @@ const MovieListComponent = () => {
                         apiUrl += `/${year}`;
                     }
 
-                    console.log(apiUrl)
                     response = await axios.get(apiUrl);
 
                 } else { //Calls the movies/series using a text input from user.
@@ -165,7 +163,6 @@ const MovieListComponent = () => {
                 }
                 const resultsArray = Array.isArray(response.data.results) ? response.data.results : [];
                 setData(resultsArray);
-                console.log(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -204,38 +201,41 @@ const MovieListComponent = () => {
                     >
                         <div className='advancedSearch'>
                             <h2>Advanced Search</h2>
-                            <label>Search adult movies? </label>
-                            <select name="adultBool" defaultValue={adultSearch}>
-                                <option value='true'>Yes</option>
-                                <option value='false'>No</option>
-                            </select>
-                            <br />
+                            <div className='searchOptions'>
+                                <label>Search adult movies? </label>
+                                <select name="adultBool" defaultValue={adultSearch}>
+                                    <option value='true'>Yes</option>
+                                    <option value='false'>No</option>
+                                </select>
+                                <br />
 
-                            <label> Sort by </label>
-                            <select name="sortBySelect" defaultValue={sortBy}>
-                                <option value='popularity.desc'>Popular</option>
-                                <option value='vote_count.desc'>Rating count</option>
-                                <option value='primary_release_date.desc'>Newest</option>
-                            </select>
+                                <label> Sort by </label>
+                                <select name="sortBySelect" defaultValue={sortBy}>
+                                    <option value='popularity.desc'>Popular</option>
+                                    <option value='vote_count.desc'>Rating count</option>
+                                    <option value='primary_release_date.desc'>Newest</option>
+                                </select>
+                                <br />
+                                <label> Year: </label>
+                                <input type="" name="year" defaultValue={year} />
+                            </div>
                             <br />
-                            <label> Year: </label>
-                            <input type="" name="year" defaultValue={year} />
+                            <br />
+                            <div className='genreSelect'>
+                                <h3>Included Genres</h3>
+                                <SelectableList
+                                    items={listState === 1 ? genres : tvGenres}
+                                    selectedItems={includedGenres}
+                                    onSelect={(selectedItems) => setIncludedGenres(selectedItems)}
+                                />
 
-                            <br />
-                            <br />
-                            <label>Included Genres: </label>
-                            <SelectableList
-                                items={listState === 1 ? genres : tvGenres}
-                                selectedItems={includedGenres}
-                                onSelect={(selectedItems) => setIncludedGenres(selectedItems)}
-                            />
-
-                            <label>Excluded Genres: </label>
-                            <SelectableList
-                                items={listState === 1 ? genres : tvGenres}
-                                selectedItems={excludedGenres}
-                                onSelect={(selectedItems) => setExcludedGenres(selectedItems)}
-                            />
+                                <h3>Excluded Genres</h3>
+                                <SelectableList
+                                    items={listState === 1 ? genres : tvGenres}
+                                    selectedItems={excludedGenres}
+                                    onSelect={(selectedItems) => setExcludedGenres(selectedItems)}
+                                />
+                            </div>
                             <br></br>
                             <button onClick={async () => {
                                 handleAdvancedSearch();

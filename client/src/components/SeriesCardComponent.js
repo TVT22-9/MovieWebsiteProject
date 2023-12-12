@@ -21,7 +21,6 @@ const SeriesCard = ({ id }) => {
             }
         };
         fetchData();
-        console.log("Call this once");
 
     }, []);
 

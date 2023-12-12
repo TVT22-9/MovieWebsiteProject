@@ -21,7 +21,6 @@ const MovieCard = ({ id }) => {
             }
         };
         fetchData();
-        console.log("Call this once");
 
     }, []);
 
