@@ -57,44 +57,38 @@ width: 300px;
   margin-left: 10px;
 }
 
-/* Media query for responsiveness */
 @media screen and (max-width: 600px) {
   .group-container {
-    width: 90%; /* Adjust the width for smaller screens */
-    margin: 10px; /* Adjust margin for smaller screens */
+    width: 90%;
+    margin: 10px;
   }
 
   .form-container input,
   .group-container > input {
-    width: 100%; /* Make inputs full width on smaller screens */
+    width: 100%;
   }
 
   .create-group-button,
   .groupRelated-button {
-    width: 100%; /* Make buttons full width on smaller screens */
-    margin-left: 0; /* Remove left margin on smaller screens or adjust as needed */
+    width: 100%;
+    margin-left: 0;
   }
-
-  /* Adjust other styles as needed for smaller screens */
 }
 
-/* Media query for responsiveness */
 @media screen and (max-width: 800px) {
   .group-container {
-    width: 90%; /* Adjust the width for smaller screens */
-    margin: 10px; /* Adjust margin for smaller screens */
+    width: 90%;
+    margin: 10px;
   }
 
   .form-container input,
   .group-container > input {
-    width: 100%; /* Make inputs full width on smaller screens */
+    width: 100%;
   }
 
   .create-group-button,
   .groupRelated-button {
-    width: 100%; /* Make buttons full width on smaller screens */
-    margin-left: 0; /* Remove left margin on smaller screens or adjust as needed */
+    width: 100%;
+    margin-left: 0;
   }
-
-  /* Adjust other styles as needed for smaller screens */
 }
