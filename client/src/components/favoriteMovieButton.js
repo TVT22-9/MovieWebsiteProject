@@ -12,7 +12,7 @@ function FavouriteMovieButton({ movieId }) {
         // Fetch user settings when the component mounts
         const fetchUserSettings = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/user/settings?username=${username}`);
+                const response = await axios.get(`/user/settings?username=${username}`);
                 setUserSettings(response.data);
             } catch (error) {
                 console.error(error);
@@ -30,7 +30,7 @@ function FavouriteMovieButton({ movieId }) {
                 favouritemovie: movieId,
             };
 
-            await axios.put('http://localhost:3001/user/updatesettings', {
+            await axios.put('/user/updatesettings', {
                 username: username,
                 newsettings: JSON.stringify(newSettings),
             });

@@ -20,7 +20,7 @@ const GroupProfileComponent = () => {
 
   useEffect(() => {
     // Fetch group details based on groupId
-    axios.get(`http://localhost:3001/groups/${groupId}`)
+    axios.get(`/groups/${groupId}`)
       .then(response => {
 
         // Check if the response has a group property and is an array
@@ -40,7 +40,7 @@ const GroupProfileComponent = () => {
       .catch(error => console.error('Error setting loading state:', error));
 
     // Fetch all members of the group with TRUE
-    axios.get(`http://localhost:3001/members/${groupId}/get`)
+    axios.get(`/members/${groupId}/get`)
       .then(response => {
         setacceptedMembers(response.data.acceptedMembers || []);
       })
@@ -48,7 +48,7 @@ const GroupProfileComponent = () => {
       .finally(() => setLoading(false));
 
     // Fetch pending members of the group with usernames
-    axios.get(`http://localhost:3001/members/${groupId}/pending-members-with-usernames`)
+    axios.get(`/members/${groupId}/pending-members-with-usernames`)
       .then(response => {
         // Use the callback form of setPendingMembers to get the updated state value
         setPendingMembers(prevPendingMembers => response.data.pendingMembers || []);
@@ -66,7 +66,7 @@ const GroupProfileComponent = () => {
   //Gets the list of user that have sent join requests but haven't been accepted.
   const getPendingMembers = async (groupId) => {
     try {
-      const response = await axios.get(`http://localhost:3001/members/${groupId}/pending-members`);
+      const response = await axios.get(`/members/${groupId}/pending-members`);
       return response.data.pendingMembers || [];
     } catch (error) {
       console.error('Error fetching pending group members:', error);
@@ -78,19 +78,19 @@ const GroupProfileComponent = () => {
   const handleAcceptPendingMember = async (userId) => {
     try {
       const response = await axios.put(
-        `http://localhost:3001/members/${groupId}/update-member/${userId}`,
+        `/members/${groupId}/update-member/${userId}`,
         {
           acceptedPool: true,
         }
       );
 
-      axios.get(`http://localhost:3001/groups/${groupId}`)
+      axios.get(`/groups/${groupId}`)
         .then(response => {
           setGroup(response.data.group || null);
         })
         .catch(error => console.error('Error fetching group details:', error));
 
-      axios.get(`http://localhost:3001/members/${groupId}/get`)
+      axios.get(`/members/${groupId}/get`)
         .then(response => {
           setacceptedMembers(response.data.acceptedMembers || []);
         })
@@ -106,7 +106,7 @@ const GroupProfileComponent = () => {
   //Gets the list of accepted members for a group.
   const fetchAcceptedMembers = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/members/${groupId}/get`);
+      const response = await axios.get(`/members/${groupId}/get`);
 
       // Use the callback form of setMembers to get the updated state value
       setacceptedMembers(prevMembers => response.data.acceptedMembers || []);
@@ -120,14 +120,14 @@ const GroupProfileComponent = () => {
     try {
       if (memberId) {
         // Regular delete for a single member
-        const response = await axios.delete(`http://localhost:3001/members/${groupId}/members/${memberId}`);
+        const response = await axios.delete(`/members/${groupId}/members/${memberId}`);
 
         // Update the members state by removing the deleted member
         setacceptedMembers(prevMembers => prevMembers.filter(member => member.iduser !== memberId));
 
       } else {
         // Delete all members of the group
-        const deleteAllMembersResponse = await axios.delete(`http://localhost:3001/members/${groupId}/delete-all-members`);
+        const deleteAllMembersResponse = await axios.delete(`/members/${groupId}/delete-all-members`);
 
         // Assuming the response contains deleted members, update the state accordingly
         setacceptedMembers([]);
@@ -150,7 +150,7 @@ const GroupProfileComponent = () => {
       await handleDeleteMember(groupToDelete, null, setacceptedMembers);
 
       // Now that members are deleted, delete the group itself
-      const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
+      const response = await axios.delete(`/groups/delete/${id}`);
 
       // Update the groups state by removing the deleted group
       setGroups((prevGroups) => prevGroups.filter((group) => group.idgroup !== id));

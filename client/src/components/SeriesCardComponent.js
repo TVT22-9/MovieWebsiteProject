@@ -12,7 +12,7 @@ const SeriesCard = ({ id }) => {
         const fetchData = async () => {
             try {
                 let response;
-                response = await axios.get('http://localhost:3001/api/tvShowId/' + id)
+                response = await axios.get('/api/tvShowId/' + id)
                 setData(response.data);
                 //console.log(response.data);
             } catch (error) {

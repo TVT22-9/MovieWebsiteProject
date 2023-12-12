@@ -62,7 +62,7 @@ function SignInForm() {
       setSignInStatus('empty');
       return;
     } else {
-      axios.post('http://localhost:3001/user/', { username, password })
+      axios.post('/user/', { username, password })
         .then(resp => jwtToken.value = resp.data.jwtToken)
         .catch(error => {
           console.log(error.response.data)
@@ -97,7 +97,7 @@ function RegisterForm() {
       setRegistrationStatus('empty');
       return;
     } else {
-      axios.post('http://localhost:3001/user/register', { username, password, settingsjson: JSON.stringify(userSettings) })
+      axios.post('/user/register', { username, password, settingsjson: JSON.stringify(userSettings) })
         .then(resp => {
           console.log(resp.data);
           setRegistrationStatus('success');
@@ -139,7 +139,7 @@ function DeleteAccount() {
 
     if (isConfirmed) {
       try {
-        const response = await axios.delete(`http://localhost:3001/user?username=${username}`);
+        const response = await axios.delete(`/user?username=${username}`);
         console.log(response.data);
         console.log('Account deleted!');
         jwtToken.value = '';

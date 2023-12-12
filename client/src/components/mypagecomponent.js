@@ -21,7 +21,7 @@ function MyPage() {
 
   const fetchUserSettings = async () => {    //fetchUserSettings gets the users whose page it is settings so it can correctly render stuff
     try {
-      const response = await axios.get(`http://localhost:3001/user/settings?username=${username}`);
+      const response = await axios.get(`/user/settings?username=${username}`);
       setUserSettings(response.data);
 
       if (username === userData.value?.private) { //if the username matched the loged in accounts name it sets the site status to owner so it can render stuff appropriately
@@ -123,7 +123,7 @@ function SettingsButton({ initialSettings, onSettingsChange }) {
       const username = userData.value?.private;
       const existingFavouriteMovie = initialSettings.favouritemovie || '';
 
-      const response = await axios.put('http://localhost:3001/user/updatesettings', {
+      const response = await axios.put('/user/updatesettings', {
         username,
         newsettings: JSON.stringify({ ...settings, favouritemovie: existingFavouriteMovie }),
       });
