@@ -20,6 +20,8 @@ const GroupForm = () => {
     userid: ''
   });
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [groupToDelete, setGroupToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch all groups when the component first loads
@@ -112,20 +114,26 @@ const GroupForm = () => {
     }
   };
 
-  //Uses handleDeleteMember to delete all members in a group, then deletes the group.
-  const handleDeleteGroup = async (groupId, setGroups, setMembers) => {
+  const handleDeleteGroup = (groupId) => {
+    setGroupToDelete(groupId);
+    setShowConfirmation(true);
+  };
+
+  const handleDeleteGroupConfirmed = async () => {
     try {
-      const id = parseInt(groupId, 10);
+      const id = parseInt(groupToDelete, 10);
 
       // Use the new endpoint to delete all members of the group
-      await handleDeleteMember(groupId, null, setMembers);
+      await handleDeleteMember(groupToDelete, null);
 
       // Now that members are deleted, delete the group itself
       const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
 
       // Update the groups state by removing the deleted group
-      setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
+      setGroups((prevGroups) => prevGroups.filter((group) => group.idgroup !== id));
 
+      // Hide the confirmation pop-up
+      setShowConfirmation(false);
     } catch (error) {
       console.error('Error deleting group:', error);
     }
@@ -187,7 +195,16 @@ const GroupForm = () => {
                   <button className="groupRelated-button" onClick={() => handleSendJoinRequest(group.idgroup)}>Send Join Request</button>
                 )}
                 {userData.value && userData.value.userid === group.idowner && (
-                  <button className="groupRelated-button" onClick={() => handleDeleteGroup(group.idgroup, setGroups, setAcceptedMembers)}>Delete</button>
+                  <>
+                    <button className="groupRelated-button" onClick={() => handleDeleteGroup(group.idgroup)}>Delete</button>
+                    {showConfirmation && (
+                      <div className="confirmation-popup">
+                        <p>Are you sure you want to delete this group?</p>
+                        <button className="groupRelated-button" onClick={handleDeleteGroupConfirmed}>Yes</button>
+                        <button className="groupRelated-button" onClick={() => setShowConfirmation(false)}>No</button>
+                      </div>
+                    )}
+                  </>
                 )}
               </li>
             ))}

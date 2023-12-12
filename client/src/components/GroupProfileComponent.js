@@ -15,6 +15,8 @@ const GroupProfileComponent = () => {
   const [acceptedMembers, setacceptedMembers] = useState([]);
   const [pendingMembers, setPendingMembers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [groupToDelete, setGroupToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch group details based on groupId
@@ -136,114 +138,130 @@ const GroupProfileComponent = () => {
     }
   };
 
-  //Deletes all the members of a group and then the group itself.
-  const handleDeleteGroup = async (groupId, setGroups) => {
+  const handleDeleteGroup = (groupId) => {
+    setGroupToDelete(groupId);
+    setShowConfirmation(true);
+  };
+
+  const handleDeleteGroupConfirmed = async () => {
     try {
-      const id = parseInt(groupId, 10);
+      const id = parseInt(groupToDelete, 10);
 
       // Delete all members of the group
-      await handleDeleteMember(groupId, null, setGroups);
+      await handleDeleteMember(groupToDelete, null, setacceptedMembers);
 
       // Now that members are deleted, delete the group itself
       const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
 
       // Update the groups state by removing the deleted group
-      setGroups(prevGroups => prevGroups.filter(group => group.idgroup !== id));
+      setGroups((prevGroups) => prevGroups.filter((group) => group.idgroup !== id));
 
+      // Hide the confirmation pop-up
+      setShowConfirmation(false);
     } catch (error) {
       console.error('Error deleting group:', error);
     }
   };
+
   function GetNewsForGroup() {
 
     console.log(group[0].groupsettings.news)
     if (group[0].groupsettings.news) {
-      return (
-        <div>
-          {group[0].groupsettings.news.flat().map((title, index) => <NewsComponent key={index} filterTitle={title} returnMany={false} />)}
-
-        </div>
-      )
-    } else {
-      return (
-        <div>
-
-        </div>
-      )
-    }
-  }
-
-  return (
-    <body>
-      <div>
-        {group && isUserMember && (
+        return (
           <div>
-            <h2 className="group-header">Group Profile</h2>
-            <p className="group-container">
-              Group Name: <strong>{group.length > 0 && group[0].groupname}</strong>
-              {userData.value && userData.value.userid === group[0].idowner && (
-                <button className="groupRelated-button" onClick={() => handleDeleteGroup(group[0].idgroup, setGroups)}>Delete Group</button>
-              )}
-            </p>
-            <p className="group-container">
-              Description: <strong>{group.length > 0 && group[0].groupdescription}</strong></p>
-            <div className="group-container">
-              <GetNewsForGroup />
-            </div>
-            <div className="group-container">
-              <ReviewsList uname={acceptedMembers.map(member => member.username).join(',')} />
-            </div>
+            {group[0].groupsettings.news.flat().map((title, index) => <NewsComponent key={index} filterTitle={title} returnMany={false} />)}
 
-            {pendingMembers.length > 0 && (
-              <div className="group-container">
-                <h3>Pending Members:</h3>
-                <ul>
-                  {pendingMembers.map(member => (
-                    <li key={member.iduser}>
-                      {member.username || 'N/A'}
-                      {userData.value && userData.value.userid === group[0].idowner && (
-                        <button className="groupRelated-button" onClick={() => handleAcceptPendingMember(member.iduser)}>
-                          Accept
-                        </button>
-                      )}
-                      {userData.value && userData.value.userid === group[0].idowner && (
-                        <button className="groupRelated-button" onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
-                          Delete Member
-                        </button>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-            )}
-
-            {acceptedMembers.length > 0 && (
-              <div className="group-container">
-                <h3>Group Members:</h3>
-                <ul>
-                  {acceptedMembers.map(member => (
-                    <li key={member.iduser}>
-                      {member.username}
-                      {userData.value?.userid === group[0].idowner && userData.value?.userid !== member.iduser && (
-                        <button className="groupRelated-button" onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
-                          Delete Member
-                        </button>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
-        )}
+        )
+      } else {
+        return (
+          <div>
 
-        {!isUserMember && <p>You need to be a member to access a group's page.</p>}
-        {!group && <p>Loading...</p>}
-      </div>
-    </body>
-  );
-};
+          </div>
+        )
+      }
+    }
+
+    return (
+      <body>
+        <div>
+          {group && isUserMember && (
+            <div>
+              <h2 className="group-header">Group Profile</h2>
+              <p className="group-container">
+                Group Name: <strong>{group.length > 0 && group[0].groupname}</strong>
+                {userData.value && userData.value.userid === group[0].idowner && (
+                  <>
+                    <button className="groupRelated-button" onClick={() => handleDeleteGroup(group[0].idgroup)}>Delete Group</button>
+                    {/* Confirmation pop-up */}
+                    {showConfirmation && (
+                      <div className="confirmation-popup">
+                        <p>Are you sure you want to delete this group?</p>
+                        <button onClick={handleDeleteGroupConfirmed}>Yes</button>
+                        <button onClick={() => setShowConfirmation(false)}>No</button>
+                      </div>
+                    )}
+                  </>
+                )}
+              </p>
+              <p className="group-container">
+                Description: <strong>{group.length > 0 && group[0].groupdescription}</strong></p>
+              <div className="group-container">
+                <GetNewsForGroup />
+              </div>
+              <div className="group-container">
+                <ReviewsList uname={acceptedMembers.map(member => member.username).join(',')} />
+              </div>
+
+              {pendingMembers.length > 0 && (
+                <div className="group-container">
+                  <h3>Pending Members:</h3>
+                  <ul>
+                    {pendingMembers.map((member) => (
+                      <li key={member.iduser}>
+                        {member.username || 'N/A'}
+                        {userData.value && userData.value.userid === group[0].idowner && (
+                          <button className="groupRelated-button" onClick={() => handleAcceptPendingMember(member.iduser)}>
+                            Accept
+                          </button>
+                        )}
+                        {userData.value && userData.value.userid === group[0].idowner && (
+                          <button className="groupRelated-button" onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
+                            Delete Member
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {acceptedMembers.length > 0 && (
+                <div className="group-container">
+                  <h3>Group Members:</h3>
+                  <ul>
+                    {acceptedMembers.map((member) => (
+                      <li key={member.iduser}>
+                        {member.username}
+                        {userData.value?.userid === group[0].idowner && userData.value?.userid !== member.iduser && (
+                          <button className="groupRelated-button" onClick={() => handleDeleteMember(group[0].idgroup, member.iduser, setGroups, setacceptedMembers)}>
+                            Delete Member
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!isUserMember && <p>You need to be a member to access a group's page.</p>}
+          {!group && <p>Loading...</p>}
+        </div>
+      </body>
+    );
+  };
 
 
 export default GroupProfileComponent;
