@@ -11,6 +11,7 @@ const reviewRoutes = require('./routes/review');
 const app = express();
 const port = process.env.PORT || 3001;
 app.use(express.static('public'))
+const path = require('path');
 
 
 
@@ -23,6 +24,15 @@ app.use('/members', memberRoutes); //members route
 app.use('/review', reviewRoutes); //reviews route
 app.use('/user', userRoutes); //User route
 app.use('/api', apiRoutes); //Api route
+
+
+
+
+// Handle requests to any path by serving the index.html
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 
 app.get('/', (req, res) => {
