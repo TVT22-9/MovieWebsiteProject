@@ -188,7 +188,6 @@ router.get('/groupByUser/:userId', async (req, res) => {
   try {
     const data = await groupDB.getGroubsByUser(req.params.userId);
     const result = data.rows;
-    console.log(result);
     res.status(200).json({ message: 'Groups retrieved successfully', result });
   } catch (error) {
     console.error(error);
@@ -199,10 +198,8 @@ router.get('/groupByUser/:userId', async (req, res) => {
 // Updates group settings by group name
 router.put('/groupSettingsUpdate/', async (req, res) => {
   try {
-    console.log("Reached this far");
     const groupName = req.body.groupName;
     const settings = req.body.settings;
-    console.log(settings);
     // Update the group
     const updatedGroup = await groupDB.updateGroupSettingsByName(settings, groupName);
 
@@ -224,7 +221,6 @@ router.put('/groupSettingsUpdate/', async (req, res) => {
 router.get('/groupByName/:groupName', async (req, res) => {
   try {
     const data = await groupDB.getGroupByName(req.params.groupName);
-    console.log(data);
     res.status(200).json({ message: 'Group retrieved successfully', data });
   } catch (error) {
     console.error(error);

@@ -29,7 +29,6 @@ function NewsComponent({ filterTitle, returnMany }) {
     const [newsData, setNewsData] = useState(null);
     const [userGroups, setUserGroups] = useState(null);
     const [stateRefresh, setStateRefresh] = useState('0');
-    console.log('Filter Title:', filterTitle);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,7 +41,6 @@ function NewsComponent({ filterTitle, returnMany }) {
                     } else {
                         const newsArticles = result.News.NewsArticle;
                         setNewsData(newsArticles);
-                        console.log(newsArticles);
 
                     }
                 });
@@ -54,9 +52,7 @@ function NewsComponent({ filterTitle, returnMany }) {
 
         const fetchGroups = async () => {
             try {
-                console.log('http://localhost:3001/groups/groupByUser/' + userData.value?.userid);
                 const databaseData = await axios.get('http://localhost:3001/groups/groupByUser/' + userData.value?.userid);
-                console.log('Groups:', databaseData.data.result);
                 setUserGroups(databaseData.data.result);
             } catch (error) {
                 console.error('Error fetching groups:', error);
@@ -64,7 +60,6 @@ function NewsComponent({ filterTitle, returnMany }) {
         };
 
         if (jwtToken.value.length > 0) {
-            console.log("Has logged in.")
             fetchGroups();
         };
     }, [stateRefresh]);
@@ -81,17 +76,14 @@ function NewsComponent({ filterTitle, returnMany }) {
                 group.groupsettings.news = group.groupsettings.news.filter(
                     (item) => String(item) !== String(title)
                 );
-                console.log(`Removed article with title: ${title}`);
             } else {
                 // If the article doesn't exist, add it to the news array
                 group.groupsettings.news.push(title);
-                console.log(`Added new article with title: ${title}`);
             }
         } else {
             group.groupsettings.news = [];
             group.groupsettings.news.push(article);
 
-            console.log("Initial news array:", group.groupsettings.news);
         }
 
         let name = group.groupname
@@ -100,7 +92,6 @@ function NewsComponent({ filterTitle, returnMany }) {
             groupName: name,
             settings: settings
         });
-        console.log(response.data.group.groupsettings);
         setStateRefresh((prevState) =>
             prevState === 0 ? 1 : 0
         );

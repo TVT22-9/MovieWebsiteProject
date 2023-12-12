@@ -31,7 +31,6 @@ const GroupProfileComponent = () => {
         }
 
         setGroup(response.data.group || null);
-        console.log(response.data.group)
         setLoading(false); // Set loading to false after data is fetched
       })
       .catch(error => console.error('Error fetching group members:', error))
@@ -156,7 +155,6 @@ const GroupProfileComponent = () => {
   };
   function GetNewsForGroup() {
 
-    console.log(group[0].groupsettings.news)
     if (group[0].groupsettings.news) {
       return (
         <div>

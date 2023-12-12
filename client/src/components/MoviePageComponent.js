@@ -18,7 +18,6 @@ const MoviePageComponent = () => {
                 let response;
                 response = await axios.get('http://localhost:3001/api/movieId/' + id)
                 setData(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError(error.response?.status === 404 ? 'Movie not found' : 'Internal Server Error');

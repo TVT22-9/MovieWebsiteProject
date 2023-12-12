@@ -97,10 +97,28 @@ button[disabled]{
     overflow: auto;
     max-height: 100vh;
     max-width: 100vh;
+}
+.advancedSearch h2 {
+    text-align: center;
+}
+.searchOptions {
+    background-color: #888B9E;
+    padding: 10px 10px 10px 10px;
 
 }
 .advancedSearch button {
     background-color: #888B9E;
+}
+
+.genreSelect {
+    padding: 10px 10px 10px 10px;
+    border-radius: 3px;
+    border-color: black;
+    background-color: #888B9E;
+}
+
+.genreSelect h3 {
+    text-align: center;
 }
 /*Below is the code for movie and series cards*/
 
@@ -155,6 +173,12 @@ button[disabled]{
     padding-left: 10px;
     color: rgb(158, 210, 228);
 }
+@media screen and (max-width: 1200px) {
+    .advancedSearch {
+        min-width: 60vh;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .Container {
         grid-template-columns: auto auto auto; 
@@ -173,5 +197,6 @@ button[disabled]{
     }
     .advancedSearch {
         min-width: 50vh;
+        padding-bottom: 20px;
     }
 }
