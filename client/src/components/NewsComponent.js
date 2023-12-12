@@ -52,7 +52,7 @@ function NewsComponent({ filterTitle, returnMany }) {
 
         const fetchGroups = async () => {
             try {
-                const databaseData = await axios.get('http://localhost:3001/groups/groupByUser/' + userData.value?.userid);
+                const databaseData = await axios.get('/groups/groupByUser/' + userData.value?.userid);
                 setUserGroups(databaseData.data.result);
             } catch (error) {
                 console.error('Error fetching groups:', error);
@@ -88,7 +88,7 @@ function NewsComponent({ filterTitle, returnMany }) {
 
         let name = group.groupname
         let settings = group.groupsettings;
-        const response = await axios.put('http://localhost:3001/groups/groupSettingsUpdate/', {
+        const response = await axios.put('/groups/groupSettingsUpdate/', {
             groupName: name,
             settings: settings
         });

@@ -28,13 +28,13 @@ export function ReviewsList({ uname, idm, ids }) {
         if (UpdateList) {
             let url;
             if (uname) { /* Check if username is given */
-                url = 'http://localhost:3001/review/username?username=' + uname;
+                url = '/review/username?username=' + uname;
             } else if (idm) { /* Check if idmovie is given */
-                url = 'http://localhost:3001/review/idmovie/' + idm;
+                url = '/review/idmovie/' + idm;
             } else if (ids) { /* Check if idseries is given */
-                url = 'http://localhost:3001/review/idseries/' + ids;
+                url = '/review/idseries/' + ids;
             } else { /* If no username, idmovie or idseries is given, get all reviews */
-                url = 'http://localhost:3001/review';
+                url = '/review';
             }
             axios.get(url)
                 .then(async response => {
@@ -64,14 +64,14 @@ export function ReviewsList({ uname, idm, ids }) {
 
     /* Get movie title */
     const getMovieTitle = async (idmovie) => {
-        let response = await axios.get('http://localhost:3001/api/movieId/' + idmovie)
+        let response = await axios.get('/api/movieId/' + idmovie)
             .catch(error => console.error('Error fetching movie title:', error));
         return response.data.title;
     }
 
     /* Get series title */
     const getSeriesTitle = async (idseries) => {
-        let response = await axios.get('http://localhost:3001/api/tvShowId/' + idseries)
+        let response = await axios.get('/api/tvShowId/' + idseries)
             .catch(error => console.error('Error fetching series title:', error));
         return response.data.name;
     }
@@ -137,7 +137,7 @@ export function ReviewsList({ uname, idm, ids }) {
                                         <>
                                             <div className="reviews-actions">
                                                 <button onClick={async () => {
-                                                    let response = await axios.delete('http://localhost:3001/review/idreview/' + review.idreview)
+                                                    let response = await axios.delete('/review/idreview/' + review.idreview)
                                                         .catch(error => console.error('Error deleting review', error));
                                                     console.log(response);
                                                     if (response.status === 200) {
@@ -161,7 +161,7 @@ export function ReviewsList({ uname, idm, ids }) {
                                                             </select>
 
                                                             <button onClick={async () => {
-                                                                let response = await axios.put('http://localhost:3001/review', {
+                                                                let response = await axios.put('/review', {
                                                                     idreview: review.idreview,
                                                                     reviewcontent: document.getElementsByName("reviewcontentupdate")[0].value,
                                                                     score: document.getElementsByName("scoreupdate")[0].value
@@ -216,7 +216,7 @@ export function AddReviewWindow(idmovie, idseries) {
                     </select>
                     <button onClick={async () => {
                         try {
-                            const response = await axios.post('http://localhost:3001/review', {
+                            const response = await axios.post('/review', {
                                 username: userData.value?.private,
                                 idmovie: idmovie,
                                 idseries: idseries,

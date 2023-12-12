@@ -140,9 +140,9 @@ const MovieListComponent = () => {
 
                     let apiUrl = ""
                     if (listState === 1) { // Checks if it should search movies or tv shows.
-                        apiUrl = `http://localhost:3001/api/advancedMovie/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
+                        apiUrl = `/api/advancedMovie/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
                     } else {
-                        apiUrl = `http://localhost:3001/api/advancedSeries/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
+                        apiUrl = `/api/advancedSeries/${adultSearch}/${pageNum}/${sortBy}/${includedGenres}/${excludedGenreIds}`;
                     }
                     if (year) {
                         apiUrl += `/${year}`;
@@ -153,12 +153,12 @@ const MovieListComponent = () => {
                 } else { //Calls the movies/series using a text input from user.
                     if (searchQuery) {
                         response = await (listState === 1
-                            ? axios.get(`http://localhost:3001/api/searchMovie/${searchQuery}/${pageNum}`)
-                            : axios.get(`http://localhost:3001/api/searchShow/${searchQuery}/${pageNum}`));
+                            ? axios.get(`/api/searchMovie/${searchQuery}/${pageNum}`)
+                            : axios.get(`/api/searchShow/${searchQuery}/${pageNum}`));
                     } else {
                         response = await (listState === 1
-                            ? axios.get(`http://localhost:3001/api/topRatedMovies/${pageNum}`)
-                            : axios.get(`http://localhost:3001/api/topRatedShows/${pageNum}`));
+                            ? axios.get(`/api/topRatedMovies/${pageNum}`)
+                            : axios.get(`/api/topRatedShows/${pageNum}`));
                     }
                 }
                 const resultsArray = Array.isArray(response.data.results) ? response.data.results : [];

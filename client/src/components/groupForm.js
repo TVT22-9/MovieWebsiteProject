@@ -25,7 +25,7 @@ const GroupForm = () => {
 
   useEffect(() => {
     // Fetch all groups when the component first loads
-    axios.get('http://localhost:3001/groups/all')
+    axios.get('/groups/all')
       .then(response => {
         setGroups(response.data.groups);
       }).catch(error => console.error('Error fetching groups:', error));
@@ -44,7 +44,7 @@ const GroupForm = () => {
 
       // Send a POST request to create a new group
       const response = await axios.post(
-        'http://localhost:3001/groups/create',
+        '/groups/create',
         {
           groupName: groupData.groupName,
           description: groupData.description,
@@ -67,7 +67,7 @@ const GroupForm = () => {
         if (typeof response.data.group === 'object') {
           // Add the owner as a member of the newly created group
           const addMemberResult = await axios.post(
-            `http://localhost:3001/members/${createdGroupId}/add-owner-as-member`,
+            `/members/${createdGroupId}/add-owner-as-member`,
             {
               userId: ownerId,
               status: true,
@@ -78,7 +78,7 @@ const GroupForm = () => {
           );
 
           // Refetch the updated list of groups
-          const updatedGroupsResponse = await axios.get('http://localhost:3001/groups/all');
+          const updatedGroupsResponse = await axios.get('/groups/all');
           setGroups(updatedGroupsResponse.data.groups);
         } else {
           console.error('Error: createdGroup is not an object.');
@@ -96,14 +96,14 @@ const GroupForm = () => {
     try {
       if (memberId) {
         // Regular delete for a single member
-        const response = await axios.delete(`http://localhost:3001/members/${groupId}/members/${memberId}`);
+        const response = await axios.delete(`/members/${groupId}/members/${memberId}`);
 
         // Update the members state by removing the deleted member
         setMembers(prevMembers => prevMembers.filter(member => member.iduser !== memberId));
 
       } else {
         // Delete all members of the group
-        const deleteAllMembersResponse = await axios.delete(`http://localhost:3001/members/${groupId}/delete-all-members`);
+        const deleteAllMembersResponse = await axios.delete(`/members/${groupId}/delete-all-members`);
 
         // Assuming the response contains deleted members, update the state accordingly
         setMembers([]);
@@ -127,7 +127,7 @@ const GroupForm = () => {
       await handleDeleteMember(groupToDelete, null);
 
       // Now that members are deleted, delete the group itself
-      const response = await axios.delete(`http://localhost:3001/groups/delete/${id}`);
+      const response = await axios.delete(`/groups/delete/${id}`);
 
       // Update the groups state by removing the deleted group
       setGroups((prevGroups) => prevGroups.filter((group) => group.idgroup !== id));
@@ -142,7 +142,7 @@ const GroupForm = () => {
   //Sends a post request to add a user as a pending member, waiting to be accepted.
   const handleSendJoinRequest = async (groupId) => {
     try {
-      const response = await axios.post(`http://localhost:3001/groups/${groupId}/add-member`, {
+      const response = await axios.post(`/groups/${groupId}/add-member`, {
         userId: userData.value.userid,
         acceptedPool: false,
       });

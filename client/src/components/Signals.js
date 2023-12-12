@@ -17,7 +17,7 @@ effect(() => {
     //if token is >0 it tries to get userdata from backend 
     if (jwtToken.value.length > 0) {
         const config = { headers: { Authorization: 'Bearer ' + jwtToken.value } };
-        axios.get('http://localhost:3001/user/private', config)
+        axios.get('/user/private', config)
             .then(resp => userData.value = resp.data)
             .catch(err => console.log(err.response.data))
     }
