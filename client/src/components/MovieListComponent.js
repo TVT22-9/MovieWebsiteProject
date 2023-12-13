@@ -122,14 +122,15 @@ const MovieListComponent = () => {
     const handleAdvancedSearch = () => {
         setAdvancedSearch(advancedSearch + 1);
         setAdultSearch(document.getElementsByName('adultBool')[0].value === 'true');
-        setSortBy(document.getElementsByName('sortBySelect')[0].value);
         setYear(document.getElementsByName('year')[0].value);
         setData(null);
         setSearchQuery('');
         setIsOpen(false);
 
     }
-
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -147,9 +148,8 @@ const MovieListComponent = () => {
                     if (year) {
                         apiUrl += `/${year}`;
                     }
-
                     response = await axios.get(apiUrl);
-
+                    console.log(apiUrl);
                 } else { //Calls the movies/series using a text input from user.
                     if (searchQuery) {
                         response = await (listState === 1
@@ -210,7 +210,7 @@ const MovieListComponent = () => {
                                 <br />
 
                                 <label> Sort by </label>
-                                <select name="sortBySelect" defaultValue={sortBy}>
+                                <select name="sortBySelect" value={sortBy} onChange={handleSortChange}>
                                     <option value='popularity.desc'>Popular</option>
                                     <option value='vote_count.desc'>Rating count</option>
                                     <option value='primary_release_date.desc'>Newest</option>
