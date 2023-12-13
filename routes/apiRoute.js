@@ -153,7 +153,7 @@ router.get('/tvShowId/:id', async (req, res) => { // Gets tv show using the id
         res.status(500).send('Internal Server Error');
     }
 });
-router.get('/advancedSeries/:adult/:page/:genres/:negGenres/:year?', async (req, res) => { // Search Series shows by everything.
+router.get('/advancedSeries/:adult/:page/:sortBy/:genres/:negGenres/:year?', async (req, res) => { // Search Series shows by everything.
     //Search using adult, genres, year, without genres
     try {
         let page = parseInt(req.params.page);
@@ -161,12 +161,11 @@ router.get('/advancedSeries/:adult/:page/:genres/:negGenres/:year?', async (req,
             page = 1;
             console.log("Tried to search using invalid page. Defaulting to 1")
         }
-        let url = `https://api.themoviedb.org/3/discover/tv?include_adult=${req.params.adult}&include_null_first_air_dates=false&language=en-US&page=${page}&sort_by=${req.params.sort}&with_genres=${req.params.genres}&without_genres=${req.params.negGenres}`;
-
+        let url = `https://api.themoviedb.org/3/discover/tv?include_adult=${req.params.adult}&include_null_first_air_dates=false&language=en-US&page=${page}&sort_by=${req.params.sortBy}&with_genres=${req.params.genres}&without_genres=${req.params.negGenres}`;
+        
         if (req.params.year) {
             url += `&year=${req.params.year}`;
         }
-
         const response = await fetch(url, apiOptions);
         const result = await response.json();
         if (result.success === false) {
