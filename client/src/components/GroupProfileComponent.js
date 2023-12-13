@@ -195,8 +195,8 @@ const GroupProfileComponent = () => {
                     {showConfirmation && (
                       <div className="confirmation-popup">
                         <p>Are you sure you want to delete this group?</p>
-                        <button onClick={handleDeleteGroupConfirmed}>Yes</button>
-                        <button onClick={() => setShowConfirmation(false)}>No</button>
+                        <button className="groupRelated-button" onClick={handleDeleteGroupConfirmed}>Yes</button>
+                        <button className="groupRelated-button" onClick={() => setShowConfirmation(false)}>No</button>
                       </div>
                     )}
                   </>

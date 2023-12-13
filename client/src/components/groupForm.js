@@ -194,18 +194,6 @@ const GroupForm = () => {
                 {userData.value && userData.value.userid !== group.idowner && (
                   <button className="groupRelated-button" onClick={() => handleSendJoinRequest(group.idgroup)}>Send Join Request</button>
                 )}
-                {userData.value && userData.value.userid === group.idowner && (
-                  <>
-                    <button className="groupRelated-button" onClick={() => handleDeleteGroup(group.idgroup)}>Delete</button>
-                    {showConfirmation && (
-                      <div className="confirmation-popup">
-                        <p>Are you sure you want to delete this group?</p>
-                        <button className="groupRelated-button" onClick={handleDeleteGroupConfirmed}>Yes</button>
-                        <button className="groupRelated-button" onClick={() => setShowConfirmation(false)}>No</button>
-                      </div>
-                    )}
-                  </>
-                )}
               </li>
             ))}
           </ul>
