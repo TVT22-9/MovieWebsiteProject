@@ -22,8 +22,7 @@
     padding-left: 0;
 }
 
-.reviews-item .reviews-button { /* Removes default padding from ul */
-    
+.reviews-item .reviews-button {
     margin-left: 0;
 }
 
@@ -106,6 +105,7 @@
 
 .reviews-button a:link, a:visited {
     text-decoration: none;
+    color: white;
 }
 .reviews-button:hover {
     background-color: #A1A5BB;
@@ -135,12 +135,12 @@
     margin-right: 10px;
 }
 
-.Reviews a:link, a:visited {
+.reviews-container a:link, a:visited {
     text-decoration: none;
     color: white;
 }
 
-.Reviews a:hover {
+.reviews-container a:hover {
     text-decoration:underline;
     color: white;
 }
