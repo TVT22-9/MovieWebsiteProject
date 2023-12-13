@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "60005d4d-b18e-49e1-be7c-703941601117",
+		"_postman_id": "2771dc85-0676-4191-afee-e6512f165f58",
 		"name": "ElokuvaSivu",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25874712"
+		"_exporter_id": "31751862"
 	},
 	"item": [
 		{
@@ -19,14 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "userId",
-									"value": "1",
-									"type": "text",
-									"disabled": true
-								}
-							]
+							"urlencoded": []
 						},
 						"url": {
 							"raw": "{{base_url}}/user",
@@ -44,17 +37,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										}
-									]
-								},
 								"url": {
 									"raw": "{{base_url}}/user",
 									"host": [
@@ -65,92 +47,133 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "GetUserById",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text"
-										}
-									]
-								},
 								"url": {
-									"raw": "{{base_url}}/user",
+									"raw": "{{base_url}}/user?iduser=2",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"user"
+									],
+									"query": [
+										{
+											"key": "iduser",
+											"value": "2"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "GetUserByName",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "userName",
-											"value": "Name",
-											"type": "text"
-										}
-									]
-								},
 								"url": {
-									"raw": "{{base_url}}/user",
+									"raw": "{{base_url}}/user?username=Huhroo",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Huhroo"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
 				{
-					"name": "LoginUser",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "GetSettings",
 					"request": {
 						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/settings?username=Pate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"settings"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Pate"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAuthorizationToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/private",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"private"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser",
+					"request": {
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "userName",
+									"key": "username",
 									"value": "Name",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "userPass",
+									"key": "password",
 									"value": "Pass",
 									"type": "text",
 									"disabled": true
@@ -171,18 +194,25 @@
 						{
 							"name": "200 OK",
 							"originalRequest": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "userName",
-											"value": "Name",
+											"key": "username",
+											"value": "Pate",
 											"type": "text"
 										},
 										{
-											"key": "userPass",
+											"key": "password",
 											"value": "Pass",
 											"type": "text"
 										}
@@ -198,27 +228,34 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "401 Unauthorized",
 							"originalRequest": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "userName",
-											"value": "Wrong name",
+											"key": "username",
+											"value": "name",
 											"type": "text"
 										},
 										{
-											"key": "userPass",
-											"value": "Wrong pass",
+											"key": "password",
+											"value": "wrongpass",
 											"type": "text"
 										}
 									]
@@ -233,10 +270,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -249,19 +286,19 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "userName",
+									"key": "username",
 									"value": "Pate",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "userPass",
+									"key": "password",
 									"value": "Pass",
 									"type": "text",
 									"disabled": true
 								},
 								{
-									"key": "customizedJson",
+									"key": "settingsjson",
 									"value": "Json",
 									"type": "text",
 									"disabled": true
@@ -269,12 +306,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/user",
+							"raw": "{{base_url}}/user/register",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"user"
+								"user",
+								"register"
 							]
 						}
 					},
@@ -288,36 +326,38 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "userName",
+											"key": "username",
 											"value": "Pate",
 											"type": "text"
 										},
 										{
-											"key": "userPass",
+											"key": "password",
 											"value": "Pass",
 											"type": "text"
 										},
 										{
 											"key": "customizedJson",
 											"value": "Json",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/user",
+									"raw": "{{base_url}}/user/register",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"user"
+										"user",
+										"register"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -346,19 +386,20 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/user",
+									"raw": "{{base_url}}/user/register",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"user"
+										"user",
+										"register"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -371,22 +412,22 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "userId",
-									"value": "1",
+									"key": "username",
+									"value": "Pate",
 									"type": "text"
 								},
 								{
-									"key": "userName",
+									"key": "newusername",
 									"value": "Pete",
 									"type": "text"
 								},
 								{
-									"key": "userPass",
+									"key": "newpassword",
 									"value": "New Pass",
 									"type": "text"
 								},
 								{
-									"key": "customizedJson",
+									"key": "newsettings",
 									"value": "Json",
 									"type": "text"
 								}
@@ -412,23 +453,23 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "userId",
-											"value": "1",
+											"key": "username",
+											"value": "",
 											"type": "text"
 										},
 										{
-											"key": "userName",
+											"key": "newusername",
 											"value": "Pete",
 											"type": "text"
 										},
 										{
-											"key": "userPass",
+											"key": "newpassword",
 											"value": "New Pass",
 											"type": "text"
 										},
 										{
-											"key": "customizedJson",
-											"value": "Json",
+											"key": "newsettings",
+											"value": "{\"showreviews\":true,\"showmovies\":true,\"favouritemovie\":12}\n",
 											"type": "text"
 										}
 									]
@@ -443,10 +484,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -457,25 +498,25 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "userId",
-											"value": "1",
+											"key": "username",
+											"value": "Pate",
 											"type": "text",
 											"disabled": true
 										},
 										{
-											"key": "userName",
+											"key": "newusername",
 											"value": "Pete",
 											"type": "text",
 											"disabled": true
 										},
 										{
-											"key": "userPass",
+											"key": "newpassword",
 											"value": "New Pass",
 											"type": "text"
 										},
 										{
-											"key": "customizedJson",
-											"value": "Json",
+											"key": "newsettings",
+											"value": "{\"showreviews\":true,\"showmovies\":true,\"favouritemovie\":12}\n",
 											"type": "text"
 										}
 									]
@@ -490,10 +531,153 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "UpdateSettings",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "Pate",
+									"type": "text"
+								},
+								{
+									"key": "newsettings",
+									"value": "{\"showreviews\":true,\"showmovies\":true,\"favouritemovie\":12}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/user/updatesettings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"updatesettings"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "Pate",
+											"type": "text"
+										},
+										{
+											"key": "newsettings",
+											"value": "{\"showreviews\":true,\"showmovies\":true,\"favouritemovie\":12}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/user/updatesettings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"updatesettings"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "404 User not found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "Pate23232323",
+											"type": "text"
+										},
+										{
+											"key": "newsettings",
+											"value": "{\"showreviews\":true,\"showmovies\":true,\"favouritemovie\":12}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/user/updatesettings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"updatesettings"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "Pate",
+											"type": "text"
+										},
+										{
+											"key": "newsettings",
+											"value": "{\"showreviews\":true,\"showmovies\":true,\"favouritemovie\":12}",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/user/updatesettings",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"updatesettings"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				},
@@ -504,21 +688,21 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "userId",
-									"value": "2",
-									"type": "text"
-								}
-							]
+							"urlencoded": []
 						},
 						"url": {
-							"raw": "{{base_url}}/user",
+							"raw": "{{base_url}}/user?username=Pate",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"user"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Pate"
+								}
 							]
 						}
 					},
@@ -530,28 +714,28 @@
 								"header": [],
 								"body": {
 									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text"
-										}
-									]
+									"urlencoded": []
 								},
 								"url": {
-									"raw": "{{base_url}}/user",
+									"raw": "{{base_url}}/user?username=Pate",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "Pate"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -560,14 +744,7 @@
 								"header": [],
 								"body": {
 									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
-										}
-									]
+									"urlencoded": []
 								},
 								"url": {
 									"raw": "{{base_url}}/user",
@@ -579,10 +756,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -611,12 +788,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/group",
+							"raw": "{{base_url}}/groups/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"group"
+								"groups",
+								""
 							]
 						}
 					},
@@ -625,18 +803,31 @@
 							"name": "GetAllGroup",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/groups/all/",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"groups",
+										"all",
+										""
 									]
 								}
 							},
-							"_postman_previewlanguage": "",
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{}
 							],
@@ -661,25 +852,26 @@
 								],
 								"body": {
 									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "groupId",
-											"value": "1",
-											"type": "text"
-										}
-									]
+									"urlencoded": []
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/groups/:Id",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"groups",
+										":Id"
+									],
+									"variable": [
+										{
+											"key": "Id",
+											"value": "353"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": "",
+							"_postman_previewlanguage": "Text",
 							"header": [
 								{}
 							],
@@ -694,24 +886,78 @@
 							"name": "GetGroupByName",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
 											"key": "groupName",
-											"value": "group name",
+											"value": "Postmantestiryhmä2",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/groups/groupByName/:groupName",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"groups",
+										"groupByName",
+										":groupName"
+									],
+									"variable": [
+										{
+											"key": "groupName",
+											"value": "Postmantestiryhmä"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "GetGroupNameSettingByUserid",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "groupId",
+											"value": "1",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/groups/groupByUser/:userId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"groups",
+										"groupByUser",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "50"
+										}
 									]
 								}
 							},
@@ -779,40 +1025,48 @@
 									"urlencoded": [
 										{
 											"key": "groupName",
-											"value": "TestiGroup",
+											"value": "Postmantestiryhmä5",
 											"type": "text"
 										},
 										{
-											"key": "ownerId",
-											"value": "1",
+											"key": "idowner",
+											"value": "50",
 											"type": "text"
 										},
 										{
-											"key": "settingsJson",
-											"value": "JsonData",
+											"key": "groupsettings",
+											"value": "{\"shownews\":true}",
 											"type": "text"
 										},
 										{
 											"key": "description",
-											"value": "Text",
+											"value": "Kuvaus",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/groups/create",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"groups",
+										"create"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -824,19 +1078,17 @@
 									"urlencoded": [
 										{
 											"key": "groupName",
-											"value": "TestiGroup",
-											"type": "text",
-											"disabled": true
+											"value": "Example = Name that already exists",
+											"type": "text"
 										},
 										{
-											"key": "ownerId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
+											"key": "idowner",
+											"value": "50",
+											"type": "text"
 										},
 										{
-											"key": "settingsJson",
-											"value": "JsonData",
+											"key": "groupsettings",
+											"value": "{\"shownews\":true}",
 											"type": "text"
 										},
 										{
@@ -847,19 +1099,27 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/group/create",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"group",
+										"create"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -905,7 +1165,7 @@
 					},
 					"response": [
 						{
-							"name": "200 OK",
+							"name": "updateGroupById",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
@@ -914,41 +1174,48 @@
 									"urlencoded": [
 										{
 											"key": "groupName",
-											"value": "Group name",
+											"value": "Postmanupdate",
 											"type": "text"
 										},
 										{
 											"key": "ownerId",
-											"value": "2",
+											"value": "50",
 											"type": "text"
 										},
 										{
 											"key": "settingsJson",
-											"value": "Json",
+											"value": "{\"shownews\":true}",
 											"type": "text"
 										},
 										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
+											"key": "description",
+											"value": "kuvaus",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/groups/update/:id",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"groups",
+										"update",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "353"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -960,30 +1227,79 @@
 									"urlencoded": [
 										{
 											"key": "groupName",
-											"value": "Group name",
-											"type": "text",
-											"disabled": true
+											"value": "Postmantestiryhmä",
+											"type": "text"
 										},
 										{
 											"key": "ownerId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
+											"value": "50",
+											"type": "text"
 										},
 										{
 											"key": "settingsJson",
-											"value": "Json",
+											"value": "{\"shownews\":true}",
+											"type": "text"
+										},
+										{
+											"key": "groupdescription",
+											"value": "",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/groups/update/:id",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"groups",
+										"update",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "353"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "UpdateSettingsByName",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "groupName",
+											"value": "Postmantestiryhmä",
+											"type": "text"
+										},
+										{
+											"key": "settingsJson",
+											"value": "{\"shownews\":true}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/groups//groupSettingsUpdate/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"groups",
+										"",
+										"groupSettingsUpdate",
+										""
 									]
 								}
 							},
@@ -1027,28 +1343,30 @@
 								"header": [],
 								"body": {
 									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "groupId",
-											"value": "2",
-											"type": "text"
-										}
-									]
+									"urlencoded": []
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/groups/delete/:Id",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"groups",
+										"delete",
+										":Id"
+									],
+									"variable": [
+										{
+											"key": "Id",
+											"value": "353"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -1067,19 +1385,27 @@
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/group",
+									"raw": "{{base_url}}/group/delete/:Id",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"group"
+										"group",
+										"delete",
+										":Id"
+									],
+									"variable": [
+										{
+											"key": "Id",
+											"value": "Non-valid id"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1102,196 +1428,112 @@
 								{
 									"key": "groupId",
 									"value": "1",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "userId",
 									"value": "1",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "acceptedPool",
 									"value": "TRUE",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/members",
+							"raw": "{{base_url}}/members/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"members"
+								"members",
+								""
 							]
 						}
 					},
 					"response": [
 						{
-							"name": "GetMembersGroups",
+							"name": "GetMembers",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "groupId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "acceptedPool",
-											"value": "TRUE",
-											"type": "text",
-											"disabled": true
-										}
-									]
+									"urlencoded": []
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/get",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
+										"members",
+										":groupId",
+										"get"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
-							"name": "GetGroupsMembers",
+							"name": "GetPendingMembers",
 							"originalRequest": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "groupId",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "acceptedPool",
-											"value": "TRUE",
-											"type": "text",
-											"disabled": true
-										}
-									]
+									"urlencoded": []
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/pending-members-with-usernames",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "GetGroupsPending",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
+										"members",
+										":groupId",
+										"pending-members-with-usernames"
+									],
+									"variable": [
 										{
 											"key": "groupId",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "acceptedPool",
-											"value": "FALSE",
-											"type": "text"
+											"value": "353"
 										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/members",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"members"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "GetMembersPending",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "groupId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "acceptedPool",
-											"value": "FALSE",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/members",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"members"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1302,31 +1544,16 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "groupId",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "userId",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "acceptedPool",
-									"value": "FALSE",
-									"type": "text"
-								}
-							]
+							"urlencoded": []
 						},
 						"url": {
-							"raw": "{{base_url}}/members",
+							"raw": "{{base_url}}/members/",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"members"
+								"members",
+								""
 							]
 						}
 					},
@@ -1341,35 +1568,46 @@
 									"urlencoded": [
 										{
 											"key": "groupId",
-											"value": "1",
-											"type": "text"
+											"value": "353",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "userId",
-											"value": "1",
-											"type": "text"
+											"value": "44",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "acceptedPool",
 											"value": "FALSE",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/add-member",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
+										"members",
+										":groupId",
+										"add-member"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -1381,30 +1619,90 @@
 									"urlencoded": [
 										{
 											"key": "groupId",
-											"value": "1",
+											"value": "353",
 											"type": "text",
 											"disabled": true
 										},
 										{
 											"key": "userId",
-											"value": "1",
+											"value": "Non-valid iduser",
 											"type": "text",
 											"disabled": true
 										},
 										{
 											"key": "acceptedPool",
 											"value": "FALSE",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/add-member",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
+										"members",
+										":groupId",
+										"add-member"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "AddOwnerAsMember",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "acceptedPool",
+											"value": "TRUE",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "idgroup",
+											"value": "353",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "userId",
+											"value": "owners iduser here",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/members/:groupId/add-owner-as-member",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"members",
+										":groupId",
+										"add-owner-as-member"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										}
 									]
 								}
 							},
@@ -1431,28 +1729,44 @@
 							"urlencoded": [
 								{
 									"key": "groupId",
-									"value": "2",
-									"type": "text"
+									"value": "idgroup here",
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "userId",
-									"value": "1",
-									"type": "text"
+									"value": "iduser here",
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "acceptedPool",
 									"value": "TRUE",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/members",
+							"raw": "{{base_url}}/members/:groupId/update-member/:userId",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"members"
+								"members",
+								":groupId",
+								"update-member",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "groupId",
+									"value": "idgroup here"
+								},
+								{
+									"key": "userId",
+									"value": "iduser here"
+								}
 							]
 						}
 					},
@@ -1467,35 +1781,51 @@
 									"urlencoded": [
 										{
 											"key": "groupId",
-											"value": "2",
-											"type": "text"
+											"value": "353",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "userId",
-											"value": "1",
-											"type": "text"
+											"value": "44",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "acceptedPool",
 											"value": "TRUE",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/update-member/:userId",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
+										"members",
+										":groupId",
+										"update-member",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										},
+										{
+											"key": "userId",
+											"value": "44"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -1507,37 +1837,51 @@
 									"urlencoded": [
 										{
 											"key": "groupId",
-											"value": "2",
+											"value": "353",
 											"type": "text",
 											"disabled": true
 										},
 										{
 											"key": "userId",
-											"value": "1",
+											"value": "Non-valid iduser",
 											"type": "text",
 											"disabled": true
 										},
 										{
 											"key": "acceptedPool",
 											"value": "TRUE",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/update-member/:userId",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
+										"members",
+										":groupId",
+										"update-member",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										},
+										{
+											"key": "userId",
+											"value": "44"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1548,28 +1892,28 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "groupId",
-									"value": "2",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "userId",
-									"value": "2",
-									"type": "text",
-									"disabled": true
-								}
-							]
+							"urlencoded": []
 						},
 						"url": {
-							"raw": "{{base_url}}/members",
+							"raw": "{{base_url}}/members/:groupId/members/:memberId",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"members"
+								"members",
+								":groupId",
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "groupId",
+									"value": "idgroup here"
+								},
+								{
+									"key": "memberId",
+									"value": "iduser here"
+								}
 							]
 						}
 					},
@@ -1584,30 +1928,43 @@
 									"urlencoded": [
 										{
 											"key": "groupId",
-											"value": "2",
+											"value": "353",
 											"type": "text"
 										},
 										{
 											"key": "userId",
-											"value": "2",
+											"value": "44",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/members/:memberId",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
+										"members",
+										":groupId",
+										"members",
+										":memberId"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										},
+										{
+											"key": "memberId",
+											"value": "44"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "DeleteGroupMembers",
@@ -1619,67 +1976,33 @@
 									"urlencoded": [
 										{
 											"key": "groupId",
-											"value": "2",
+											"value": "353",
 											"type": "text"
-										},
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/delete-all-members",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						},
-						{
-							"name": "DeleteUserMembers",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
+										"members",
+										":groupId",
+										"delete-all-members"
+									],
+									"variable": [
 										{
 											"key": "groupId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text"
+											"value": "353"
 										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/members",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"members"
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "400 Bad Request",
@@ -1691,32 +2014,45 @@
 									"urlencoded": [
 										{
 											"key": "groupId",
-											"value": "2",
+											"value": "353",
 											"type": "text",
 											"disabled": true
 										},
 										{
 											"key": "userId",
-											"value": "2",
+											"value": "Non-valid iduser",
 											"type": "text",
 											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/members",
+									"raw": "{{base_url}}/members/:groupId/members/:memberId",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"members"
+										"members",
+										":groupId",
+										"members",
+										":memberId"
+									],
+									"variable": [
+										{
+											"key": "groupId",
+											"value": "353"
+										},
+										{
+											"key": "memberId",
+											"value": "44"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				}
@@ -1766,115 +2102,94 @@
 					},
 					"response": [
 						{
-							"name": "GetReviewByUser",
+							"name": "GetReviewByUserId",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "reviewId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "movieId",
-											"value": "11",
-											"type": "text",
-											"disabled": true
-										}
-									]
-								},
 								"url": {
-									"raw": "{{base_url}}/review",
+									"raw": "{{base_url}}/review/iduser/:iduser",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"review"
+										"review",
+										"iduser",
+										":iduser"
+									],
+									"variable": [
+										{
+											"key": "iduser",
+											"value": "43"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "GetReviewByMovie",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "reviewId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "movieId",
-											"value": "11",
-											"type": "text"
-										}
-									]
-								},
 								"url": {
-									"raw": "{{base_url}}/review",
+									"raw": "{{base_url}}/review/idmovie/:idmovie",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"review"
+										"review",
+										"idmovie",
+										":idmovie"
+									],
+									"variable": [
+										{
+											"key": "idmovie",
+											"value": "238"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "GetSpecificReview",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
+								"url": {
+									"raw": "{{base_url}}/review/idreview/:idreview",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review",
+										"idreview",
+										":idreview"
+									],
+									"variable": [
 										{
-											"key": "reviewId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "movieId",
-											"value": "11",
-											"type": "text"
+											"key": "idreview",
+											"value": "138"
 										}
 									]
-								},
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "GetReviewBySeries",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
 								"url": {
 									"raw": "{{base_url}}/review",
 									"host": [
@@ -1885,10 +2200,64 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						},
+						{
+							"name": "GetReviewByUsername",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/review/username?username=JuuKor",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review",
+										"username"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "JuuKor"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "GetReviewByUsernames",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/review/username?username=JuuKor,Huhroo",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review",
+										"username"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "JuuKor,Huhroo"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				},
@@ -1944,7 +2313,7 @@
 					},
 					"response": [
 						{
-							"name": "200 OK",
+							"name": "200 OK Review \"The Godfather\"",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -1952,28 +2321,28 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "movieId",
-											"value": "239283",
+											"key": "username",
+											"value": "INSERT VALID USERNAME HERE",
 											"type": "text"
 										},
 										{
-											"key": "userId",
-											"value": "1",
+											"key": "idmovie",
+											"value": "238",
 											"type": "text"
 										},
 										{
-											"key": "reviewContent",
-											"value": "Tekstiä",
+											"key": "idseries",
+											"value": "",
 											"type": "text"
 										},
 										{
-											"key": "reviewStars",
+											"key": "reviewcontent",
+											"value": "Postman",
+											"type": "text"
+										},
+										{
+											"key": "score",
 											"value": "4",
-											"type": "text"
-										},
-										{
-											"key": "reviewDate",
-											"value": "date",
 											"type": "text"
 										}
 									]
@@ -1988,13 +2357,13 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
-							"name": "400 Bad Request",
+							"name": "400 Already reviewed",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -2002,30 +2371,28 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "movieId",
-											"value": "239283",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "1",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "reviewContent",
-											"value": "Tekstiä",
+											"key": "username",
+											"value": "JuuKor",
 											"type": "text"
 										},
 										{
-											"key": "reviewStars",
+											"key": "idmovie",
+											"value": "238",
+											"type": "text"
+										},
+										{
+											"key": "idseries",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "reviewcontent",
+											"value": "Postman",
+											"type": "text"
+										},
+										{
+											"key": "score",
 											"value": "4",
-											"type": "text"
-										},
-										{
-											"key": "reviewDate",
-											"value": "date",
 											"type": "text"
 										}
 									]
@@ -2040,10 +2407,107 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						},
+						{
+							"name": "400 username is null",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "idmovie",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idseries",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "reviewcontent",
+											"value": "POSTMAN",
+											"type": "text"
+										},
+										{
+											"key": "score",
+											"value": "4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/review",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "400 Username does not exist",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "/)/)/)/)/)/",
+											"type": "text"
+										},
+										{
+											"key": "idmovie",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "idseries",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "reviewcontent",
+											"value": "POSTMAN",
+											"type": "text"
+										},
+										{
+											"key": "score",
+											"value": "4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/review",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				},
@@ -2108,28 +2572,18 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "movieId",
-											"value": "2323",
+											"key": "idreview",
+											"value": "",
 											"type": "text"
 										},
 										{
-											"key": "userId",
-											"value": "2",
+											"key": "reviewcontent",
+											"value": "TEXT HERE",
 											"type": "text"
 										},
 										{
-											"key": "reviewContent",
-											"value": "Tekstiä 2",
-											"type": "text"
-										},
-										{
-											"key": "reviewStars",
+											"key": "score",
 											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "reviewDate",
-											"value": "date",
 											"type": "text"
 										}
 									]
@@ -2144,13 +2598,13 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
-							"name": "400 Bad Request",
+							"name": "400 idreview is null",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [
@@ -2164,30 +2618,13 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "movieId",
-											"value": "2323",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "reviewContent",
-											"value": "Tekstiä 2",
+											"key": "reviewcontent",
+											"value": "TEXT HERE",
 											"type": "text"
 										},
 										{
-											"key": "reviewStars",
+											"key": "score",
 											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "reviewDate",
-											"value": "date",
 											"type": "text"
 										}
 									]
@@ -2202,10 +2639,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -2244,23 +2681,49 @@
 							"name": "DeleteSpecific",
 							"originalRequest": {
 								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/review/idreview/:idreview",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review",
+										"idreview",
+										":idreview"
+									],
+									"variable": [
 										{
-											"key": "reviewId",
-											"value": "2",
-											"type": "text"
-										},
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
+											"key": "idreview",
+											"value": "ID HERE"
 										}
 									]
-								},
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "DeleteAllReviews (DONT ACTUALLY PRESS IT PLEASE)",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{base_url}}/review",
 									"host": [
@@ -2271,81 +2734,131 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
-							"name": "DeleteAllUserReviews",
+							"name": "DeleteReviewsMadeByUser",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text"
-										}
-									]
-								},
 								"url": {
-									"raw": "{{base_url}}/review",
+									"raw": "{{base_url}}/reviewiduser/:iduser",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"review"
+										"reviewiduser",
+										":iduser"
+									],
+									"variable": [
+										{
+											"key": "iduser",
+											"value": "ID HERE"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
-							"name": "400 Bad Request",
+							"name": "400 Invalid iduser",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "reviewId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "userId",
-											"value": "2",
-											"type": "text",
-											"disabled": true
-										}
-									]
-								},
 								"url": {
-									"raw": "{{base_url}}/review",
+									"raw": "{{base_url}}/review/iduser/:iduser",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"review"
+										"review",
+										"iduser",
+										":iduser"
+									],
+									"variable": [
+										{
+											"key": "iduser",
+											"value": "-1"
+										}
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
+						},
+						{
+							"name": "DeleteReviewForAMovie",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/review/idmovie/:idmovie",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review",
+										"idmovie",
+										":idmovie"
+									],
+									"variable": [
+										{
+											"key": "idmovie",
+											"value": "ID HERE"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "DeleteReviewForASeries",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/review/idmovie/:idseries",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review",
+										"idmovie",
+										":idseries"
+									],
+									"variable": [
+										{
+											"key": "idseries",
+											"value": "ID HERE"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3001"
 		}
 	]
 }
