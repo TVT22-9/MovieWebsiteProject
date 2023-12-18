@@ -37,7 +37,7 @@ Lisäksi kaikki osallistuvat projektissa CSS:n tekoon keskittyen omiin komponent
 
 Meidän sovelluksemme on nettisivu, jonka päätarkoituksena on etsiä ja arvioida elokuvia. Sovelluksessa voi kirjautumalla sisään lisätä arvioita elokuviin ja sarjoihin, jotka kaikki nettisivua katsovat henkilöt voivat nähdä. Sivua on helppo navigoida käyttämällä yläosassa olevaa siirtymispalkkia (kuva 1). Olemme myös lisänneet nettisivulle mahdollisuuden tehdä ryhmiä, jossa näkyy kaikkien ryhmän jäsenien arvioinnit. Lisäsimme myös News-sivun, jossa näkyy uutiset Finnkino-sivulta, joita voi lisätä sitten ryhmiin.
 
-![](RackMultipart20231218-1-7leukj_html_99accefcd3a39bb9.png)
+![Kuva1](./public/kuva1.png)
 
 _KUVA 1._ _Kotisivu_
 
@@ -59,7 +59,7 @@ Näiden vaiheiden suorittamisen jälkeen sovelluksesi on käyttövalmis.
 
 Projektissa käytetään Renderissä hostattua PostgreSQL tietokantaa. Se koostuu neljästä taulusta: webusers, reviews, groups ja members (kuva 2). Webusers-tauluun tallennetaan perusavain iduser, käyttäjänimi, salanasa ja MyPagen asetukset. Reviews-tauluun tallennetaan perusavain idreview, viiteavain iduser, elokuvan tai sarjan ID, arvostelun sisältö, pistemäärä ja arvostelun tekoaika. Groups-taulussa on pääavain idgroup, viiteavain idowner, ryhmän nimi, kuvaus ja asetukset. Webusers- ja groups-taulun välissä on members-taulu, jossa on viiteavaimet idgroup ja iduser. Taulussa on myös status-kenttä, jonka avulla katsotaan onko käyttäjä vielä hyväksytty ryhmään.
 
-![](RackMultipart20231218-1-7leukj_html_739630d7f8edad21.png)
+![Kuva2](./public/kuva2.png)
 
 _KUVA 2. Tietokannan rakenne_
 
@@ -71,7 +71,7 @@ React JavaScript-kirjastoa käytetään käyttöliittymän rakentamiseen ja hall
 
 Projektiin sisältyy myös testikokoelmia, jotka käyttävät Mocha-testikehystä, Chai assert -kirjastoa ja Supertestia HTTP-väittämien testaamiseen.
 
-## ![](RackMultipart20231218-1-7leukj_html_14f434a2ffa162aa.png)MovieList-komponentti
+![Kuva3](./public/kuva3.png)
 
 MovieListComponent on komponentti, jota käytämme yhdistämään meidän TMDB-ohjelmointirajapintaan (API). Tämä komponentti hoitaa elokuvien ja sarjojen haun käyttämällä luomaani reittiä palvelimemme kautta (Kuva 3). Tässä komponentissa on myös kaikki haku asetukset, kuten elokuvan nimen, lajityypin ja vuoden perusteella.
 
@@ -109,6 +109,6 @@ Send join request -painiketta painamalla käyttäjä saa nimensä näkyviin ryhm
 
 GroupProfileComponent-sivulla on jäsenten lisäksi näkyvissä Reviews-osio, jossa on lista kaikkien jäsenten tekemistä arvosteluista, sekä News-osio, jonne ryhmän jäsenet voivat lisätä uutisia uutiskomponentista. Ryhmän profiilissa on myös ryhmän poistamiseen käytettävä delete-painike näkyvissä ryhmän omistajalle.
 
-![Kuva ryhmälistasta.](RackMultipart20231218-1-7leukj_html_d6b8f1b774c14ad0.png)
+![Kuva4](./public/kuva4.png)
 
 _Kuva 4. Ruutukaappaus ryhmälistasta, jossa kaksi esimerkki ryhmää ryhmään vievän linkin sekä liittymispyyntö lähetyspainikkeen kanssa._
