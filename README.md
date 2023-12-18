@@ -71,9 +71,11 @@ React JavaScript-kirjastoa käytetään käyttöliittymän rakentamiseen ja hall
 
 Projektiin sisältyy myös testikokoelmia, jotka käyttävät Mocha-testikehystä, Chai assert -kirjastoa ja Supertestia HTTP-väittämien testaamiseen.
 
-![Kuva3](./public/Kuva3.png)
+## MovieList-komponentti
 
 MovieListComponent on komponentti, jota käytämme yhdistämään meidän TMDB-ohjelmointirajapintaan (API). Tämä komponentti hoitaa elokuvien ja sarjojen haun käyttämällä luomaani reittiä palvelimemme kautta (Kuva 3). Tässä komponentissa on myös kaikki haku asetukset, kuten elokuvan nimen, lajityypin ja vuoden perusteella.
+
+![Kuva3](./public/Kuva3.png)
 
 Kuva 3. Kuva MovieListComponent koodista.
 
