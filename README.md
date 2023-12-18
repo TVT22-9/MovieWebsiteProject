@@ -14,7 +14,7 @@ Työohje:
 [https://drive.google.com/file/d/13bae6h6AbIrqZl0sqQs-OPvNZRkVZzwI/view?usp=sharing
 ](https://drive.google.com/file/d/13bae6h6AbIrqZl0sqQs-OPvNZRkVZzwI/view?usp=sharing)
 
-##Yleisesti projektista sen luonteesta
+## Yleisesti projektista sen luonteesta
 
 Tämän projektin tarkoituksena on toimia Oulun ammattikorkeakoulun tietotekniikan opiskelijoiden toisen vuoden syksyn harjoitusprojektina. Ryhmän tehtävänä on tehdä elokuva-arvostelusivu annetun työohjeen mukaan. Projektissa hyödynnetään joustavaa kehitysmenetelmää, jossa hyödynnetään kehityssprinttejä ja Kanban-taulua.
 
@@ -83,8 +83,7 @@ Käyttäjä nimen tulee olla uniikki, eikä järjestelmä anna luoda useaa saman
 
 Kirjautuessa käyttäjän tulee syöttää oikea käyttäjätunnus ja salasana, ja jos nämä ovat oikein, käyttäjälle annetaan JSON Web Token, jonka sivu nappaa talteen. JWT:tä käytetään sivulla autentikointiin, ja sen olemassaolon taakse on lukittu sivulla useita ominaisuuksia, kuten arvostelun tekeminen ja ryhmäsivujen toiminta. Täällä kirjautunut käyttäjä voi myös kirjautua ulos tai poistaa käyttäjänsä, jolloin kaikki hänen datansa katoaa sivulta.
 
-##
-Reviews-komponentti
+## Reviews-komponentti
 
 Reviews-komponentti on komponentti, joka hoitaa arvostelujen tekemisen ja niiden näyttämisen sivulla. Arvostelun voi tehdä painamalla nappia elokuvan tai sarjan omalla sivulla tai suoraan hakusivulta. Nappi avaa ponnahdusikkunan, jossa käyttäjä voi syöttää arvostelunsa tekstikenttään ja valita antamansa pistemäärän yhdestä viiteen. Käyttäjä voi arvostella tietyn elokuvan tai sarjan vain kerran.
 
