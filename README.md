@@ -6,12 +6,15 @@
 
 Esittelyvideo:
 [https://www.youtube.com/watch?v=2IbvGqDV\_Tk
-](https://www.youtube.com/watch?v=2IbvGqDV_Tk)Sivun julkaisuosoite:
+](https://www.youtube.com/watch?v=2IbvGqDV_Tk)
+Sivun julkaisuosoite:
 [https://moviewebsiteproject.onrender.com/
-](https://moviewebsiteproject.onrender.com/)Työohje:
+](https://moviewebsiteproject.onrender.com/)
+Työohje:
 [https://drive.google.com/file/d/13bae6h6AbIrqZl0sqQs-OPvNZRkVZzwI/view?usp=sharing
 ](https://drive.google.com/file/d/13bae6h6AbIrqZl0sqQs-OPvNZRkVZzwI/view?usp=sharing)
-Yleisesti projektista sen luonteesta
+
+##Yleisesti projektista sen luonteesta
 
 Tämän projektin tarkoituksena on toimia Oulun ammattikorkeakoulun tietotekniikan opiskelijoiden toisen vuoden syksyn harjoitusprojektina. Ryhmän tehtävänä on tehdä elokuva-arvostelusivu annetun työohjeen mukaan. Projektissa hyödynnetään joustavaa kehitysmenetelmää, jossa hyödynnetään kehityssprinttejä ja Kanban-taulua.
 
